@@ -1,4 +1,4 @@
-package com.zjgsu.shopping.pojo;
+package com.zjgsu.shopping.pojo.vo;
 
 import java.util.Date;
 

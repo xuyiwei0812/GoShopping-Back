@@ -5,5 +5,5 @@ import com.zjgsu.shopping.pojo.GoodForHistory;
 import java.util.List;
 
 public class GoodForHistoryListVo {
-    List<GoodForHistory> goodForHistories;
+    List<GoodForHistory> goodsForHistory;
 }

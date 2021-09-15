@@ -13,7 +13,7 @@ public class Buyer {
      * 住址
      * 联系电话
      */
-    private int buyerCode;
+    private int buyerId;
     private String name;
     private String location;
     private String phone;
