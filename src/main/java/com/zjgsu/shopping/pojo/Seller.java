@@ -9,7 +9,7 @@ public class Seller {
      * 卖家编号
      * 姓名
      * 头像(暂定)
-     * 账户(暂定)
+     * 账户
      * 密码
      * 地址
      * 电话
@@ -17,7 +17,7 @@ public class Seller {
      */
     private int sellerId;
     private String name;
-    private String profilePicture;//base64
+    //private String profilePicture;//base64
     private String account;
     private String password;
     private String location;
@@ -35,14 +35,14 @@ public class Seller {
         this.name = name;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
-    }
+//    public String getProfilePicture() {
+//        return profilePicture;
+//    }
 
 
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
+//    public void setProfilePicture(String profilePicture) {
+//        this.profilePicture = profilePicture;
+//    }
 
     public String getAccount() {
         return account;
@@ -70,9 +70,8 @@ public class Seller {
         this.phone = phone;
     }
 
-    public Seller(String name, String profilePicture, String account, String password, String location, String phone) {
+    public Seller(String name, String account, String password, String location, String phone) {
         this.name = name;
-        this.profilePicture = profilePicture;
         this.account = account;
         this.password = password;
         this.location = location;
