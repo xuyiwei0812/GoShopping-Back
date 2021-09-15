@@ -1,8 +1,5 @@
 package com.zjgsu.shopping.service.impl;
 
-import com.zjgsu.shopping.pojo.vo.GoodForHistory;
-import com.zjgsu.shopping.pojo.vo.GoodForSale;
-
 import java.util.List;
 
 public interface SellerService {
@@ -16,6 +13,8 @@ public interface SellerService {
     int login(String account , String password);
 
     /**
+     * 修改密码
+     *
      * @param password 密码
      * @param sellerId 用户编号
      * @return 是否更新成功
@@ -23,12 +22,16 @@ public interface SellerService {
     Boolean updatePassword(int sellerId,String password);
 
     /**
+     * 取得待售商品列表
+     *
      * @param sellerId 用户编号
      * @return 全部代售商品的信息
      */
     List<GoodForSale> getGoodForSale(int sellerId);
 
     /**
+     * 取得历史商品列表
+     *
      * @param sellerId 用户编号
      * @return 全部历史销售商品的信息
      */

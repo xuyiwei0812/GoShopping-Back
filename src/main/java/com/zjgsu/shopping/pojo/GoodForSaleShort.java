@@ -1,6 +1,6 @@
-package com.zjgsu.shopping.pojo.vo;
+package com.zjgsu.shopping.pojo;
 
-public class GoodForSale {
+public class GoodForSaleShort {
     private int goodId;
     private String name;
     private String img;
