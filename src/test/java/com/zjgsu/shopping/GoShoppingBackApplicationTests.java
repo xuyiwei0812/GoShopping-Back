@@ -23,11 +23,8 @@ public class GoShoppingBackApplicationTests {
 
     @Test
     public void test1() {
-        Business business=new Business();
-        business.setBuyerId(2);
-        business.setGoodId(3);
-        business.setSellerId(4);
-//        System.out.println(sellerService.startDeal(1,1,1));
-        System.out.println(sellerService.startDeal(business));
+        System.out.println(sellerService.login("123","1234"));
     }
+
+
 }
