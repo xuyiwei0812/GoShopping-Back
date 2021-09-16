@@ -58,12 +58,7 @@ public class SellerServiceImpl implements SellerService {
         return null;
     }
 
-    //    @Override
-//    public  int startDeal(int goodId,int sellerId, int buyerId){
-//        Business business = new Business(13,buyerId,sellerId,goodId,"hha");
-//        businessMapper.createBusiness(business);
-//        return 1;
-//    }
+
     @Override
     public int startDeal(Business business) {
         businessMapper.createBusiness(business);

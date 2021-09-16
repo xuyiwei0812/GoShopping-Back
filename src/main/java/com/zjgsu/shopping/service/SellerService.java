@@ -10,6 +10,11 @@ import java.util.List;
 
 
 public interface SellerService {
+
+    /**
+     * @param
+     */
+
     /**
      * 登录
      *

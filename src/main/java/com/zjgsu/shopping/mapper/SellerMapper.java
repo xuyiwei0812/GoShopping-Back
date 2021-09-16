@@ -18,7 +18,7 @@ public interface SellerMapper {
      */
     @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
     @Insert("insert into seller name={#name}, account={#account}, password={#password}, location={#location}, phone={#phone}")
-    int register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
+    Boolean register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
 
 
     /**
