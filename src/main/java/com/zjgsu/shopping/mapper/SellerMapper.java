@@ -29,7 +29,7 @@ public interface SellerMapper {
      * @return 是否更新成功
      */
     @Update("update seller set password=#{password} where sellerId=#{sellerId}")
-    Long updatePassword(@Param ("sellerId") int sellerId,@Param ("password") String password);
+    Boolean updatePassword(@Param ("sellerId") int sellerId,@Param ("password") String password);
 
     /**
      * 取得待售商品列表
