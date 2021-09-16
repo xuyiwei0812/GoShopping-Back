@@ -17,5 +17,5 @@ public interface BusinessMapper {
     @Options(useGeneratedKeys = true, keyProperty = "businessId", keyColumn = "businessId")
     @Insert("insert into business (buyerId,sellerId,goodId,locate) values (#{business.buyerId}," +
             "#{business.sellerId},#{business.goodId},#{business.locate})")
-    Boolean createBusiness(@Param("business") Business business);
+    Boolean startBusiness(@Param("business") Business business);
 }
