@@ -7,6 +7,21 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface SellerMapper {
     /**
+     * 注册
+     *
+     * @param name;
+     * @param account;
+     * @param password;
+     * @param location;
+     * @param phone;
+     * @return 商家编号,或者无法注册返回-1
+     */
+    @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
+    @Insert("insert into seller name={#name}, account={#account}, password={#password}, location={#location}, phone={#phone}")
+    int register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
+
+
+    /**
      * 登录
      *
      * @param account 用户
@@ -85,4 +100,12 @@ public interface SellerMapper {
     @Insert("insert into business goodId={#goodId}, sellerId={#sellerId}, buyerId={#buyerId}, price={#price}, location={#location}")
     int startDeal(@Param ("goodId") int goodId,@Param ("sellerId") int sellerId, @Param ("buyerId") int buyerId, @Param ("price") double price, @Param ("location") String location);
 
+    /**
+     * 上架一个商品
+     *
+     * @param good 商品详细信息
+     * @return 上架失败返回-1
+     */
+
+    Boolean putOnGood(GoodForSaleDetalVo good);
 }
