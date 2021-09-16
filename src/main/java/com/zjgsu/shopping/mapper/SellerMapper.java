@@ -57,4 +57,5 @@ public interface SellerMapper {
      */
     @Select("select * from goodFaoSale where id={#goodId}")
     GoodForSaleDetalVo getGoodForSaleDetal(@Param ("goodId") int goodId);
+
 }
