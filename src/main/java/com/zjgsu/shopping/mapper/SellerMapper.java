@@ -1,13 +1,7 @@
 package com.zjgsu.shopping.mapper;
 
-import com.zjgsu.shopping.pojo.vo.GoodForHistoryListVo;
-import com.zjgsu.shopping.pojo.vo.GoodForSaleDetalVo;
-import com.zjgsu.shopping.pojo.vo.GoodForSaleListVo;
-import com.zjgsu.shopping.pojo.vo.IntentionBuyerListVo;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.zjgsu.shopping.pojo.vo.*;
+import org.apache.ibatis.annotations.*;
 
 //存放卖家的信息
 @Mapper
@@ -65,6 +59,31 @@ public interface SellerMapper {
      * @param goodId 商品编号
      * @return 某一商品的意向购买人列表
      */
-    @Select("select * from business where goodId={#goodId}")
-    IntentionBuyerListVo getIntentionBuyers(int goodId);
+    @Select("select buyerId from business where goodId={#goodId}")
+    IntentionBuyerListVo getIntentionBuyers(@Param ("goodId") int goodId);
+
+    /**
+     * 取得某一意向购买人的详细信息
+     *
+     * @param buyerId 买家编号
+     * @return 意向购买人详细信息
+     */
+    @Select("select * from buyer where buyerId={#buyerId}")
+    IntentionBuyerDetalVo getIntentionButerDetal(@Param ("buyerId") int buyerId);
+
+    /**
+     * 开始一场交易
+     *
+     * @param goodId 商品编号
+     * @param sellerId 卖家编号
+     * @param buyerId 买家编号
+     * @param price 价格
+     * @param location 地点
+     * @return 如果返回商品状态码
+     */
+    @Options (useGeneratedKeys = true, keyProperty = "businessId", keyColumn = "businessId")
+    @Insert("insert into business goodId={#goodId}, sellerId={#sellerId}, buyerId={#buyerId}, price={#price}, location={#location}")
+    int startDeal(@Param ("goodId") int goodId,@Param ("sellerId") int sellerId, @Param ("buyerId") int buyerId, @Param ("price") double price, @Param ("location") String location);
+
+
 }

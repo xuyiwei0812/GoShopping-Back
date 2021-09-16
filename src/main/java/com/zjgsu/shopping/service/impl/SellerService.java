@@ -3,6 +3,8 @@ package com.zjgsu.shopping.service.impl;
 import com.zjgsu.shopping.pojo.GoodForHistory;
 import com.zjgsu.shopping.pojo.GoodForSale;
 import com.zjgsu.shopping.pojo.vo.*;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -79,9 +81,11 @@ public interface SellerService {
      * @param goodId 商品编号
      * @param sellerId 卖家编号
      * @param buyerId 买家编号
+     * @param price 价格
+     * @param location 地点
      * @return 如果返回商品状态码
      */
-    int startDeal(int goodId,int sellerId, int buyerId);
+    int startDeal(int goodId, int sellerId, int buyerId, double price, String location);
 
     /**
      * 取消一场交易
