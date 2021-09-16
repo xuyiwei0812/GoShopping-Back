@@ -106,6 +106,5 @@ public interface SellerMapper {
      * @param good 商品详细信息
      * @return 上架失败返回-1
      */
-
     Boolean putOnGood(GoodForSaleDetalVo good);
 }
