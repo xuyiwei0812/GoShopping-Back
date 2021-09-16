@@ -1,6 +1,7 @@
 package com.zjgsu.shopping.mapper;
 
 import com.zjgsu.shopping.pojo.Buyer;
+import com.zjgsu.shopping.pojo.GoodForSale;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.apache.ibatis.annotations.*;
@@ -24,7 +25,7 @@ public interface SellerMapper {
      *
      * @param account 用户
      * @param password 密码
-     * @return 用户编号,或者无法登录返回-1
+     * @return 用户
      */
     @Select("select * from seller where account=#{account} and password=#{password}")
     Seller login(@Param ("account")String account , @Param ("password") String password);
@@ -83,22 +84,4 @@ public interface SellerMapper {
      */
     @Select("select * from buyer where buyerId=#{buyerId}")
     Buyer getIntentionButerDetal(@Param ("buyerId") int buyerId);
-
-    /**
-     * 开始一场交易
-     *
-     * @param goodForSale
-     * @param business
-     * @return 如果返回商品状态码
-     */
-    @Insert("insert into goodforhistory (goodId,name,description,price,dealDate,phone) values (#{goodForSale.},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")
-    Boolean startDeal(@Param ("goodId") int goodId,@Param ("sellerId") int sellerId, @Param ("buyerId") int buyerId, @Param ("price") double price, @Param ("location") String location);
-
-    /**
-     * 上架一个商品
-     *
-     * @param good 商品详细信息
-     * @return 上架失败返回-1
-     */
-    Boolean putOnGood(GoodForSaleDetalVo good);
 }
