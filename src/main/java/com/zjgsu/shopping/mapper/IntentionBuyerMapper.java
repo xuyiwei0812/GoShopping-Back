@@ -19,7 +19,7 @@ public interface IntentionBuyerMapper {
      * 撤销一个购买意向
      *
      * @param buyer
-     * @return 撤销失败 返回-1
+     * @return 撤销失败返回-1
      *
      */
     @Delete("delete from intentionbuyer where buyerId=#{buyer.buyerId}")
