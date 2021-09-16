@@ -1,7 +1,10 @@
 package com.zjgsu.shopping.pojo.vo;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class GoodForHistoryShort {
     /**
      * 商品名称

@@ -1,5 +1,8 @@
 package com.zjgsu.shopping.pojo;
 
+import lombok.Data;
+
+@Data
 public class IntentionBuyer {
     /**
      * 用户编号

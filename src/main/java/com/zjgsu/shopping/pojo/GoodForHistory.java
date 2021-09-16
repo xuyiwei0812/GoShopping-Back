@@ -1,8 +1,11 @@
 package com.zjgsu.shopping.pojo;
 
+import lombok.Data;
+
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class GoodForHistory {
     /**
      * 商品编号(非自增)

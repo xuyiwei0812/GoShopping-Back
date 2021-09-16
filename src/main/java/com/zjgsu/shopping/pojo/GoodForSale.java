@@ -1,5 +1,8 @@
 package com.zjgsu.shopping.pojo;
 
+import lombok.Data;
+
+@Data
 public class GoodForSale {
     /**
      * 商品编号(自增)
