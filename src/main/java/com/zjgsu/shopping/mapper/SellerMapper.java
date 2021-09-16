@@ -3,6 +3,7 @@ package com.zjgsu.shopping.mapper;
 import com.zjgsu.shopping.pojo.vo.GoodForHistoryListVo;
 import com.zjgsu.shopping.pojo.vo.GoodForSaleDetalVo;
 import com.zjgsu.shopping.pojo.vo.GoodForSaleListVo;
+import com.zjgsu.shopping.pojo.vo.IntentionBuyerListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -37,7 +38,7 @@ public interface SellerMapper {
      * @param sellerId 用户编号
      * @return 全部待售商品的信息
      */
-    @Select("select * from goodForSale where id=#{sellerId}")
+    @Select("select * from goodForSale where sellerId=#{sellerId}")
     GoodForSaleListVo getGoodForSaleList(@Param ("sellerId") int sellerId);
 
     /**
@@ -46,7 +47,7 @@ public interface SellerMapper {
      * @param sellerId 用户编号
      * @return 全部历史销售商品的信息
      */
-    @Select("select * from goodForHistory where id=#{sellerId}")
+    @Select("select * from goodForHistory where sellerId=#{sellerId}")
     GoodForHistoryListVo getGoodForHistoryList(@Param ("sellerId") int sellerId);
 
     /**
@@ -55,6 +56,15 @@ public interface SellerMapper {
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    @Select("select * from goodFaoSale where id={#goodId}")
+    @Select("select * from goodForSale where sellerId={#goodId}")
     GoodForSaleDetalVo getGoodForSaleDetal(@Param ("goodId") int goodId);
+
+    /**
+     * 取得某一商品的意向购买人列表
+     *
+     * @param goodId 商品编号
+     * @return 某一商品的意向购买人列表
+     */
+    @Select("select * from business where goodId={#goodId}")
+    IntentionBuyerListVo getIntentionBuyers(int goodId);
 }
