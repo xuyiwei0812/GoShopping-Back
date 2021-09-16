@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.mapper;
 
+import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.apache.ibatis.annotations.*;
 
@@ -17,8 +18,8 @@ public interface SellerMapper {
      * @return 商家编号,或者无法注册返回-1
      */
     @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
-    @Insert("insert into seller name={#name}, account={#account}, password={#password}, location={#location}, phone={#phone}")
-    int register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
+    @Insert("insert into seller values{name={#name}, account={#account}, password={#password}, location={#location}, phone={#phone}}")
+    Boolean register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
 
 
     /**
@@ -29,7 +30,7 @@ public interface SellerMapper {
      * @return 用户编号,或者无法登录返回-1
      */
     @Select("select * from seller where account=#{account} and password=#{password}")
-    int login(@Param ("account")String account ,@Param ("password") String password);
+    Seller login(@Param ("account")String account , @Param ("password") String password);
 
     /**
      * 修改密码
@@ -39,7 +40,7 @@ public interface SellerMapper {
      * @return 是否更新成功
      */
     @Update("update seller set password=#{password} where sellerId=#{sellerId}")
-    Boolean updatePassword(@Param ("sellerId") int sellerId,@Param ("password") String password);
+    Long updatePassword(@Param ("sellerId") int sellerId,@Param ("password") String password);
 
     /**
      * 取得待售商品列表
