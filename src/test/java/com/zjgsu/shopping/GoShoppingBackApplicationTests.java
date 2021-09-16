@@ -1,13 +1,33 @@
 package com.zjgsu.shopping;
 
-import org.junit.jupiter.api.Test;
+import com.zjgsu.shopping.pojo.Business;
+import com.zjgsu.shopping.service.impl.SellerService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest
-class GoShoppingBackApplicationTests {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = GoShoppingBackApplication.class)
+public class GoShoppingBackApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+        System.out.println(1);
     }
 
+
+    @Autowired
+    private SellerService sellerService;
+
+    @Test
+    public void test1() {
+        Business business=new Business();
+        business.setBuyerId(1);
+        business.setGoodId(1);
+        business.setSellerId(1);
+//        System.out.println(sellerService.startDeal(1,1,1));
+        System.out.println(sellerService.startDeal(business));
+    }
 }
