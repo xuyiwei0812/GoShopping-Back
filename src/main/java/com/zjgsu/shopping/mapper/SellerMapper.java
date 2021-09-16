@@ -91,7 +91,7 @@ public interface SellerMapper {
      * @param business
      * @return 如果返回商品状态码
      */
-    @Insert("insert into goodForHistory (goodId,name,description,price,dealDate,phone) values (#{seller.name},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")
+    @Insert("insert into goodforhistory (goodId,name,description,price,dealDate,phone) values (#{goodForSale.},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")
     Boolean startDeal(@Param ("goodId") int goodId,@Param ("sellerId") int sellerId, @Param ("buyerId") int buyerId, @Param ("price") double price, @Param ("location") String location);
 
     /**
