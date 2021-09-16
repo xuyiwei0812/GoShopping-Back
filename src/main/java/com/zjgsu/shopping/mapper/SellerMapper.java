@@ -13,7 +13,7 @@ public interface SellerMapper {
      * @param password 密码
      * @return 用户编号,或者无法登录返回-1
      */
-    @Select("select * where account=#{account} and password=#{password}")
+    @Select("select * from seller where account=#{account} and password=#{password}")
     int login(@Param ("account")String account ,@Param ("password") String password);
 
     /**
