@@ -85,5 +85,4 @@ public interface SellerMapper {
     @Insert("insert into business goodId={#goodId}, sellerId={#sellerId}, buyerId={#buyerId}, price={#price}, location={#location}")
     int startDeal(@Param ("goodId") int goodId,@Param ("sellerId") int sellerId, @Param ("buyerId") int buyerId, @Param ("price") double price, @Param ("location") String location);
 
-
 }
