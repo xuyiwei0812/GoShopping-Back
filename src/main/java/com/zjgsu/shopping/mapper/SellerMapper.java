@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.mapper;
 
+import com.zjgsu.shopping.pojo.Buyer;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.apache.ibatis.annotations.*;
@@ -12,9 +13,10 @@ public interface SellerMapper {
      *
      * @param seller
      * @return 商家编号,或者无法注册返回-1
+     * 初步测试通过
      */
     @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
-    @Insert("insert into seller (name,account,password,location,phone) values ({#seller.name}, {#seller.account}, {#seller.password}, {#seller.location}, {#seller.phone} )")
+    @Insert("insert into seller (name,account,password,location,phone) values (#{seller.name},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")
     Boolean register(@Param("seller") Seller seller);
 
     /**
@@ -61,7 +63,7 @@ public interface SellerMapper {
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    @Select("select * from goodForSale where sellerId={#goodId}")
+    @Select("select * from goodForSale where sellerId=#{goodId}")
     GoodForSaleDetalVo getGoodForSaleDetal(@Param ("goodId") int goodId);
 
     /**
@@ -70,7 +72,7 @@ public interface SellerMapper {
      * @param goodId 商品编号
      * @return 某一商品的意向购买人列表
      */
-    @Select("select buyerId from business where goodId={#goodId}")
+    @Select("select buyerId from business where goodId=#{goodId}")
     IntentionBuyerListVo getIntentionBuyers(@Param ("goodId") int goodId);
 
     /**
@@ -79,22 +81,18 @@ public interface SellerMapper {
      * @param buyerId 买家编号
      * @return 意向购买人详细信息
      */
-    @Select("select * from buyer where buyerId={#buyerId}")
-    IntentionBuyerDetalVo getIntentionButerDetal(@Param ("buyerId") int buyerId);
+    @Select("select * from buyer where buyerId=#{buyerId}")
+    Buyer getIntentionButerDetal(@Param ("buyerId") int buyerId);
 
     /**
      * 开始一场交易
      *
-     * @param goodId 商品编号
-     * @param sellerId 卖家编号
-     * @param buyerId 买家编号
-     * @param price 价格
-     * @param location 地点
+     * @param goodForSale
+     * @param business
      * @return 如果返回商品状态码
      */
-    @Options (useGeneratedKeys = true, keyProperty = "businessId", keyColumn = "businessId")
-    @Insert("insert into business goodId={#goodId}, sellerId={#sellerId}, buyerId={#buyerId}, price={#price}, location={#location}")
-    int startDeal(@Param ("goodId") int goodId,@Param ("sellerId") int sellerId, @Param ("buyerId") int buyerId, @Param ("price") double price, @Param ("location") String location);
+    @Insert("insert into goodForHistory (goodId,name,description,price,dealDate,phone) values (#{seller.name},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")
+    Boolean startDeal(@Param ("goodId") int goodId,@Param ("sellerId") int sellerId, @Param ("buyerId") int buyerId, @Param ("price") double price, @Param ("location") String location);
 
     /**
      * 上架一个商品
