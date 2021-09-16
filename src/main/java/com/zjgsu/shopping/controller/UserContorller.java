@@ -2,8 +2,8 @@ package com.zjgsu.shopping.controller;
 
 import com.zjgsu.shopping.mapper.BusinessMapper;
 import com.zjgsu.shopping.pojo.Business;
-import com.zjgsu.shopping.service.impl.SellerService;
-import com.zjgsu.shopping.service.impl.impl.SellerServiceImpl;
+import com.zjgsu.shopping.service.SellerService;
+import com.zjgsu.shopping.service.impl.SellerServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

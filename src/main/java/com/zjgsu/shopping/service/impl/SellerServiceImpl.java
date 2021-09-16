@@ -1,9 +1,9 @@
-package com.zjgsu.shopping.service.impl.impl;
+package com.zjgsu.shopping.service.impl;
 
 import com.zjgsu.shopping.mapper.BusinessMapper;
 import com.zjgsu.shopping.pojo.Business;
 import com.zjgsu.shopping.pojo.vo.*;
-import com.zjgsu.shopping.service.impl.SellerService;
+import com.zjgsu.shopping.service.SellerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

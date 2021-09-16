@@ -1,4 +1,4 @@
-package com.zjgsu.shopping.service.impl;
+package com.zjgsu.shopping.service;
 
 import com.zjgsu.shopping.pojo.Business;
 import com.zjgsu.shopping.pojo.GoodForHistory;

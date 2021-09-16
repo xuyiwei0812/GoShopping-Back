@@ -1,7 +1,7 @@
 package com.zjgsu.shopping;
 
 import com.zjgsu.shopping.pojo.Business;
-import com.zjgsu.shopping.service.impl.SellerService;
+import com.zjgsu.shopping.service.SellerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class GoShoppingBackApplicationTests {
     @Test
     public void test1() {
         Business business=new Business();
-        business.setBuyerId(1);
-        business.setGoodId(1);
-        business.setSellerId(1);
+        business.setBuyerId(2);
+        business.setGoodId(3);
+        business.setSellerId(4);
 //        System.out.println(sellerService.startDeal(1,1,1));
         System.out.println(sellerService.startDeal(business));
     }

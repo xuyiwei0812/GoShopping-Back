@@ -1,4 +1,4 @@
-package com.zjgsu.shopping.service.impl.impl;
+package com.zjgsu.shopping.service.impl;
 
 import org.springframework.stereotype.Service;
 
