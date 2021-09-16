@@ -10,16 +10,12 @@ public interface SellerMapper {
     /**
      * 注册
      *
-     * @param name;
-     * @param account;
-     * @param password;
-     * @param location;
-     * @param phone;
+     * @param seller
      * @return 商家编号,或者无法注册返回-1
      */
     @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
-    @Insert("insert into seller values{name={#name}, account={#account}, password={#password}, location={#location}, phone={#phone}}")
-    Boolean register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
+    @Insert("insert into seller (name,account,password,location,phone) values ({#seller.name}, {#seller.account}, {#seller.password}, {#seller.location}, {#seller.phone} )")
+    Boolean register(@Param("seller") Seller seller);
 
     /**
      * 登录
