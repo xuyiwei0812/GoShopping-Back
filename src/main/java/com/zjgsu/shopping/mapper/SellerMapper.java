@@ -20,7 +20,6 @@ public interface SellerMapper {
     @Insert("insert into seller name={#name}, account={#account}, password={#password}, location={#location}, phone={#phone}")
     Boolean register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
 
-
     /**
      * 登录
      *
