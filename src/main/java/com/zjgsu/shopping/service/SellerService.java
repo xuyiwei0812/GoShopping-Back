@@ -25,7 +25,7 @@ public interface SellerService {
      * @param password 密码
      * @return 用户编号,或者无法登录返回-1
      */
-    int login(String account , String password);
+    Boolean login(String account , String password);
 
     /**
      * 修改密码

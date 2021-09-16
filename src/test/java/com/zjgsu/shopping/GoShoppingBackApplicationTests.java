@@ -30,7 +30,7 @@ public class GoShoppingBackApplicationTests {
     @Test
     public void test1() {
         Seller seller = new Seller();
-        seller.setAccount("123");
+        seller.setAccount("233");
         seller.setPassword("1234");
         seller.setName("haha");
         seller.setPhone("1234567");
@@ -41,7 +41,7 @@ public class GoShoppingBackApplicationTests {
 
     @Test
     public void test2() {
-        System.out.println(sellerService.login("123","1234"));
+        System.out.println(sellerService.login("233","1234"));
     }
 
 

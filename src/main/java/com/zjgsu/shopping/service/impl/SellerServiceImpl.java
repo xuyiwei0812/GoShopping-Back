@@ -21,17 +21,17 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean register(Seller seller) {
-        return sellerMapper.register(seller);
+        return sellerMapper.register(seller) ;
     }
 
     @Override
-    public int login(String account, String password) {
-        return 0;
+    public Boolean login(String account, String password) {
+        return sellerMapper.login(account,password) != null;
     }
 
     @Override
     public Boolean updatePassword(int sellerId, String password) {
-        return null;
+        return false;
     }
 
     @Override
