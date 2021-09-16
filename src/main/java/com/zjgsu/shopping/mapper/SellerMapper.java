@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Update;
 
 //存放卖家的信息
 @Mapper
-
 public interface SellerMapper {
     /**
      * 登录
@@ -58,4 +57,5 @@ public interface SellerMapper {
      */
     @Select("select * from goodFaoSale where id={#goodId}")
     GoodForSaleDetalVo getGoodForSaleDetal(@Param ("goodId") int goodId);
+
 }
