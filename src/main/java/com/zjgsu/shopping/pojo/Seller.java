@@ -4,6 +4,9 @@
 
 package com.zjgsu.shopping.pojo;
 
+import lombok.Data;
+
+@Data
 public class Seller {
     /**
      * 卖家编号

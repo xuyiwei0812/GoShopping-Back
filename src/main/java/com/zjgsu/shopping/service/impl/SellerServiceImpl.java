@@ -3,6 +3,8 @@ package com.zjgsu.shopping.service.impl;
 import com.zjgsu.shopping.mapper.BusinessMapper;
 import com.zjgsu.shopping.mapper.SellerMapper;
 import com.zjgsu.shopping.pojo.Business;
+import com.zjgsu.shopping.pojo.GoodForSale;
+import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.SellerService;
 import org.springframework.stereotype.Service;
@@ -17,15 +19,19 @@ public class SellerServiceImpl implements SellerService {
     private SellerMapper sellerMapper;
 
 
+    @Override
+    public Boolean register(Seller seller) {
+        return sellerMapper.register(seller);
+    }
 
     @Override
     public int login(String account, String password) {
-        return sellerMapper.login(account,password);
+        return 0;
     }
 
     @Override
     public Boolean updatePassword(int sellerId, String password) {
-        return sellerMapper.updatePassword(sellerId,password);
+        return null;
     }
 
     @Override
@@ -58,7 +64,6 @@ public class SellerServiceImpl implements SellerService {
         return null;
     }
 
-
     @Override
     public int startDeal(Business business) {
         businessMapper.createBusiness(business);
@@ -76,7 +81,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Boolean putOnGood(GoodForSaleDetalVo good) {
+    public Boolean putOnGood(GoodForSale good) {
         return null;
     }
 
@@ -84,5 +89,6 @@ public class SellerServiceImpl implements SellerService {
     public Boolean putOffGood(int goodId) {
         return null;
     }
+
 
 }

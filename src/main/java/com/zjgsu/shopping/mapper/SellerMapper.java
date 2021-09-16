@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.mapper;
 
+import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.apache.ibatis.annotations.*;
 
@@ -9,26 +10,25 @@ public interface SellerMapper {
     /**
      * 注册
      *
-     * @param name;
-     * @param account;
-     * @param password;
-     * @param location;
-     * @param phone;
+     * @param seller 卖家信息
      * @return 商家编号,或者无法注册返回-1
+     *
+     * 初步测试通过
      */
     @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
-    @Insert("insert into seller name={#name}, account={#account}, password={#password}, location={#location}, phone={#phone}")
-    Boolean register(@Param ("name") String name,@Param ("account") String account, @Param ("password") String password, @Param ("location") String location, @Param ("phone") String phone);
-
+    @Insert("insert into seller (name,account,password,location,phone) values (#{seller.name},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")
+    Boolean register(@Param("seller") Seller seller);
     /**
      * 登录
      *
      * @param account 用户
      * @param password 密码
-     * @return 用户编号,或者无法登录返回-1
+     * @return 用户编号,或者无法登录返回-
+     *
+     *
      */
     @Select("select * from seller where account=#{account} and password=#{password}")
-    int login(@Param ("account")String account ,@Param ("password") String password);
+    Boolean login(@Param ("account")String account ,@Param ("password") String password);
 
     /**
      * 修改密码

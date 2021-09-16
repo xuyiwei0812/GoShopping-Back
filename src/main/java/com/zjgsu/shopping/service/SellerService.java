@@ -3,6 +3,7 @@ package com.zjgsu.shopping.service;
 import com.zjgsu.shopping.pojo.Business;
 import com.zjgsu.shopping.pojo.GoodForHistory;
 import com.zjgsu.shopping.pojo.GoodForSale;
+import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,10 @@ import java.util.List;
 public interface SellerService {
 
     /**
-     * @param
+     * @param seller 注册用户
+     * @return 注册是否成功
      */
+    Boolean register(Seller seller);
 
     /**
      * 登录
@@ -87,7 +90,6 @@ public interface SellerService {
 
      * @return 如果返回商品状态码
      */
-//    int startDeal(int goodId,int sellerId, int buyerId);
     int startDeal(Business business);
     /**
      * 取消一场交易
@@ -111,7 +113,7 @@ public interface SellerService {
      * @param good 商品详细信息
      * @return 上架失败返回-1
      */
-    Boolean putOnGood(GoodForSaleDetalVo good);
+    Boolean putOnGood(GoodForSale good);
 
     /**
      * 下架一个商品
