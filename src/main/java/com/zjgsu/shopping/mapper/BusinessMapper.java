@@ -12,8 +12,8 @@ public interface BusinessMapper {
      * @return 失败返回-1
      */
     @Options(useGeneratedKeys = true, keyProperty = "businessId", keyColumn = "businessId")
-    @Insert("insert into business (buyerId,sellerId,goodId,locate,price) values (#{business.buyerId}," +
-            "#{business.sellerId},#{business.goodId},#{business.locate},#{business.price})")
+    @Insert("insert into business (buyerId,sellerId,goodId) values (#{business.buyerId}," +
+            "#{business.sellerId},#{business.goodId})")
     Boolean startBusiness(@Param("business") Business business);
 
     /**
@@ -23,8 +23,14 @@ public interface BusinessMapper {
      * @return 删除是否成功
      */
     @Delete("delete from business where businessId =#{businessId}")
-    Long detelBusiness(@Param("businessId")int businessId);
+    Long detelBusiness(@Param("businessId")Integer businessId);
 
+    /**
+     * 查询交易的具体信息
+     *
+     * @param businessId 交易id
+     * @return 交易信息
+     */
     @Select("select * from business where businessId=#{businessId}")
-    Business getBusinessInfo(@Param("businessId") int businessId);
+    Business getBusinessInfo(@Param("businessId") Integer businessId);
 }

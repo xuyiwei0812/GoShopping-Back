@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface BuyerMapper {
     /**
-     * 提出一个购买意向
+     * 出现一个购买人
      *
      * @param buyer 买家信息
      * @return 提出失败返回-1
@@ -22,15 +22,15 @@ public interface BuyerMapper {
      * @param buyer 商品信息
      * @return 撤销失败 返回-1
      *
-     * 未用
+     * 无用,暂时没必要删除掉写入数据库的信息
      */
     @Delete("delete from buyer where buyerId=#{buyer.buyerId}")
-    Boolean deleteBuyer(@Param("buyer") Buyer buyer);
+    Long deleteBuyer(@Param("buyer") Buyer buyer);
 
     /**
      * 返回买家的信息
      * @param buyerId 用户编号
      */
     @Select("select * from buyer where buyer=#{buyerId}")
-    Buyer getBuyerInfo(@Param("buyerId")int buyerId);
+    Buyer getBuyerInfo(@Param("buyerId")Integer buyerId);
 }

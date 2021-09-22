@@ -14,24 +14,24 @@ public interface GoodForHistoryMapper {
      * @param goodForHistory 历史商品
      * @return 失败返回0
      */
-   @Insert("insert into goodforhistory (goodId,name,description,price,dealDate) values(#{goodForHistory.goodId}," +
-           "#{goodForHistory.name},#{goodForHistory.description},#{goodForHistory.price},#{goodForHistory.dealDate})")
+   @Insert("insert into goodforhistory (goodId,name,description,price,dealDate,phone) values(#{goodForHistory.goodId}," +
+           "#{goodForHistory.name},#{goodForHistory.description},#{goodForHistory.price},#{goodForHistory.dealDate},#{goodForHistory.phone})")
    Boolean addGoodForHistory(@Param("goodForHistory") GoodForHistory goodForHistory);
 
     /**
-     * 查询一个历史商品
+     * 查询某一卖家的历史商品
      *
-     * @param seller 商品id
+     * @param sellerId 商品id
      */
 
-    @Select("select * from goodForHistory where seller =#{seller}")
-    List<GoodForHistory> getGoodList(@Param("sellerId") int seller);
+    @Select("select * from goodForHistory where sellerId =#{sellerId}")
+    List<GoodForHistory> getGoodList(@Param("sellerId") Integer sellerId);
 
     /**
      * 获得一个商品的信息
      */
     @Select("select * from goodForHistory where goodId =#{goodId}")
-    GoodForHistory getGoodInfo(@Param("goodId") int goodId);
+    GoodForHistory getGoodInfo(@Param("goodId") Integer goodId);
 
 
 

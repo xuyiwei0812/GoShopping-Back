@@ -25,7 +25,7 @@ public interface GoodImagineMapper {
      * @return 失败返回0
      */
     @Delete("delete from goodimagine where imagineId =#{imagineId}")
-    Boolean deleteImagine(@Param("imagineId") int imagineId);
+    Boolean deleteImagine(@Param("imagineId") Integer imagineId);
 
     /**
      * 查询某商品的图片
@@ -34,5 +34,5 @@ public interface GoodImagineMapper {
      * @return List<GoodImagine>
      */
     @Select("select * from goodimagine where goodId =#{goodId}")
-    List<GoodImagine> getImagine(@Param("goodId") int goodId);
+    List<GoodImagine> getImagine(@Param("goodId") Integer goodId);
 }

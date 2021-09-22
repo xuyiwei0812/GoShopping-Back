@@ -16,7 +16,7 @@ public interface GoodForSaleMapper {
      * @return 失败返回-1
       */
     @Options(useGeneratedKeys = true , keyProperty = "goodId" , keyColumn = "goodId")
-    @Insert("insert into goodforsale (goodId,name,description,price,frozen) values(#{goodForSale.goodId} " +
+    @Insert("insert into goodforsale (name,description,price,frozen) values( " +
             "#{goodForSale.name},#{goodForSale.description} , #{goodForSale.price} , #{goodForSale.frozen} )")
     Boolean putOnGood(@Param("goodForSale")GoodForSale goodForSale);
 
@@ -27,7 +27,7 @@ public interface GoodForSaleMapper {
      * @return 失败返回-1
      */
     @Delete("delete from goodforsale where goodId =#{goodId}")
-    Boolean putOffGood(@Param("goodId") int goodId);
+    Long putOffGood(@Param("goodId") Integer goodId);
 
     /**
      * 冻结一个商品
@@ -36,7 +36,7 @@ public interface GoodForSaleMapper {
      * @return 失败返回-1
      */
     @Update("update goodforsale set forzen = 1 where goodforsale = #{goodId}")
-    Boolean freezeGood(@Param("goodId") int goodId);
+    Long freezeGood(@Param("goodId") Integer goodId);
 
     /**
      * 解冻一个商品
@@ -45,7 +45,7 @@ public interface GoodForSaleMapper {
      * @return 失败返回-1
      */
     @Update("update goodforsale set forzen = 0 where goodforsale = #{goodId}")
-    Boolean unfreezeGood(@Param("goodId") int goodId);
+    Long unfreezeGood(@Param("goodId") Integer goodId);
 
     /**
      * 得到一个商品的信息
@@ -54,7 +54,7 @@ public interface GoodForSaleMapper {
      * @return 商品的信息
      */
     @Select("select * from goodforsale where goodId =#{goodId}")
-    GoodForSale getGoodInfo(@Param("goodId") int goodId);
+    GoodForSale getGoodInfo(@Param("goodId") Integer goodId);
 
     /**
      * 得到卖家的商品列表
@@ -63,6 +63,6 @@ public interface GoodForSaleMapper {
      * @return 商品列表
      */
     @Select("select * from goodforsale where sellerId =#{sellerId}")
-    List<GoodForSale> getGoodList(@Param("sellerId") int sellerId);
+    List<GoodForSale> getGoodList(@Param("sellerId") Integer sellerId);
 
 }

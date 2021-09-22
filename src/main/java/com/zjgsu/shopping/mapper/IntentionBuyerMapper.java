@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+//弃用
 //存放意向购买人信息
 @Mapper
 public interface IntentionBuyerMapper {
@@ -28,7 +29,7 @@ public interface IntentionBuyerMapper {
      *
      */
     @Delete("delete from intentionbuyer where buyerId=#{intentionId}")
-    Boolean cancelIntention(@Param("intentionId") int intentionId);
+    Boolean cancelIntention(@Param("intentionId")  Integer intentionId);
 
     /**
      * 返回某个信息的意向人列表
@@ -36,7 +37,7 @@ public interface IntentionBuyerMapper {
      * @param goodId 商品Id
      */
     @Select("select * from intentionbuyer where goodId=#{goodId}")
-    List<IntentionBuyer> getIntentionList(@Param("goodId") int goodId);
+    List<IntentionBuyer> getIntentionList(@Param("goodId")  Integer goodId);
 
     /**
      * 返回某个意向的具体信息
@@ -44,6 +45,6 @@ public interface IntentionBuyerMapper {
      * @param intentionId 意向Id
      */
     @Select("select * from intentionbuyer where intention=#{intentionId}")
-    IntentionBuyer getIntentionInfo(@Param("intentionId") int intentionId);
+    IntentionBuyer getIntentionInfo(@Param("intentionId")  Integer intentionId);
 
 }

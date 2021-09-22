@@ -42,30 +42,5 @@ public interface SellerMapper {
 
 
 
-    /**
-     * 取得某一在售商品的详细信息
-     *
-     * @param goodId 商品编号
-     * @return  某一商品的详细信息
-     */
-    @Select("select * from goodForSale where sellerId=#{goodId}")
-    GoodForSaleDetalVo getGoodForSaleDetal(@Param ("goodId") int goodId);
 
-    /**
-     * 取得某一商品的意向购买人列表
-     *
-     * @param goodId 商品编号
-     * @return 某一商品的意向购买人列表
-     */
-    @Select("select * from business where goodId=#{goodId}")
-    IntentionBuyerListVo getIntentionBuyers(@Param ("goodId") int goodId);
-
-    /**
-     * 取得某一意向购买人的详细信息
-     *
-     * @param buyerId 买家编号
-     * @return 意向购买人详细信息
-     */
-    @Select("select * from buyer where buyerId=#{buyerId}")
-    Buyer getIntentionButerDetal(@Param ("buyerId") int buyerId);
 }
