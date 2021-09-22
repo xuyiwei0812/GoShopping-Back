@@ -1,3 +1,4 @@
+//弃用
 package com.zjgsu.shopping.pojo.vo;
 
 import lombok.Data;

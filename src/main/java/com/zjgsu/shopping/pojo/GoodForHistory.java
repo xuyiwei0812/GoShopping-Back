@@ -8,19 +8,23 @@ import java.util.List;
 @Data
 public class GoodForHistory {
     /**
-     * 商品编号(非自增)
-     * 商品名称
+     * 商品编号
+     * 商品价格
      * 商品描述
+     * 商品名称
      * 商品成交价格
      * 商品成交日期
      * 成交人电话
+     * 全参数构造
      */
-    private int goodId;
+
+    private Integer goodId;
+    private Integer price;
     private String name;
     private String description;
-    private int price;
-    private Date dealDate;
     private String phone;
+    private Date dealDate;
+
 
     public GoodForHistory(int goodId, String name, String description, int price, Date dealDate, String phone) {
         this.goodId = goodId;

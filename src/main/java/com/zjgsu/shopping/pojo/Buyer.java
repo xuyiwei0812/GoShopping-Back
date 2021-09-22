@@ -7,8 +7,10 @@
 package com.zjgsu.shopping.pojo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Buyer {
 
     /**
@@ -16,10 +18,16 @@ public class Buyer {
      * 姓名
      * 住址
      * 联系电话
+     * Buyer(null,name,location,phone)
      */
-    private int buyerId;
+    private Integer buyerId;
     private String name;
     private String location;
     private String phone;
 
+    public Buyer(Integer buyerId, String name, String location, String phone) {
+        this.name = name;
+        this.location = location;
+        this.phone = phone;
+    }
 }

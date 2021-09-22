@@ -6,22 +6,22 @@ import lombok.Data;
 public class GoodForSale {
     /**
      * 商品编号(自增)
+     * 商品价格
      * 商品名称
      * 商品描述
-     * 商品价格
      * 商品是否处于冻结状态
+     * 构造方式 GoodForSale(null,price,name,description,null)
      */
-    private int goodId;
+    private Integer goodId;
+    private Integer price;
     private String name;
     private String description;
-    private int price;
     private Boolean frozen;
 
-    public GoodForSale(String name, String description, int price) {
+    public GoodForSale(Integer goodId, Integer price, String name, String description, Boolean frozen) {
+        this.price = price;
         this.name = name;
         this.description = description;
-        this.price = price;
-        this.frozen = false;
     }
 
     public GoodForSale() {
