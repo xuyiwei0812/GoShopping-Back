@@ -17,6 +17,6 @@ public class GoodForHistoryShort {
     private Integer price;
     private String name;
     private Date dealDate;
-
+    private String img;
 
 }

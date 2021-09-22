@@ -25,7 +25,7 @@ public interface SellerService {
      * @param password 密码
      * @return 用户编号,或者无法登录返回-1
      */
-    Boolean login(String account , String password);
+    Integer login(String account , String password);
 
     /**
      * 修改密码
@@ -34,7 +34,7 @@ public interface SellerService {
      * @param sellerId 用户编号
      * @return 是否更新成功
      */
-    Boolean updatePassword(int sellerId,String password);
+    Boolean updatePassword(Integer sellerId,String password);
 
     /**
      * 取得待售商品列表
@@ -42,7 +42,7 @@ public interface SellerService {
      * @param sellerId 用户编号
      * @return 全部代售商品的信息
      */
-    GoodForSaleListVo getGoodForSaleList(int sellerId);
+    GoodForSaleListVo getGoodForSaleList(Integer sellerId);
 
     /**
      * 取得历史商品列表
@@ -50,7 +50,7 @@ public interface SellerService {
      * @param sellerId 用户编号
      * @return 全部历史销售商品的信息
      */
-    GoodForHistoryListVo getGoodForHistoryList(int sellerId);
+    GoodForHistoryListVo getGoodForHistoryList(Integer sellerId);
 
     /**
      * 取得某一商品的详细信息
@@ -58,7 +58,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    GoodForSaleDetalVo getGoodForSaleDetal(int goodId);
+    GoodForSaleDetalVo getGoodForSaleDetal(Integer goodId);
 
     /**
      * 取得某一历史商品的详细信息
@@ -66,7 +66,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一历史商品的详细信息
      */
-    GoodForHistoryDetalVo getGoodForHistoryDetal(int goodId);
+    GoodForHistoryDetalVo getGoodForHistoryDetal(Integer goodId);
 
     /**
      * 取得某一商品的意向购买人列表
@@ -74,7 +74,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一商品的意向购买人列表
      */
-    IntentionBuyerListVo getIntentionBuyers(int goodId);
+    IntentionListVo getIntentionBuyers(Integer goodId);
 
     /**
      * 取得某一意向购买人的详细信息
@@ -82,7 +82,7 @@ public interface SellerService {
      * @param buyerId 买家编号
      * @return 意向购买人详细信息
      */
-    IntentionBuyerDetalVo getIntentionButerDetal(int buyerId);
+    IntentionDetalVo getIntentionDetal(Integer buyerId);
 
     /**
      * 开始一场交易
@@ -90,14 +90,14 @@ public interface SellerService {
 
      * @return 如果返回商品状态码
      */
-     Boolean startDeal(int buyerId,int sellerId,int goodId,String locate,int price);
+     Boolean startDeal(Integer buyerId,Integer sellerId,Integer goodId);
     /**
      * 取消一场交易
      *
      * @param businessId 交易编号
      * @return 取消失败返回-1
      */
-    Boolean cancelDeal(int businessId);
+    Boolean cancelDeal(Integer businessId);
 
     /**
      * 完成一场交易
@@ -105,13 +105,13 @@ public interface SellerService {
      * @param businessId 交易编号
      * @return 完成失败返回-1
      */
-    Boolean finishDeal(int businessId, Date dealDate);
+    Boolean finishDeal(Integer businessId, Date dealDate);
 
     /**
      * 上架一个商品
      * @return 上架失败返回-1
      */
-     Boolean putOnGood(int goodId,String name,String description,int price);
+     Boolean putOnGood(Integer goodId,String name,String description,Integer price);
 
     /**
      * 下架一个商品
@@ -119,6 +119,6 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 下架失败返回-1
      */
-    Boolean putOffGood(int goodId);
+    Boolean putOffGood(Integer goodId);
 
 }

@@ -24,157 +24,126 @@ public class SellerServiceImpl implements SellerService {
     @Resource
     private GoodImagineMapper goodImagineMapper;
     @Resource
-    private IntentionBuyerMapper intentionBuyerMapper;
+    private IntentionMapper intentionMapper;
     @Resource
     private BuyerMapper buyerMapper;
 
     @Override
     public Seller register(String name, String account, String password,String location, String phone) {
-        Seller seller = new Seller();
-        seller.setName(name);
-        seller.setAccount(account);
-        seller.setPassword(password);
-        seller.setLocation(location);
-        seller.setPhone(phone);
-        if(!sellerMapper.register(seller))return null;
-        return seller;
+        Seller seller = new Seller(null,name,account,password,location,phone);
+        return (sellerMapper.register(seller) ? seller : null);
     }
 
     @Override
-    public Boolean login(String account, String password) {
-        return sellerMapper.login(account,password) != null;
+    public Integer login(String account, String password) {
+        Seller seller = sellerMapper.login(account,password);
+        return (seller != null ? seller.getSellerId() : -1);
     }
 
     @Override
-    public Boolean updatePassword(int sellerId, String password) {
+    public Boolean updatePassword(Integer sellerId, String password) {
        return sellerMapper.updatePassword(sellerId,password) > 0;
     }
 
     @Override
-    public GoodForSaleListVo getGoodForSaleList(int sellerId) {
-        GoodForSaleListVo goodForSaleListVo = new GoodForSaleListVo();
+    public GoodForSaleListVo getGoodForSaleList(Integer sellerId) {
         List<GoodForSale> goodForSales = goodForSaleMapper.getGoodList(sellerId);
         List<GoodForSaleShort> goodForSaleShorts = new ArrayList<>() ;
         for(GoodForSale goodForSale:goodForSales){
-            GoodForSaleShort goodForSaleShort = new GoodForSaleShort();
-            goodForSaleShort.setGoodId(goodForSale.getGoodId());
-            goodForSaleShort.setName(goodForSale.getName());
-            goodForSaleShort.setImg(goodForSale.getName());
-            goodForSaleShort.setPrice(goodForSale.getPrice());
-            goodForSaleShorts.add(goodForSaleShort);
+            GoodImagine goodImg = goodImagineMapper.getImagine(goodForSale.getGoodId()).stream().findFirst().orElse(null);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            goodForSaleShorts.add(new GoodForSaleShort(goodForSale.getGoodId(),goodForSale.getPrice(),goodForSale.getName(),img));
         }
-        goodForSaleListVo.setGoodsForSale(goodForSaleShorts);
-        return goodForSaleListVo;
+        return new GoodForSaleListVo(goodForSaleShorts);
     }
 
     @Override
-    public GoodForHistoryListVo getGoodForHistoryList(int sellerId) {
-        GoodForHistoryListVo goodForHistoryListVo = new GoodForHistoryListVo();
+    public GoodForHistoryListVo getGoodForHistoryList(Integer sellerId) {
         List<GoodForHistory> goodForHistories = goodForHistoryMapper.getGoodList(sellerId);
         List<GoodForHistoryShort> goodForHistoryShorts = new ArrayList<>();
         for(GoodForHistory goodForHistory :goodForHistories){
-            GoodForHistoryShort goodForHistoryShort = new GoodForHistoryShort();
-            goodForHistoryShort.setPrice(goodForHistory.getPrice());
-            goodForHistoryShort.setName(goodForHistory.getName());
-            goodForHistoryShort.setDealDate(goodForHistory.getDealDate());
-            goodForHistoryShorts.add(goodForHistoryShort);
+            GoodImagine goodImg = goodImagineMapper.getImagine(goodForHistory.getGoodId()).stream().findFirst().orElse(null);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            goodForHistoryShorts.add(new GoodForHistoryShort(goodForHistory.getGoodId(),goodForHistory.getPrice(),goodForHistory.getName(),goodForHistory.getDealDate(),img));
         }
-        goodForHistoryListVo.setGoodsForHistory(goodForHistoryShorts);
-        return goodForHistoryListVo;
+        return new GoodForHistoryListVo(goodForHistoryShorts);
 
     }
 
     @Override
-    public GoodForSaleDetalVo getGoodForSaleDetal(int goodId) {
-        GoodForSaleDetalVo goodForSaleDetalVo = new GoodForSaleDetalVo();
-        goodForSaleDetalVo.setGoodForSale(goodForSaleMapper.getGoodInfo(goodId));
-        goodForSaleDetalVo.setImg(goodImagineMapper.getImagine(goodId));
-        return goodForSaleDetalVo;
+    public GoodForSaleDetalVo getGoodForSaleDetal(Integer goodId) {
+        return new GoodForSaleDetalVo(goodForSaleMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
-    public GoodForHistoryDetalVo getGoodForHistoryDetal(int goodId) {
-        GoodForHistoryDetalVo goodForHistoryDetalVo = new GoodForHistoryDetalVo();
-        goodForHistoryDetalVo.setGoodForHistory(goodForHistoryMapper.getGoodInfo(goodId));
-        goodForHistoryDetalVo.setImg(goodImagineMapper.getImagine(goodId));
-        return goodForHistoryDetalVo;
+    public GoodForHistoryDetalVo getGoodForHistoryDetal(Integer goodId) {
+        return new GoodForHistoryDetalVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
-    public IntentionBuyerListVo getIntentionBuyers(int goodId) {
-        IntentionBuyerListVo intentionBuyerListVo = new IntentionBuyerListVo();
-        List<IntentionBuyerShort> intentionBuyerShorts = new ArrayList<>();
-        List<IntentionBuyer> intentionBuyers = intentionBuyerMapper.getIntentionList(goodId);
-        for(IntentionBuyer intentionBuyer :intentionBuyers){
-            IntentionBuyerShort intentionBuyerShort = new IntentionBuyerShort();
-            intentionBuyerShort.setGoodId(intentionBuyer.getGoodId());
-            intentionBuyerShort.setName(intentionBuyer.getName());
-            intentionBuyerShort.setPhone(intentionBuyer.getPhone());
-            intentionBuyerShort.setLocation(intentionBuyer.getLocation());
-            intentionBuyerShorts.add(intentionBuyerShort);
+    public IntentionListVo getIntentionBuyers(Integer goodId) {
+        List<Intention> intentions = intentionMapper.getIntentionList(goodId);
+        List<IntentionShort> intentionShorts = new ArrayList<>();
+        for(Intention intention :intentions){
+            Buyer buyer = buyerMapper.getBuyerInfo(intention.getBuyerId());
+            IntentionShort intentionShort = new IntentionShort(intention.getIntentionId() , buyer.getName() , buyer.getLocation() , buyer.getPhone());
+            intentionShorts.add(intentionShort);
         }
-        intentionBuyerListVo.setIntentionBuyers(intentionBuyerShorts);
-        return intentionBuyerListVo;
+        return new IntentionListVo(intentionShorts);
     }
 
     @Override
-    public IntentionBuyerDetalVo getIntentionButerDetal(int intentionId) {
-        IntentionBuyerDetalVo intentionBuyerDetalVo = new IntentionBuyerDetalVo();
-        IntentionBuyer intentionBuyer = intentionBuyerMapper.getIntentionInfo(intentionId);
-        intentionBuyerDetalVo.setIntentionId(intentionBuyer.getIntentionId());
-        intentionBuyerDetalVo.setBuyerId(intentionBuyer.getBuyerId());
-        intentionBuyerDetalVo.setLocation(intentionBuyer.getLocation());
-        intentionBuyerDetalVo.setPhone(intentionBuyer.getPhone());
-        intentionBuyerDetalVo.setGoodId(intentionBuyer.getGoodId());
-        intentionBuyerDetalVo.setName(intentionBuyer.getName());
-        return intentionBuyerDetalVo;
+    public IntentionDetalVo getIntentionDetal(Integer intentionId) {
+        return new IntentionDetalVo(intentionMapper.getIntentionInfo(intentionId));
     }
 
     @Override
-    public Boolean startDeal(int buyerId,int sellerId,int goodId,String locate,int price) {
-        Business business = new Business();
-        business.setPrice(price);
-        business.setGoodId(goodId);
-        business.setLocate(locate);
-        business.setBuyerId(buyerId);
-        business.setSellerId(sellerId);
+    public Boolean startDeal(Integer buyerId,Integer sellerId,Integer goodId) {
+        Business business = new Business(null,buyerId,sellerId,goodId);
         goodForSaleMapper.freezeGood(goodId);
         return businessMapper.startBusiness(business);
     }
 
     @Override
-    public Boolean cancelDeal(int businessId) {
+    public Boolean cancelDeal(Integer businessId) {
         Business business = businessMapper.getBusinessInfo(businessId);
         goodForSaleMapper.unfreezeGood(business.getGoodId());
         return businessMapper.detelBusiness(businessId) > 0;
     }
 
     @Override
-    public Boolean finishDeal(int businessId, Date dealDate) {
-        Business business = businessMapper.getBusinessInfo(businessId);
-        goodForSaleMapper.unfreezeGood(business.getGoodId());
-        GoodForSale goodForSale = goodForSaleMapper.getGoodInfo(business.getGoodId());
-        Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
-        GoodForHistory goodForHistory = new GoodForHistory();
-        goodForHistory.setGoodId(goodForHistory.getGoodId());
-        goodForHistory.setPhone(buyer.getPhone());
-        goodForHistory.setDealDate(dealDate);
-        goodForHistory.setPrice(business.getPrice());
-        goodForHistory.setName(goodForSale.getName());
-        goodForHistory.setDescription(goodForHistory.getDescription());
-        goodForHistoryMapper.addGoodForHistory(goodForHistory);
-        return businessMapper.detelBusiness(businessId) > 0;
+    public Boolean finishDeal(Integer businessId, Date dealDate) {
+
+//        Business business = businessMapper.getBusinessInfo(businessId);
+//        Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
+//        GoodForSale goodForSale = goodForSaleMapper.getGoodInfo(business.getGoodId());
+//
+//
+//        GoodForSale goodForSale = goodForSaleMapper.getGoodInfo(business.getGoodId());
+//        Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
+//        GoodForHistory goodForHistory = new GoodForHistory();
+//        goodForHistory.setGoodId(goodForHistory.getGoodId());
+//        goodForHistory.setPhone(buyer.getPhone());
+//        goodForHistory.setDealDate(dealDate);
+//        goodForHistory.setPrice(business.getPrice());
+//        goodForHistory.setName(goodForSale.getName());
+//        goodForHistory.setDescription(goodForHistory.getDescription());
+//        goodForHistoryMapper.addGoodForHistory(goodForHistory);
+//        goodForSaleMapper.unfreezeGood(business.getGoodId());
+        return null;
     }
 
     @Override
-    public Boolean putOnGood(int goodId,String name,String description,int price) {
-        GoodForSale goodForSale = new GoodForSale(name,description,price);
-        return goodForSaleMapper.putOnGood(goodForSale);
+    public Boolean putOnGood(Integer goodId,String name,String description,Integer price) {
+//        GoodForSale goodForSale = new GoodForSale(name,description,price);
+//        return goodForSaleMapper.putOnGood(goodForSale);
+        return null;
     }
 
     @Override
-    public Boolean putOffGood(int goodId) {
-        return goodForSaleMapper.putOffGood(goodId);
+    public Boolean putOffGood(Integer goodId) {
+//        return goodForSaleMapper.putOffGood(goodId);
+        return null;
     }
 
 

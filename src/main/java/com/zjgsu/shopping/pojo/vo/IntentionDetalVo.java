@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.pojo.vo;
 
+import com.zjgsu.shopping.pojo.Intention;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,8 +12,5 @@ public class IntentionDetalVo {
      * 住址
      * 联系电话
      */
-    private String name;
-    private String location;
-    private String phone;
-
+    private Intention intention;
 }
