@@ -2,6 +2,7 @@
 // but only God know what it is now.
 //                        -- K-desperate
 
+//暂时没什么用
 
 package com.zjgsu.shopping.pojo;
 

@@ -13,10 +13,9 @@ import java.util.List;
 public interface SellerService {
 
     /**
-     * @param seller 注册用户
      * @return 注册是否成功
      */
-    Boolean register(Seller seller);
+    Seller register(String name,String account,String password,String location ,String phone);
 
     /**
      * 登录

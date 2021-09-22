@@ -1,15 +1,14 @@
 package com.zjgsu.shopping.service.impl;
 
-import com.zjgsu.shopping.mapper.BusinessMapper;
-import com.zjgsu.shopping.mapper.SellerMapper;
-import com.zjgsu.shopping.pojo.Business;
-import com.zjgsu.shopping.pojo.GoodForSale;
-import com.zjgsu.shopping.pojo.Seller;
+import com.zjgsu.shopping.mapper.*;
+import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.SellerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SellerServiceImpl implements SellerService {
@@ -17,11 +16,23 @@ public class SellerServiceImpl implements SellerService {
     private BusinessMapper businessMapper;
     @Resource
     private SellerMapper sellerMapper;
-
+    @Resource
+    private GoodForSaleMapper goodForSaleMapper;
+    @Resource
+    private GoodForHistoryMapper goodForHistoryMapper;
+    @Resource
+    private GoodImagineMapper goodImagineMapper;
 
     @Override
-    public Boolean register(Seller seller) {
-        return sellerMapper.register(seller) ;
+    public Seller register(String name, String account, String password,String location, String phone) {
+        Seller seller = new Seller();
+        seller.setName(name);
+        seller.setAccount(account);
+        seller.setPassword(password);
+        seller.setLocation(location);
+        seller.setPhone(phone);
+        if(!sellerMapper.register(seller))return null;
+        return seller;
     }
 
     @Override
@@ -31,31 +42,62 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean updatePassword(int sellerId, String password) {
-        return false;
+       return sellerMapper.updatePassword(sellerId,password) > 0;
     }
 
     @Override
     public GoodForSaleListVo getGoodForSaleList(int sellerId) {
-        return null;
+        GoodForSaleListVo goodForSaleListVo = new GoodForSaleListVo();
+        List<GoodForSale> goodForSales = goodForSaleMapper.getGoodList(sellerId);
+        List<GoodForSaleShort> goodForSaleShorts = new ArrayList<>() ;
+        for(GoodForSale goodForSale:goodForSales){
+            GoodForSaleShort goodForSaleShort = new GoodForSaleShort();
+            goodForSaleShort.setGoodId(goodForSale.getGoodId());
+            goodForSaleShort.setName(goodForSale.getName());
+            goodForSaleShort.setImg(goodForSale.getName());
+            goodForSaleShort.setPrice(goodForSale.getPrice());
+            goodForSaleShorts.add(goodForSaleShort);
+        }
+        goodForSaleListVo.setGoodsForSale(goodForSaleShorts);
+        return goodForSaleListVo;
     }
 
     @Override
     public GoodForHistoryListVo getGoodForHistoryList(int sellerId) {
-        return null;
+        GoodForHistoryListVo goodForHistoryListVo = new GoodForHistoryListVo();
+        List<GoodForHistory> goodForHistories = goodForHistoryMapper.getGoodList(sellerId);
+        List<GoodForHistoryShort> goodForHistoryShorts = new ArrayList<>();
+        for(GoodForHistory goodForHistory :goodForHistories){
+            GoodForHistoryShort goodForHistoryShort = new GoodForHistoryShort();
+            goodForHistoryShort.setPrice(goodForHistory.getPrice());
+            goodForHistoryShort.setName(goodForHistory.getName());
+            goodForHistoryShort.setDealDate(goodForHistory.getDealDate());
+            goodForHistoryShorts.add(goodForHistoryShort);
+        }
+        goodForHistoryListVo.setGoodsForHistory(goodForHistoryShorts);
+        return goodForHistoryListVo;
+
     }
 
     @Override
     public GoodForSaleDetalVo getGoodForSaleDetal(int goodId) {
-        return null;
+        GoodForSaleDetalVo goodForSaleDetalVo = new GoodForSaleDetalVo();
+        goodForSaleDetalVo.setGoodForSale(goodForSaleMapper.getGoodInfo(goodId));
+        goodForSaleDetalVo.setImg(goodImagineMapper.getImagine(goodId));
+        return goodForSaleDetalVo;
     }
 
     @Override
     public GoodForHistoryDetalVo getGoodForHistoryDetal(int goodId) {
-        return null;
+        GoodForHistoryDetalVo goodForHistoryDetalVo = new GoodForHistoryDetalVo();
+        goodForHistoryDetalVo.setGoodForHistory(goodForHistoryMapper.getGoodInfo(goodId));
+        goodForHistoryDetalVo.setImg(goodImagineMapper.getImagine(goodId));
+        return goodForHistoryDetalVo;
     }
 
     @Override
     public IntentionBuyerListVo getIntentionBuyers(int goodId) {
+        //Buyer buyer =
         return null;
     }
 
@@ -66,7 +108,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public int startDeal(Business business) {
-        businessMapper.createBusiness(business);
+       // businessMapper.createBusiness(business);
         return 1;
     }
 

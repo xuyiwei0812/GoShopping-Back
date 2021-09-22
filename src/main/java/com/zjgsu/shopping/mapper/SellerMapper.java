@@ -12,9 +12,9 @@ public interface SellerMapper {
     /**
      * 注册
      *
-     * @param seller
+     * @param seller 卖家
      * @return 商家编号,或者无法注册返回-1
-     * 初步测试通过
+     *
      */
     @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
     @Insert("insert into seller (name,account,password,location,phone) values (#{seller.name},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")

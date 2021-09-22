@@ -4,6 +4,8 @@ package com.zjgsu.shopping.mapper;
 import com.zjgsu.shopping.pojo.GoodForSale;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface GoodForSaleMapper {
     /**
@@ -52,4 +54,13 @@ public interface GoodForSaleMapper {
      */
     @Select("select * from goodforsale where goodId =#{goodId}")
     GoodForSale getGoodInfo(@Param("goodId") int goodId);
+
+    /**
+     * 得到卖家的商品列表
+     *
+     * @param sellerId 卖家id
+     * @return 商品列表
+     */
+    @Select("select * from goodforsale where sellerId =#{sellerId}")
+    List<GoodForSale> getGoodList(@Param("sellerId") int sellerId);
 }

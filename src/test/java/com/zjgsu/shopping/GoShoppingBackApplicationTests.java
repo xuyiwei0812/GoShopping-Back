@@ -29,14 +29,14 @@ public class GoShoppingBackApplicationTests {
     private SellerMapper sellerMapper;
     @Test
     public void test1() {
-        Seller seller = new Seller();
-        seller.setAccount("233");
-        seller.setPassword("1234");
-        seller.setName("haha");
-        seller.setPhone("1234567");
-        seller.setLocation("123123123");
-        System.out.println(seller);
-        System.out.println(sellerService.register(seller));
+//        Seller seller = new Seller();
+//        seller.setAccount("233");
+//        seller.setPassword("1234");
+//        seller.setName("haha");
+//        seller.setPhone("1234567");
+//        seller.setLocation("123123123");
+//        System.out.println(seller);
+//        System.out.println(sellerService.register(seller));
     }
 
     @Test

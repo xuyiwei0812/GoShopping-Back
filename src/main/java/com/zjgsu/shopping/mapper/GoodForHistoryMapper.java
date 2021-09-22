@@ -3,6 +3,8 @@ package com.zjgsu.shopping.mapper;
 import com.zjgsu.shopping.pojo.GoodForHistory;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface GoodForHistoryMapper {
     /**
@@ -18,9 +20,15 @@ public interface GoodForHistoryMapper {
     /**
      * 查询一个历史商品
      *
-     * @param goodId 商品id
+     * @param seller 商品id
      */
 
+    @Select("select * from goodForHistory where seller =#{seller}")
+    List<GoodForHistory> getGoodList(@Param("sellerId") int seller);
+
+    /**
+     * 获得一个商品的信息
+     */
     @Select("select * from goodForHistory where goodId =#{goodId}")
-    Boolean getGoodForHistory(@Param("goodId") int goodId);
+    GoodForHistory getGoodInfo(@Param("goodId") int goodId);
 }
