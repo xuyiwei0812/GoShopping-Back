@@ -49,5 +49,4 @@ public class BuyerServiceImpl implements BuyerService {
     public Boolean cancelIntention(int intentionId) {
         return intentionBuyerMapper.cancelIntention(intentionId);
     }
-    //@Resource
 }

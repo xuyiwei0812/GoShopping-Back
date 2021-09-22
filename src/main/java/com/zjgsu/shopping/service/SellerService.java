@@ -7,6 +7,7 @@ import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -89,7 +90,7 @@ public interface SellerService {
 
      * @return 如果返回商品状态码
      */
-    int startDeal(Business business);
+     Boolean startDeal(int buyerId,int sellerId,int goodId,String locate,int price);
     /**
      * 取消一场交易
      *
@@ -104,15 +105,13 @@ public interface SellerService {
      * @param businessId 交易编号
      * @return 完成失败返回-1
      */
-    Boolean finishDeal(int businessId);
+    Boolean finishDeal(int businessId, Date dealDate);
 
     /**
      * 上架一个商品
-     *
-     * @param good 商品详细信息
      * @return 上架失败返回-1
      */
-    Boolean putOnGood(GoodForSale good);
+     Boolean putOnGood(int goodId,String name,String description,int price);
 
     /**
      * 下架一个商品

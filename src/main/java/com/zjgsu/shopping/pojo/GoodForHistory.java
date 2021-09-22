@@ -21,4 +21,17 @@ public class GoodForHistory {
     private int price;
     private Date dealDate;
     private String phone;
+
+    public GoodForHistory(int goodId, String name, String description, int price, Date dealDate, String phone) {
+        this.goodId = goodId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.dealDate = dealDate;
+        this.phone = phone;
+    }
+
+    public GoodForHistory() {
+
+    }
 }

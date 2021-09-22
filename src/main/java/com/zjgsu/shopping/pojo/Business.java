@@ -11,6 +11,7 @@ public class Business {
    private Integer goodId;
    private String locate;
 
+
 //   public Business(int price, int buyerId, int sellerId, int goodId, String locate) {
 //      this.price = price;
 //      this.buyerId = buyerId;

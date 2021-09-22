@@ -1,6 +1,7 @@
 package com.zjgsu.shopping.mapper;
 
 import com.zjgsu.shopping.pojo.GoodForHistory;
+import com.zjgsu.shopping.pojo.vo.GoodForHistoryListVo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -31,4 +32,7 @@ public interface GoodForHistoryMapper {
      */
     @Select("select * from goodForHistory where goodId =#{goodId}")
     GoodForHistory getGoodInfo(@Param("goodId") int goodId);
+
+
+
 }

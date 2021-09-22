@@ -26,4 +26,11 @@ public interface BuyerMapper {
      */
     @Delete("delete from buyer where buyerId=#{buyer.buyerId}")
     Boolean deleteBuyer(@Param("buyer") Buyer buyer);
+
+    /**
+     * 返回买家的信息
+     * @param buyerId 用户编号
+     */
+    @Select("select * from buyer where buyer=#{buyerId}")
+    Buyer getBuyerInfo(@Param("buyerId")int buyerId);
 }

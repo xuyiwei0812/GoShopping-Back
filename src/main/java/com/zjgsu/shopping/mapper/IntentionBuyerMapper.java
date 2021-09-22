@@ -4,6 +4,8 @@ import com.zjgsu.shopping.pojo.Buyer;
 import com.zjgsu.shopping.pojo.IntentionBuyer;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 //存放意向购买人信息
 @Mapper
 public interface IntentionBuyerMapper {
@@ -13,9 +15,9 @@ public interface IntentionBuyerMapper {
      * @param intentionBuyer 买家信息
      * @return 提出失败返回-1
      */
-    @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
-    @Insert("insert into intentionbuyer (buyerId,name,location,phone) values (#{intentionBuyer.buyerId}," +
-            "#{intentionBuyer.name},#{intentionBuyer.location},#{intentionBuyer.phone})")
+    @Options (useGeneratedKeys = true, keyProperty = "intentionId", keyColumn = "intentionId")
+    @Insert("insert into intentionbuyer (buyerId,name,location,phone,goodId) values (#{intentionBuyer.buyerId}," +
+            "#{intentionBuyer.name},#{intentionBuyer.location},#{intentionBuyer.phone}),#{intentionBuyer.goodId}")
     Boolean raiseIntention(@Param("intentionBuyer")IntentionBuyer intentionBuyer);
 
     /**
@@ -29,6 +31,19 @@ public interface IntentionBuyerMapper {
     Boolean cancelIntention(@Param("intentionId") int intentionId);
 
     /**
+     * 返回某个信息的意向人列表
      *
+     * @param goodId 商品Id
      */
+    @Select("select * from intentionbuyer where goodId=#{goodId}")
+    List<IntentionBuyer> getIntentionList(@Param("goodId") int goodId);
+
+    /**
+     * 返回某个意向的具体信息
+     *
+     * @param intentionId 意向Id
+     */
+    @Select("select * from intentionbuyer where intention=#{intentionId}")
+    IntentionBuyer getIntentionInfo(@Param("intentionId") int intentionId);
+
 }

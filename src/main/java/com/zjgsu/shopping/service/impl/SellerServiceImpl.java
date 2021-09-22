@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,6 +23,10 @@ public class SellerServiceImpl implements SellerService {
     private GoodForHistoryMapper goodForHistoryMapper;
     @Resource
     private GoodImagineMapper goodImagineMapper;
+    @Resource
+    private IntentionBuyerMapper intentionBuyerMapper;
+    @Resource
+    private BuyerMapper buyerMapper;
 
     @Override
     public Seller register(String name, String account, String password,String location, String phone) {
@@ -97,39 +102,79 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public IntentionBuyerListVo getIntentionBuyers(int goodId) {
-        //Buyer buyer =
-        return null;
+        IntentionBuyerListVo intentionBuyerListVo = new IntentionBuyerListVo();
+        List<IntentionBuyerShort> intentionBuyerShorts = new ArrayList<>();
+        List<IntentionBuyer> intentionBuyers = intentionBuyerMapper.getIntentionList(goodId);
+        for(IntentionBuyer intentionBuyer :intentionBuyers){
+            IntentionBuyerShort intentionBuyerShort = new IntentionBuyerShort();
+            intentionBuyerShort.setGoodId(intentionBuyer.getGoodId());
+            intentionBuyerShort.setName(intentionBuyer.getName());
+            intentionBuyerShort.setPhone(intentionBuyer.getPhone());
+            intentionBuyerShort.setLocation(intentionBuyer.getLocation());
+            intentionBuyerShorts.add(intentionBuyerShort);
+        }
+        intentionBuyerListVo.setIntentionBuyers(intentionBuyerShorts);
+        return intentionBuyerListVo;
     }
 
     @Override
-    public IntentionBuyerDetalVo getIntentionButerDetal(int buyerId) {
-        return null;
+    public IntentionBuyerDetalVo getIntentionButerDetal(int intentionId) {
+        IntentionBuyerDetalVo intentionBuyerDetalVo = new IntentionBuyerDetalVo();
+        IntentionBuyer intentionBuyer = intentionBuyerMapper.getIntentionInfo(intentionId);
+        intentionBuyerDetalVo.setIntentionId(intentionBuyer.getIntentionId());
+        intentionBuyerDetalVo.setBuyerId(intentionBuyer.getBuyerId());
+        intentionBuyerDetalVo.setLocation(intentionBuyer.getLocation());
+        intentionBuyerDetalVo.setPhone(intentionBuyer.getPhone());
+        intentionBuyerDetalVo.setGoodId(intentionBuyer.getGoodId());
+        intentionBuyerDetalVo.setName(intentionBuyer.getName());
+        return intentionBuyerDetalVo;
     }
 
     @Override
-    public int startDeal(Business business) {
-       // businessMapper.createBusiness(business);
-        return 1;
+    public Boolean startDeal(int buyerId,int sellerId,int goodId,String locate,int price) {
+        Business business = new Business();
+        business.setPrice(price);
+        business.setGoodId(goodId);
+        business.setLocate(locate);
+        business.setBuyerId(buyerId);
+        business.setSellerId(sellerId);
+        goodForSaleMapper.freezeGood(goodId);
+        return businessMapper.startBusiness(business);
     }
 
     @Override
     public Boolean cancelDeal(int businessId) {
-        return null;
+        Business business = businessMapper.getBusinessInfo(businessId);
+        goodForSaleMapper.unfreezeGood(business.getGoodId());
+        return businessMapper.detelBusiness(businessId) > 0;
     }
 
     @Override
-    public Boolean finishDeal(int businessId) {
-        return null;
+    public Boolean finishDeal(int businessId, Date dealDate) {
+        Business business = businessMapper.getBusinessInfo(businessId);
+        goodForSaleMapper.unfreezeGood(business.getGoodId());
+        GoodForSale goodForSale = goodForSaleMapper.getGoodInfo(business.getGoodId());
+        Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
+        GoodForHistory goodForHistory = new GoodForHistory();
+        goodForHistory.setGoodId(goodForHistory.getGoodId());
+        goodForHistory.setPhone(buyer.getPhone());
+        goodForHistory.setDealDate(dealDate);
+        goodForHistory.setPrice(business.getPrice());
+        goodForHistory.setName(goodForSale.getName());
+        goodForHistory.setDescription(goodForHistory.getDescription());
+        goodForHistoryMapper.addGoodForHistory(goodForHistory);
+        return businessMapper.detelBusiness(businessId) > 0;
     }
 
     @Override
-    public Boolean putOnGood(GoodForSale good) {
-        return null;
+    public Boolean putOnGood(int goodId,String name,String description,int price) {
+        GoodForSale goodForSale = new GoodForSale(name,description,price);
+        return goodForSaleMapper.putOnGood(goodForSale);
     }
 
     @Override
     public Boolean putOffGood(int goodId) {
-        return null;
+        return goodForSaleMapper.putOffGood(goodId);
     }
 
 

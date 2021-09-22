@@ -40,23 +40,7 @@ public interface SellerMapper {
     @Update("update seller set password=#{password} where sellerId=#{sellerId}")
     Long updatePassword(@Param ("sellerId") int sellerId,@Param ("password") String password);
 
-    /**
-     * 取得待售商品列表
-     *
-     * @param sellerId 用户编号
-     * @return 全部待售商品的信息
-     */
-    @Select("select * from goodForSale where sellerId=#{sellerId}")
-    GoodForSaleListVo getGoodForSaleList(@Param ("sellerId") int sellerId);
 
-    /**
-     * 取得历史商品列表
-     *
-     * @param sellerId 用户编号
-     * @return 全部历史销售商品的信息
-     */
-    @Select("select * from goodForHistory where sellerId=#{sellerId}")
-    GoodForHistoryListVo getGoodForHistoryList(@Param ("sellerId") int sellerId);
 
     /**
      * 取得某一在售商品的详细信息
@@ -73,7 +57,7 @@ public interface SellerMapper {
      * @param goodId 商品编号
      * @return 某一商品的意向购买人列表
      */
-    @Select("select buyerId from business where goodId=#{goodId}")
+    @Select("select * from business where goodId=#{goodId}")
     IntentionBuyerListVo getIntentionBuyers(@Param ("goodId") int goodId);
 
     /**

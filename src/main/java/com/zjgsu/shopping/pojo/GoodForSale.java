@@ -17,4 +17,13 @@ public class GoodForSale {
     private int price;
     private Boolean frozen;
 
+    public GoodForSale(String name, String description, int price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.frozen = false;
+    }
+
+    public GoodForSale() {
+    }
 }
