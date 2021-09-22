@@ -13,8 +13,10 @@ public class GoodForHistoryShort {
      * 商品交易时间
      * 商品价格
      */
+    private Integer goodId;
+    private Integer price;
     private String name;
     private Date dealDate;
-    private Integer price;
+
 
 }

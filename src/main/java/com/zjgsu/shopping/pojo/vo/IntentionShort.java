@@ -16,6 +16,7 @@ public class IntentionShort {
      * 联系电话
      *
      */
+    private Integer intentionId;
     private String name;
     private String location;
     private String phone;
