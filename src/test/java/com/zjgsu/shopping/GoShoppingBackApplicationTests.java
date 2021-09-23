@@ -19,6 +19,11 @@ import javax.annotation.Resource;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GoShoppingBackApplication.class)
 public class GoShoppingBackApplicationTests {
+    @Resource
+    SellerService sellerService;
 
+    @Test
+    public void test1(){
 
+    }
 }

@@ -37,6 +37,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Integer login(String account, String password) {
         Seller seller = sellerMapper.login(account,password);
+        seller.getSellerId();
         return (seller != null ? seller.getSellerId() : -1);
     }
 
