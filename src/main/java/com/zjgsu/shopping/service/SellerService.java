@@ -1,12 +1,14 @@
 package com.zjgsu.shopping.service;
 
 import com.zjgsu.shopping.pojo.Business;
+import com.zjgsu.shopping.pojo.GoodForHistory;
 import com.zjgsu.shopping.pojo.GoodForSale;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
-
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 
 public interface SellerService {
@@ -114,8 +116,9 @@ public interface SellerService {
     /**
      * 上架一个商品
      */
-    GoodForSale putOnGood(String name,String description,Double price);
+    //GoodForSale putOnGood(String name,String description,Integer price);
 
+    GoodForSale putOnGood(String name, String description, Double price);
 
     GoodForSale putOnGood(GoodForSale good);
     /**
