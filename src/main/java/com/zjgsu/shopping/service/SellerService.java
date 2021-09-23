@@ -1,14 +1,12 @@
 package com.zjgsu.shopping.service;
 
 import com.zjgsu.shopping.pojo.Business;
-import com.zjgsu.shopping.pojo.GoodForHistory;
 import com.zjgsu.shopping.pojo.GoodForSale;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
-import org.springframework.stereotype.Service;
+
 
 import java.util.Date;
-import java.util.List;
 
 
 public interface SellerService {
