@@ -109,9 +109,8 @@ public interface SellerService {
 
     /**
      * 上架一个商品
-     * @return 上架失败返回-1
      */
-     Boolean putOnGood(Integer goodId,String name,String description,Integer price);
+    GoodForSale putOnGood(String name,String description,Integer price);
 
     /**
      * 下架一个商品

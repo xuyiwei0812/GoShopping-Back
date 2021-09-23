@@ -113,37 +113,26 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean finishDeal(Integer businessId, Date dealDate) {
-
-//        Business business = businessMapper.getBusinessInfo(businessId);
-//        Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
-//        GoodForSale goodForSale = goodForSaleMapper.getGoodInfo(business.getGoodId());
-//
-//
-//        GoodForSale goodForSale = goodForSaleMapper.getGoodInfo(business.getGoodId());
-//        Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
-//        GoodForHistory goodForHistory = new GoodForHistory();
-//        goodForHistory.setGoodId(goodForHistory.getGoodId());
-//        goodForHistory.setPhone(buyer.getPhone());
-//        goodForHistory.setDealDate(dealDate);
-//        goodForHistory.setPrice(business.getPrice());
-//        goodForHistory.setName(goodForSale.getName());
-//        goodForHistory.setDescription(goodForHistory.getDescription());
-//        goodForHistoryMapper.addGoodForHistory(goodForHistory);
-//        goodForSaleMapper.unfreezeGood(business.getGoodId());
-        return null;
+        Business business = businessMapper.getBusinessInfo(businessId);
+        Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
+        GoodForSale good = goodForSaleMapper.getGoodInfo(business.getGoodId());
+        GoodForHistory goodForHistory = new GoodForHistory(good.getGoodId(),good.getName(),good.getDescription(),
+                good.getPrice(),dealDate,buyer.getPhone());
+        goodForHistoryMapper.addGoodForHistory(goodForHistory);
+        goodForSaleMapper.putOffGood(business.getGoodId());
+        return true;
     }
 
     @Override
-    public Boolean putOnGood(Integer goodId,String name,String description,Integer price) {
-//        GoodForSale goodForSale = new GoodForSale(name,description,price);
-//        return goodForSaleMapper.putOnGood(goodForSale);
-        return null;
+    public GoodForSale putOnGood(String name,String description,Integer price) {
+        GoodForSale good = new GoodForSale(null,price,name,description,false);
+
+        return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
 
     @Override
     public Boolean putOffGood(Integer goodId) {
-//        return goodForSaleMapper.putOffGood(goodId);
-        return null;
+        return goodForSaleMapper.putOffGood(goodId) > 0;
     }
 
 

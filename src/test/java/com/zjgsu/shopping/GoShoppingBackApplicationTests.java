@@ -44,5 +44,9 @@ public class GoShoppingBackApplicationTests {
         System.out.println(sellerService.login("233","1234"));
     }
 
+    @Test
+    public void test(){
+        System.out.println("hello world");
+    }
 
 }
