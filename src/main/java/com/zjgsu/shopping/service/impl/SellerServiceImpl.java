@@ -139,6 +139,6 @@ public class SellerServiceImpl implements SellerService {
     public Boolean searchAccount(String account) {
         List<Seller> sellers = sellerMapper.searchAccount(account);
         return !sellers.isEmpty();
-    }
+   }
 
 }
