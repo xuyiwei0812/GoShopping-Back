@@ -134,7 +134,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSale putOnGood(String name,String description,Integer price) {
+    public GoodForSale putOnGood(String name,String description,Double price) {
         GoodForSale good = new GoodForSale(null,null,price,name,description,false);
         return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
