@@ -1,6 +1,5 @@
 package com.zjgsu.shopping.service.impl;
 
-import com.alibaba.druid.filter.AutoLoad;
 import com.zjgsu.shopping.mapper.*;
 import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
@@ -32,11 +31,6 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Seller register(String name, String account, String password,String location, String phone) {
         Seller seller = new Seller(null,name,account,password,location,phone);
-        return (sellerMapper.register(seller) ? seller : null);
-    }
-
-    @Override
-    public Seller register(Seller seller) {
         return (sellerMapper.register(seller) ? seller : null);
     }
 
@@ -111,12 +105,6 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Boolean startDeal(Business business) {
-        goodForSaleMapper.freezeGood(business.getGoodId());
-        return businessMapper.startBusiness(business);
-    }
-
-    @Override
     public Boolean cancelDeal(Integer businessId) {
         Business business = businessMapper.getBusinessInfo(businessId);
         goodForSaleMapper.unfreezeGood(business.getGoodId());
@@ -141,11 +129,6 @@ public class SellerServiceImpl implements SellerService {
         return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
 
-
-    public GoodForSale putOnGood(GoodForSale good){
-        return (goodForSaleMapper.putOnGood(good) ? good : null);
-    }
-
     @Override
     public Boolean putOffGood(Integer goodId) {
         return goodForSaleMapper.putOffGood(goodId) > 0;
@@ -156,11 +139,5 @@ public class SellerServiceImpl implements SellerService {
         List<Seller> sellers = sellerMapper.searchAccount(account);
         return !sellers.isEmpty();
     }
-    @Override
-    public Boolean updateInfo(Seller seller){
-        return sellerMapper.updateInfo(seller) > 0;
-    }
-
-
 
 }

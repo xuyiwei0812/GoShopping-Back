@@ -13,12 +13,13 @@ public class GoodForSale {
      * 构造方式 GoodForSale(null,price,name,description,null)
      */
     private Integer goodId;
-    private Integer price;
+    private Integer sellerId;
+    private double price;
     private String name;
     private String description;
     private Boolean frozen;
 
-    public GoodForSale(Integer goodId, Integer price, String name, String description, Boolean frozen) {
+    public GoodForSale(Integer goodId, Integer sellerId, Integer price, String name, String description, Boolean frozen) {
         this.price = price;
         this.name = name;
         this.description = description;
