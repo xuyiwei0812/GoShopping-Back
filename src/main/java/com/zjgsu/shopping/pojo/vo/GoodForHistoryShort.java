@@ -14,7 +14,7 @@ public class GoodForHistoryShort {
      * 商品价格
      */
     private Integer goodId;
-    private double price;
+    private Double price;
     private String name;
     private Date dealDate;
     private String img;

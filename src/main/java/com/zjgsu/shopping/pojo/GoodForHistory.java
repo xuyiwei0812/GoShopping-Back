@@ -20,7 +20,7 @@ public class GoodForHistory {
 
     private Integer goodId;
     private Integer sellerId;
-    private double price;
+    private Double price;
     private String name;
     private String description;
     private String phone;
@@ -28,7 +28,7 @@ public class GoodForHistory {
 
 
 
-    public GoodForHistory(Integer goodId, Integer sellerId, String name, String description, double price, Date dealDate, String phone) {
+    public GoodForHistory(Integer goodId, Integer sellerId, String name, String description, Double price, Date dealDate, String phone) {
         this.goodId = goodId;
         this.sellerId = sellerId;
         this.name = name;

@@ -14,12 +14,12 @@ public class GoodForSale {
      */
     private Integer goodId;
     private Integer sellerId;
-    private double price;
+    private Double price;
     private String name;
     private String description;
     private Boolean frozen;
 
-    public GoodForSale(Integer goodId, Integer sellerId, double price, String name, String description, Boolean frozen) {
+    public GoodForSale(Integer goodId, Integer sellerId, Double price, String name, String description, Boolean frozen) {
         this.price = price;
         this.name = name;
         this.description = description;
