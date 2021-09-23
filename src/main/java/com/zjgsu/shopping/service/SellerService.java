@@ -120,4 +120,8 @@ public interface SellerService {
      */
     Boolean putOffGood(Integer goodId);
 
+    /**
+     * 有值返回true
+     */
+    Boolean searchAccount(String account);
 }

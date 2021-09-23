@@ -126,7 +126,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public GoodForSale putOnGood(String name,String description,Integer price) {
         GoodForSale good = new GoodForSale(null,price,name,description,false);
-
+        good.getGoodId();
         return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
 
@@ -135,5 +135,10 @@ public class SellerServiceImpl implements SellerService {
         return goodForSaleMapper.putOffGood(goodId) > 0;
     }
 
+    @Override
+    public Boolean searchAccount(String account) {
+        List<Seller> sellers = sellerMapper.searchAccount(account);
+        return !sellers.isEmpty();
+    }
 
 }

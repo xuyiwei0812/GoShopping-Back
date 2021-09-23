@@ -50,4 +50,9 @@ public class BuyerServiceImpl implements BuyerService {
     public List<GoodForSale> getUnfrozenGoodForSaleList() {
         return goodForSaleMapper.getUnfrozenGoodList();
     }
+
+    @Override
+    public List<GoodForSale> getAllGoodList(){
+        return goodForSaleMapper.getAllGoodList();
+    }
 }

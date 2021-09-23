@@ -35,8 +35,14 @@ public interface BuyerService {
 
     /**
      *
-     * @return 在出售的商品列表
+     * @return 非冻结状态的商品列表
      */
     List<GoodForSale> getUnfrozenGoodForSaleList();
+
+    /**
+     *
+     */
+    List<GoodForSale> getAllGoodList();
+
 
 }

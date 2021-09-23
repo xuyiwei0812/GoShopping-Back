@@ -6,6 +6,8 @@ import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 //存放卖家的信息
 @Mapper
 public interface SellerMapper {
@@ -38,9 +40,15 @@ public interface SellerMapper {
      * @return 是否更新成功
      */
     @Update("update seller set password=#{password} where sellerId=#{sellerId}")
-    Long updatePassword(@Param ("sellerId") int sellerId,@Param ("password") String password);
+    Long updatePassword(@Param ("sellerId") Integer sellerId,@Param ("password") String password);
 
-
+    /**
+     *
+     * @param account 账号
+     * @return 返回查找到的账号的列表
+     */
+    @Select("select * from seller where account=#{account}")
+    List<Seller> searchAccount(@Param("account") String account);
 
 
 }
