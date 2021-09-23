@@ -35,7 +35,7 @@ public interface GoodForSaleMapper {
      * @param goodId 商品Id
      * @return 失败返回-1
      */
-    @Update("update goodforsale set frozen = 1 where goodforsale = #{goodId}")
+    @Update("update goodforsale set frozen = 1 where goodId = #{goodId}")
     Long freezeGood(@Param("goodId") Integer goodId);
 
     /**
@@ -44,7 +44,7 @@ public interface GoodForSaleMapper {
      * @param goodId 商品Id
      * @return 失败返回-1
      */
-    @Update("update goodforsale set frozen = 0 where goodforsale = #{goodId}")
+    @Update("update goodforsale set frozen = 0 where goodId = #{goodId}")
     Long unfreezeGood(@Param("goodId") Integer goodId);
 
     /**

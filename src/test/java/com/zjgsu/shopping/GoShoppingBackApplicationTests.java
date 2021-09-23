@@ -115,5 +115,15 @@ public class GoShoppingBackApplicationTests {
     public void test13(){
         System.out.println(intentionMapper.getIntentionList(1));
     }
+
+    @Test
+    public void test14() {
+        IntentionDetailVo in = sellerService.getIntentionDetail(1);
+    }
+
+    @Test
+    public void test15(){
+        Boolean bo = sellerService.startDeal(1,1,1);
+    }
 }
 

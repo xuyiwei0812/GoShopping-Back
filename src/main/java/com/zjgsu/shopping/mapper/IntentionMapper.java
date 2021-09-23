@@ -42,6 +42,6 @@ public interface IntentionMapper {
      *
      * @param intentionId 意向Id
      */
-    @Select("select * from intention where intention=#{intentionId}")
+    @Select("select * from intention where intentionId=#{intentionId}")
     Intention getIntentionInfo(@Param("intentionId")  Integer intentionId);
 }
