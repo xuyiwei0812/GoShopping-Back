@@ -35,6 +35,11 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    public Seller register(Seller seller) {
+        return (sellerMapper.register(seller) ? seller : null);
+    }
+
+    @Override
     public Integer login(String account, String password) {
         Seller seller = sellerMapper.login(account,password);
         return (seller != null ? seller.getSellerId() : -1);
@@ -105,6 +110,11 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    public Boolean startDeal(Business business) {
+        return businessMapper.startBusiness(business);
+    }
+
+    @Override
     public Boolean cancelDeal(Integer businessId) {
         Business business = businessMapper.getBusinessInfo(businessId);
         goodForSaleMapper.unfreezeGood(business.getGoodId());
@@ -116,7 +126,7 @@ public class SellerServiceImpl implements SellerService {
         Business business = businessMapper.getBusinessInfo(businessId);
         Buyer buyer = buyerMapper.getBuyerInfo(business.getBuyerId());
         GoodForSale good = goodForSaleMapper.getGoodInfo(business.getGoodId());
-        GoodForHistory goodForHistory = new GoodForHistory(good.getGoodId(),good.getName(),good.getDescription(),
+        GoodForHistory goodForHistory = new GoodForHistory(good.getGoodId(),good.getSellerId(),good.getName(),good.getDescription(),
                 good.getPrice(),dealDate,buyer.getPhone());
         goodForHistoryMapper.addGoodForHistory(goodForHistory);
         goodForSaleMapper.putOffGood(business.getGoodId());
@@ -125,7 +135,12 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public GoodForSale putOnGood(String name,String description,Integer price) {
-        GoodForSale good = new GoodForSale(null,price,name,description,false);
+        GoodForSale good = new GoodForSale(null,null,price,name,description,false);
+        return (goodForSaleMapper.putOnGood(good) ? good : null);
+    }
+
+    @Override
+    public GoodForSale putOnGood(GoodForSale good) {
         return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
 
@@ -138,6 +153,11 @@ public class SellerServiceImpl implements SellerService {
     public Boolean searchAccount(String account) {
         List<Seller> sellers = sellerMapper.searchAccount(account);
         return !sellers.isEmpty();
+    }
+
+    @Override
+    public Boolean updateInfo(Seller seller) {
+        return !sellerMapper.searchAccount(seller.getAccount()).isEmpty();
     }
 
 }

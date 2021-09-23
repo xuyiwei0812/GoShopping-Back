@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class GoodForSaleShort {
     private Integer goodId;
-    private Integer price;
+    private double price;
     private String name;
     private String img;
 

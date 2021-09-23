@@ -19,10 +19,11 @@ public class GoodForSale {
     private String description;
     private Boolean frozen;
 
-    public GoodForSale(Integer goodId, Integer sellerId, Integer price, String name, String description, Boolean frozen) {
+    public GoodForSale(Integer goodId, Integer sellerId, double price, String name, String description, Boolean frozen) {
         this.price = price;
         this.name = name;
         this.description = description;
+        this.sellerId = sellerId;
     }
 
     public GoodForSale() {
