@@ -51,8 +51,18 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSaleListVo getGoodForSaleList(Integer sellerId) {
+    public GoodForSaleListVo getGoodFromCertainSellerList(Integer sellerId){
         List<GoodForSale> goodForSales = goodForSaleMapper.getGoodList(sellerId);
+        return getGoodForSaleListVo(goodForSales);
+    }
+
+    @Override
+    public  GoodForSaleListVo getAllGoodList(){
+        List<GoodForSale> goodForSales = goodForSaleMapper.getAllGoodList();
+        return getGoodForSaleListVo(goodForSales);
+    }
+
+    private GoodForSaleListVo getGoodForSaleListVo(List<GoodForSale> goodForSales) {
         List<GoodForSaleShort> goodForSaleShorts = new ArrayList<>() ;
         for(GoodForSale goodForSale:goodForSales){
             GoodImagine goodImg = goodImagineMapper.getImagine(goodForSale.getGoodId()).stream().findFirst().orElse(null);

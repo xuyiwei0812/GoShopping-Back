@@ -39,12 +39,18 @@ public interface SellerService {
     Boolean updatePassword(Integer sellerId,String password);
 
     /**
-     * 取得待售商品列表
+     * 查询某一商家的商品
      *
      * @param sellerId 用户编号
      * @return 全部代售商品的信息
      */
-    GoodForSaleListVo getGoodForSaleList(Integer sellerId);
+    GoodForSaleListVo getGoodFromCertainSellerList(Integer sellerId);
+
+    /**
+     *
+     * @return 全部在出售的货物信息
+     */
+    GoodForSaleListVo getAllGoodList();
 
     /**
      * 取得历史商品列表
