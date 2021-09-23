@@ -76,12 +76,12 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSaleDetalVo getGoodForSaleDetal(Integer goodId) {
+    public GoodForSaleDetalVo getGoodForSaleDetail(Integer goodId) {
         return new GoodForSaleDetalVo(goodForSaleMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
-    public GoodForHistoryDetalVo getGoodForHistoryDetal(Integer goodId) {
+    public GoodForHistoryDetalVo getGoodForHistoryDetail(Integer goodId) {
         return new GoodForHistoryDetalVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 

@@ -62,7 +62,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    GoodForSaleDetalVo getGoodForSaleDetal(Integer goodId);
+    GoodForSaleDetalVo getGoodForSaleDetail(Integer goodId);
 
     /**
      * 取得某一历史商品的详细信息
@@ -70,7 +70,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一历史商品的详细信息
      */
-    GoodForHistoryDetalVo getGoodForHistoryDetal(Integer goodId);
+    GoodForHistoryDetalVo getGoodForHistoryDetail(Integer goodId);
 
     /**
      * 取得某一商品的意向购买人列表

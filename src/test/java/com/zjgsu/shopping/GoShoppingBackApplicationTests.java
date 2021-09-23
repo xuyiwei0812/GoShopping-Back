@@ -88,5 +88,16 @@ public class GoShoppingBackApplicationTests {
         GoodForSaleListVo list = sellerService.getGoodForSaleList(8);
         System.out.println(list);
     }
+
+    @Test
+    public void test9(){
+        GoodForHistoryListVo list = sellerService.getGoodForHistoryList(8);
+        System.out.println(list);
+    }
+
+    @Test
+    public void test10(){
+
+    }
 }
 
