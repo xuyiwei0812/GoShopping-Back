@@ -25,5 +25,6 @@ public class GoShoppingBackApplicationTests {
     @Test
     public void test1(){
         Seller seller = sellerService.register("111","123456","1234","a","12");
+
     }
 }
