@@ -32,6 +32,11 @@ public class BuyerServiceImpl implements BuyerService {
         return (buyerMapper.creatBuyer(buyer) ? buyer : null);
     }
 
+    @Override
+    public Buyer createBuyer(Buyer buyer){
+        return (buyerMapper.creatBuyer(buyer) ? buyer : null);
+    }
+
     //添加一个意向
     @Override
     public Boolean raiseIntention(Integer buyerId, Integer goodId) {
@@ -39,6 +44,10 @@ public class BuyerServiceImpl implements BuyerService {
         return intentionMapper.raiseIntention(intention);
     }
 
+    @Override
+    public Boolean raiseIntention(Intention intention) {
+        return intentionMapper.raiseIntention(intention);
+    }
 
 
     @Override

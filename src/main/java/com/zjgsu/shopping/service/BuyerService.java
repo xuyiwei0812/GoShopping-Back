@@ -2,6 +2,7 @@ package com.zjgsu.shopping.service;
 
 import com.zjgsu.shopping.pojo.Buyer;
 import com.zjgsu.shopping.pojo.GoodForSale;
+import com.zjgsu.shopping.pojo.Intention;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface BuyerService {
      * @return 买家对象
      */
     Buyer createBuyer(String name,String location,String phone);
+
+    Buyer createBuyer(Buyer buyer);
     /**
      * 提出一个购买意向
      *
@@ -24,6 +27,7 @@ public interface BuyerService {
      */
     Boolean raiseIntention(Integer buyerId, Integer goodId);
 
+    Boolean raiseIntention(Intention intention);
     /**
      * 撤销一个购买意向
      *

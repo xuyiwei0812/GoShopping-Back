@@ -50,5 +50,9 @@ public interface SellerMapper {
     @Select("select * from seller where account=#{account}")
     List<Seller> searchAccount(@Param("account") String account);
 
-
+    /**
+     *
+     */
+    @Update("update seller set location = #{seller.location} , phone = #{seller.phone} , name = #{seller.name} where sellerId = #{seller.sellerId}")
+    Long updateInfo(@Param("seller") Seller seller);
 }

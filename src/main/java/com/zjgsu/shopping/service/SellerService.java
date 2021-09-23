@@ -17,6 +17,10 @@ public interface SellerService {
      * @return 注册是否成功
      */
     Seller register(String name,String account,String password,String location ,String phone);
+    /**
+     * 重载register
+     */
+    Seller register(Seller seller);
 
     /**
      * 登录
@@ -91,6 +95,8 @@ public interface SellerService {
      * @return 如果返回商品状态码
      */
      Boolean startDeal(Integer buyerId,Integer sellerId,Integer goodId);
+
+     Boolean startDeal(Business business);
     /**
      * 取消一场交易
      *
@@ -112,6 +118,8 @@ public interface SellerService {
      */
     GoodForSale putOnGood(String name,String description,Integer price);
 
+
+    GoodForSale putOnGood(GoodForSale good);
     /**
      * 下架一个商品
      *
@@ -124,4 +132,10 @@ public interface SellerService {
      * 有值返回true
      */
     Boolean searchAccount(String account);
+
+    /**
+     * 更新卖家信息
+     */
+    Boolean updateInfo(Seller seller);
+
 }
