@@ -1,6 +1,7 @@
 package com.zjgsu.shopping;
 
 import com.zjgsu.shopping.mapper.BuyerMapper;
+import com.zjgsu.shopping.mapper.IntentionMapper;
 import com.zjgsu.shopping.mapper.SellerMapper;
 import com.zjgsu.shopping.pojo.Business;
 import com.zjgsu.shopping.pojo.Buyer;
@@ -40,6 +41,8 @@ public class GoShoppingBackApplicationTests {
     private BuyerService buyerService;
     @Resource
     private BuyerMapper buyerMapper;
+    @Resource
+    private IntentionMapper intentionMapper;
 
     @Test
     public void test1() {
@@ -97,7 +100,25 @@ public class GoShoppingBackApplicationTests {
 
     @Test
     public void test10(){
+        GoodForSaleDetalVo detail = sellerService.getGoodForSaleDetail(1);
+        System.out.println(detail);
+    }
 
+    @Test
+    public void test11(){
+        GoodForHistoryDetalVo de = sellerService.getGoodForHistoryDetail(1);
+        System.out.println(de);
+    }
+
+    @Test
+    public void test12(){
+        IntentionListVo li = sellerService.getIntentionBuyers(1);
+        System.out.println(li);
+    }
+
+    @Test
+    public void test13(){
+        System.out.println(intentionMapper.getIntentionList(1));
     }
 }
 

@@ -94,6 +94,7 @@ public class SellerServiceImpl implements SellerService {
             IntentionShort intentionShort = new IntentionShort(intention.getIntentionId() , buyer.getName() , buyer.getLocation() , buyer.getPhone());
             intentionShorts.add(intentionShort);
         }
+        System.out.println("hahah");
         return new IntentionListVo(intentionShorts);
     }
 
@@ -134,7 +135,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSale putOnGood(String name,String description,Double price) {
+    public GoodForSale putOnGood(String name, String description, Double price) {
         GoodForSale good = new GoodForSale(null,null,price,name,description,false);
         return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
