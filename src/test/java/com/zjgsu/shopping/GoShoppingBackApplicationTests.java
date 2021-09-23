@@ -115,5 +115,6 @@ public class GoShoppingBackApplicationTests {
     public void test13(){
         System.out.println(intentionMapper.getIntentionList(1));
     }
+
 }
 
