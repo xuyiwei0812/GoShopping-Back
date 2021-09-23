@@ -76,13 +76,13 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSaleDetalVo getGoodForSaleDetail(Integer goodId) {
-        return new GoodForSaleDetalVo(goodForSaleMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
+    public GoodForSaleDetailVo getGoodForSaleDetail(Integer goodId) {
+        return new GoodForSaleDetailVo(goodForSaleMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
-    public GoodForHistoryDetalVo getGoodForHistoryDetail(Integer goodId) {
-        return new GoodForHistoryDetalVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
+    public GoodForHistoryDetailVo getGoodForHistoryDetail(Integer goodId) {
+        return new GoodForHistoryDetailVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
@@ -99,8 +99,8 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public IntentionDetalVo getIntentionDetal(Integer intentionId) {
-        return new IntentionDetalVo(intentionMapper.getIntentionInfo(intentionId));
+    public IntentionDetailVo getIntentionDetail(Integer intentionId) {
+        return new IntentionDetailVo(intentionMapper.getIntentionInfo(intentionId));
     }
 
     @Override

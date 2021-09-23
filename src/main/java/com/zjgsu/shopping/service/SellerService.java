@@ -1,14 +1,11 @@
 package com.zjgsu.shopping.service;
 
 import com.zjgsu.shopping.pojo.Business;
-import com.zjgsu.shopping.pojo.GoodForHistory;
 import com.zjgsu.shopping.pojo.GoodForSale;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 
 public interface SellerService {
@@ -62,7 +59,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    GoodForSaleDetalVo getGoodForSaleDetail(Integer goodId);
+    GoodForSaleDetailVo getGoodForSaleDetail(Integer goodId);
 
     /**
      * 取得某一历史商品的详细信息
@@ -70,7 +67,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一历史商品的详细信息
      */
-    GoodForHistoryDetalVo getGoodForHistoryDetail(Integer goodId);
+    GoodForHistoryDetailVo getGoodForHistoryDetail(Integer goodId);
 
     /**
      * 取得某一商品的意向购买人列表
@@ -86,7 +83,7 @@ public interface SellerService {
      * @param buyerId 买家编号
      * @return 意向购买人详细信息
      */
-    IntentionDetalVo getIntentionDetal(Integer buyerId);
+    IntentionDetailVo getIntentionDetail(Integer buyerId);
 
     /**
      * 开始一场交易

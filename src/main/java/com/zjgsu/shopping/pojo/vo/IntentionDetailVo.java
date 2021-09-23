@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class IntentionDetalVo {
+public class IntentionDetailVo {
     /**
      * 姓名
      * 住址
