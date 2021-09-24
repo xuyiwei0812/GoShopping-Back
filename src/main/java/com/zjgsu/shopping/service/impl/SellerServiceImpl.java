@@ -161,4 +161,5 @@ public class SellerServiceImpl implements SellerService {
         return !sellerMapper.searchAccount(seller.getAccount()).isEmpty();
     }
 
+
 }
