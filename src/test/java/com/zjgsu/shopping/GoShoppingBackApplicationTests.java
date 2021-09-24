@@ -146,6 +146,22 @@ public class GoShoppingBackApplicationTests {
         GoodForSale good = sellerService.putOnGood("aa","aaa",10.1,1);
     }
 
+    @Test
+    public void test19(){
+        Boolean bo = sellerService.putOffGood(1);
+        System.out.println(bo);
+    }
 
+    @Test
+    public void test20(){
+        Boolean bo = sellerService.searchAccount("123");
+        System.out.println(bo);
+    }
+
+    @Test
+    public void test21(){
+        Seller seller = new Seller(8,"12","aa","123","a","12");
+        Boolean bo = sellerService.updateInfo(seller);
+    }
 }
 
