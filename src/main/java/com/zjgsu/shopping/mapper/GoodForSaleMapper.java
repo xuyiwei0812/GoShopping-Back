@@ -13,12 +13,13 @@ public interface GoodForSaleMapper {
      * 上传一个商品
      *
      * @param goodForSale 整个商品信息
+     * @param sellerId
      * @return 失败返回-1
       */
     @Options(useGeneratedKeys = true , keyProperty = "goodId" , keyColumn = "goodId")
-    @Insert("insert into goodforsale (name,description,price,frozen) values( " +
-            "#{goodForSale.name},#{goodForSale.description} , #{goodForSale.price} , #{goodForSale.frozen} )")
-    Boolean putOnGood(@Param("goodForSale")GoodForSale goodForSale);
+    @Insert("insert into goodforsale (name,description,price,frozen,sellerId) values( " +
+            "#{goodForSale.name},#{goodForSale.description} , #{goodForSale.price} , #{goodForSale.frozen}, #{sellerId} )")
+    Boolean putOnGood(@Param("goodForSale")GoodForSale goodForSale,@Param("sellerId")Integer sellerId);
 
     /**
      * 下架一个商品

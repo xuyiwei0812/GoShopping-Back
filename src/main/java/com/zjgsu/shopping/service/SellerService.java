@@ -115,9 +115,9 @@ public interface SellerService {
      */
     //GoodForSale putOnGood(String name,String description,Integer price);
 
-    GoodForSale putOnGood(String name, String description, Double price);
+    GoodForSale putOnGood(String name, String description, Double price, Integer sellerId);
 
-    GoodForSale putOnGood(GoodForSale good);
+    GoodForSale putOnGood(GoodForSale good, Integer sellerId);
     /**
      * 下架一个商品
      *

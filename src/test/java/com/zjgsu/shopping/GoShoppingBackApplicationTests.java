@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -119,11 +120,32 @@ public class GoShoppingBackApplicationTests {
     @Test
     public void test14() {
         IntentionDetailVo in = sellerService.getIntentionDetail(1);
+        System.out.println(in);
     }
 
     @Test
     public void test15(){
         Boolean bo = sellerService.startDeal(1,1,1);
+        System.out.println(bo);
     }
+
+    @Test
+    public void test16(){
+        Boolean bo = sellerService.cancelDeal(1);
+        System.out.println(bo);
+    }
+
+    @Test
+    public void test17(){
+        Date date = new Date();
+        Boolean bo = sellerService.finishDeal(2, date);
+    }
+
+    @Test
+    public void test18(){
+        GoodForSale good = sellerService.putOnGood("aa","aaa",10.1,1);
+    }
+
+
 }
 

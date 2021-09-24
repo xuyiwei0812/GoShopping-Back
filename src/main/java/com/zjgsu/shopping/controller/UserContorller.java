@@ -57,8 +57,8 @@ public class UserContorller {
 
     @ResponseBody
     @PostMapping ("/putOnGood")
-    public Response<Integer> putOnGood(@RequestBody GoodForSale good){
-        sellerService.putOnGood(good);
+    public Response<Integer> putOnGood(@RequestBody GoodForSale good, Integer sellerId){
+        sellerService.putOnGood(good,sellerId);
         return Response.createSuc(123);
     }
 

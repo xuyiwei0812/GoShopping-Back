@@ -96,7 +96,7 @@ public class SellerServiceImpl implements SellerService {
         }
         System.out.println("hahah");
         return new IntentionListVo(intentionShorts);
-    }
+    }//空指针错误
 
     @Override
     public IntentionDetailVo getIntentionDetail(Integer intentionId) {
@@ -135,14 +135,14 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSale putOnGood(String name, String description, Double price) {
+    public GoodForSale putOnGood(String name, String description, Double price, Integer sellerId) {
         GoodForSale good = new GoodForSale(null,null,price,name,description,false);
-        return (goodForSaleMapper.putOnGood(good) ? good : null);
+        return (goodForSaleMapper.putOnGood(good,sellerId) ? good : null);
     }
 
     @Override
-    public GoodForSale putOnGood(GoodForSale good) {
-        return (goodForSaleMapper.putOnGood(good) ? good : null);
+    public GoodForSale putOnGood(GoodForSale good, Integer sellerId) {
+        return (goodForSaleMapper.putOnGood(good,sellerId) ? good : null);
     }
 
     @Override
