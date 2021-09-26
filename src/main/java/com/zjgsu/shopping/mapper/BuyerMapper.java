@@ -31,6 +31,6 @@ public interface BuyerMapper {
      * 返回买家的信息
      * @param buyerId 用户编号
      */
-    @Select("select * from buyer where buyer=#{buyerId}")
+    @Select("select * from buyer where buyerId=#{buyerId}")
     Buyer getBuyerInfo(@Param("buyerId")Integer buyerId);
 }

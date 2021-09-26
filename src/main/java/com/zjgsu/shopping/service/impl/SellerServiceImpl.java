@@ -86,13 +86,13 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSaleDetalVo getGoodForSaleDetal(Integer goodId) {
-        return new GoodForSaleDetalVo(goodForSaleMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
+    public GoodForSaleDetailVo getGoodForSaleDetail(Integer goodId) {
+        return new GoodForSaleDetailVo(goodForSaleMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
-    public GoodForHistoryDetalVo getGoodForHistoryDetal(Integer goodId) {
-        return new GoodForHistoryDetalVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
+    public GoodForHistoryDetailVo getGoodForHistoryDetail(Integer goodId) {
+        return new GoodForHistoryDetailVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
@@ -104,12 +104,13 @@ public class SellerServiceImpl implements SellerService {
             IntentionShort intentionShort = new IntentionShort(intention.getIntentionId() , buyer.getName() , buyer.getLocation() , buyer.getPhone());
             intentionShorts.add(intentionShort);
         }
+        System.out.println("hahah");
         return new IntentionListVo(intentionShorts);
-    }
+    }//空指针错误
 
     @Override
-    public IntentionDetalVo getIntentionDetal(Integer intentionId) {
-        return new IntentionDetalVo(intentionMapper.getIntentionInfo(intentionId));
+    public IntentionDetailVo getIntentionDetail(Integer intentionId) {
+        return new IntentionDetailVo(intentionMapper.getIntentionInfo(intentionId));
     }
 
     @Override
@@ -144,14 +145,14 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public GoodForSale putOnGood(String name,String description,Double price) {
+    public GoodForSale putOnGood(String name, String description, Double price, Integer sellerId) {
         GoodForSale good = new GoodForSale(null,null,price,name,description,false);
-        return (goodForSaleMapper.putOnGood(good) ? good : null);
+        return (goodForSaleMapper.putOnGood(good,sellerId) ? good : null);
     }
 
     @Override
-    public GoodForSale putOnGood(GoodForSale good) {
-        return (goodForSaleMapper.putOnGood(good) ? good : null);
+    public GoodForSale putOnGood(GoodForSale good, Integer sellerId) {
+        return (goodForSaleMapper.putOnGood(good,sellerId) ? good : null);
     }
 
     @Override

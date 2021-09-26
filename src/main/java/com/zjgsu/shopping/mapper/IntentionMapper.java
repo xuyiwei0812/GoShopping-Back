@@ -26,7 +26,7 @@ public interface IntentionMapper {
      * @return 撤销失败返回-1
      *
      */
-    @Delete("delete from intention where buyerId=#{intentionId}")
+    @Delete("delete from intention where intentionId=#{intentionId}")
     Boolean cancelIntention(@Param("intentionId") Integer intentionId);
 
     /**
@@ -42,6 +42,6 @@ public interface IntentionMapper {
      *
      * @param intentionId 意向Id
      */
-    @Select("select * from intention where intention=#{intentionId}")
+    @Select("select * from intention where intentionId=#{intentionId}")
     Intention getIntentionInfo(@Param("intentionId")  Integer intentionId);
 }

@@ -13,12 +13,13 @@ public interface GoodForSaleMapper {
      * 上传一个商品
      *
      * @param goodForSale 整个商品信息
+     * @param sellerId
      * @return 失败返回-1
       */
     @Options(useGeneratedKeys = true , keyProperty = "goodId" , keyColumn = "goodId")
-    @Insert("insert into goodforsale (name,description,price,frozen) values( " +
-            "#{goodForSale.name},#{goodForSale.description} , #{goodForSale.price} , #{goodForSale.frozen} )")
-    Boolean putOnGood(@Param("goodForSale")GoodForSale goodForSale);
+    @Insert("insert into goodforsale (name,description,price,frozen,sellerId) values( " +
+            "#{goodForSale.name},#{goodForSale.description} , #{goodForSale.price} , #{goodForSale.frozen}, #{sellerId} )")
+    Boolean putOnGood(@Param("goodForSale")GoodForSale goodForSale,@Param("sellerId")Integer sellerId);
 
     /**
      * 下架一个商品
@@ -35,7 +36,7 @@ public interface GoodForSaleMapper {
      * @param goodId 商品Id
      * @return 失败返回-1
      */
-    @Update("update goodforsale set frozen = 1 where goodforsale = #{goodId}")
+    @Update("update goodforsale set frozen = 1 where goodId = #{goodId}")
     Long freezeGood(@Param("goodId") Integer goodId);
 
     /**
@@ -44,7 +45,7 @@ public interface GoodForSaleMapper {
      * @param goodId 商品Id
      * @return 失败返回-1
      */
-    @Update("update goodforsale set frozen = 0 where goodforsale = #{goodId}")
+    @Update("update goodforsale set frozen = 0 where goodId = #{goodId}")
     Long unfreezeGood(@Param("goodId") Integer goodId);
 
     /**

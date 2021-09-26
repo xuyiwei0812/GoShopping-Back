@@ -5,7 +5,6 @@ import com.zjgsu.shopping.pojo.GoodForSale;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 
-
 import java.util.Date;
 
 
@@ -66,7 +65,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    GoodForSaleDetalVo getGoodForSaleDetal(Integer goodId);
+    GoodForSaleDetailVo getGoodForSaleDetail(Integer goodId);
 
     /**
      * 取得某一历史商品的详细信息
@@ -74,7 +73,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一历史商品的详细信息
      */
-    GoodForHistoryDetalVo getGoodForHistoryDetal(Integer goodId);
+    GoodForHistoryDetailVo getGoodForHistoryDetail(Integer goodId);
 
     /**
      * 取得某一商品的意向购买人列表
@@ -90,7 +89,7 @@ public interface SellerService {
      * @param buyerId 买家编号
      * @return 意向购买人详细信息
      */
-    IntentionDetalVo getIntentionDetal(Integer buyerId);
+    IntentionDetailVo getIntentionDetail(Integer buyerId);
 
     /**
      * 开始一场交易
@@ -120,10 +119,11 @@ public interface SellerService {
     /**
      * 上架一个商品
      */
-    GoodForSale putOnGood(String name,String description,Double price);
+    //GoodForSale putOnGood(String name,String description,Integer price);
 
+    GoodForSale putOnGood(String name, String description, Double price, Integer sellerId);
 
-    GoodForSale putOnGood(GoodForSale good);
+    GoodForSale putOnGood(GoodForSale good, Integer sellerId);
     /**
      * 下架一个商品
      *

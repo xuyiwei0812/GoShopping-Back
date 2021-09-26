@@ -14,8 +14,8 @@ public interface GoodForHistoryMapper {
      * @param goodForHistory 历史商品
      * @return 失败返回0
      */
-   @Insert("insert into goodforhistory (goodId,name,description,price,dealDate,phone) values(#{goodForHistory.goodId}," +
-           "#{goodForHistory.name},#{goodForHistory.description},#{goodForHistory.price},#{goodForHistory.dealDate},#{goodForHistory.phone})")
+   @Insert("insert into goodforhistory (goodId,name,description,price,dealDate,phone,sellerId) values(#{goodForHistory.goodId}," +
+           "#{goodForHistory.name},#{goodForHistory.description},#{goodForHistory.price},#{goodForHistory.dealDate},#{goodForHistory.phone},#{goodForHistory.sellerId})")
    Boolean addGoodForHistory(@Param("goodForHistory") GoodForHistory goodForHistory);
 
     /**
