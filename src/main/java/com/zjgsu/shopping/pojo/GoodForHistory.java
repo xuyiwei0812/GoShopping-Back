@@ -1,11 +1,15 @@
 package com.zjgsu.shopping.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GoodForHistory {
     /**
      * 商品编号
@@ -38,7 +42,5 @@ public class GoodForHistory {
         this.phone = phone;
     }
 
-    public GoodForHistory() {
 
-    }
 }

@@ -18,20 +18,23 @@ public interface GoodForHistoryMapper {
            "#{goodForHistory.name},#{goodForHistory.description},#{goodForHistory.price},#{goodForHistory.dealDate},#{goodForHistory.phone},#{goodForHistory.sellerId})")
    Boolean addGoodForHistory(@Param("goodForHistory") GoodForHistory goodForHistory);
 
-    /**
-     * 查询某一卖家的历史商品
-     *
-     * @param sellerId 商品id
-     */
 
-    @Select("select * from goodForHistory where sellerId =#{sellerId}")
-    List<GoodForHistory> getGoodList(@Param("sellerId") Integer sellerId);
+//
+//    /**
+//     * 查询某一卖家的历史商品
+//     *
+//     * @param sellerId 商品id
+//     */
+//
+//    @Select("select * from goodForHistory where sellerId =#{sellerId}")
+//    List<GoodForHistory> getGoodList(@Param("sellerId") Integer sellerId);
 
     /**
-     * 获得一个商品的信息
+     * 获得一个商品的历史出售信息
      */
     @Select("select * from goodForHistory where goodId =#{goodId}")
-    GoodForHistory getGoodInfo(@Param("goodId") Integer goodId);
+    List<GoodForHistory> getGoodForHistoryList(@Param("goodId") Integer goodId);
+
 
 
 

@@ -18,12 +18,15 @@ public class GoodForSale {
     private String name;
     private String description;
     private Boolean frozen;
+    private Boolean sold;
 
-    public GoodForSale(Integer goodId, Integer sellerId, Double price, String name, String description, Boolean frozen) {
+    public GoodForSale(Integer goodId, Integer sellerId, Double price, String name, String description, Boolean frozen,Boolean sold) {
         this.price = price;
         this.name = name;
         this.description = description;
         this.sellerId = sellerId;
+        this.frozen = false;
+        this.sold = false;
     }
 
     public GoodForSale() {

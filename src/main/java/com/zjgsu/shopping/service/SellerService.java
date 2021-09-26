@@ -1,11 +1,13 @@
 package com.zjgsu.shopping.service;
 
 import com.zjgsu.shopping.pojo.Business;
+import com.zjgsu.shopping.pojo.GoodForHistory;
 import com.zjgsu.shopping.pojo.GoodForSale;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 public interface SellerService {
@@ -51,13 +53,14 @@ public interface SellerService {
      */
     GoodForSaleListVo getAllGoodList();
 
-    /**
-     * 取得历史商品列表
-     *
-     * @param sellerId 用户编号
-     * @return 全部历史销售商品的信息
-     */
-    GoodForHistoryListVo getGoodForHistoryList(Integer sellerId);
+//
+//    /**
+//     * 取得历史商品列表
+//     *
+//     * @param sellerId 用户编号
+//     * @return 全部历史销售商品的信息
+//     */
+//    GoodForHistoryListVo getGoodForHistoryList(Integer sellerId);
 
     /**
      * 取得某一商品的详细信息
@@ -123,7 +126,7 @@ public interface SellerService {
 
     GoodForSale putOnGood(String name, String description, Double price, Integer sellerId);
 
-    GoodForSale putOnGood(GoodForSale good, Integer sellerId);
+    GoodForSale putOnGood(GoodForSale good);
     /**
      * 下架一个商品
      *
@@ -142,4 +145,17 @@ public interface SellerService {
      */
     Boolean updateInfo(Seller seller);
 
+
+    /**
+     * 添货
+     * @param goodId 商品id
+     */
+    Boolean exhibitGood(Integer goodId);
+
+
+    /**
+     *
+     * @param goodId 商品id
+     */
+    GoodForHistoryListVo getGoodForHistoryList(Integer goodId);
 }

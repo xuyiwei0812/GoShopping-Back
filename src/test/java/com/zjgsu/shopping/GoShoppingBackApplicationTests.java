@@ -81,18 +81,18 @@ public class GoShoppingBackApplicationTests {
         Boolean bo = sellerService.updatePassword(8,"12345");
         System.out.println(bo);
     }
+//
+//    @Test
+//    public void test8(){
+//        GoodForSaleListVo list = sellerService.getGoodForSaleList(8);
+//        System.out.println(list);
+//    }
 
-    @Test
-    public void test8(){
-        GoodForSaleListVo list = sellerService.getGoodForSaleList(8);
-        System.out.println(list);
-    }
-
-    @Test
-    public void test9(){
-        GoodForHistoryListVo list = sellerService.getGoodForHistoryList(8);
-        System.out.println(list);
-    }
+//    @Test
+//    public void test9(){
+//        GoodForHistoryListVo list = sellerService.getGoodForHistoryList(8);
+//        System.out.println(list);
+//    }
 
     @Test
     public void test10(){

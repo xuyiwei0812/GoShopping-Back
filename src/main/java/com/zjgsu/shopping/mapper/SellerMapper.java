@@ -55,4 +55,6 @@ public interface SellerMapper {
      */
     @Update("update seller set location = #{seller.location} , phone = #{seller.phone} , name = #{seller.name} where sellerId = #{seller.sellerId}")
     Long updateInfo(@Param("seller") Seller seller);
+
+
 }

@@ -13,13 +13,12 @@ public interface GoodForSaleMapper {
      * 上传一个商品
      *
      * @param goodForSale 整个商品信息
-     * @param sellerId
      * @return 失败返回-1
       */
     @Options(useGeneratedKeys = true , keyProperty = "goodId" , keyColumn = "goodId")
     @Insert("insert into goodforsale (name,description,price,frozen,sellerId) values( " +
-            "#{goodForSale.name},#{goodForSale.description} , #{goodForSale.price} , #{goodForSale.frozen}, #{sellerId} )")
-    Boolean putOnGood(@Param("goodForSale")GoodForSale goodForSale,@Param("sellerId")Integer sellerId);
+            "#{goodForSale.name},#{goodForSale.description} , #{goodForSale.price} , #{goodForSale.frozen}, #{goodForSale.sellerId} )")
+    Boolean putOnGood(@Param("goodForSale")GoodForSale goodForSale);
 
     /**
      * 下架一个商品
@@ -72,5 +71,22 @@ public interface GoodForSaleMapper {
 
     @Select("select * from goodforsale")
     List<GoodForSale> getAllGoodList();
+
+    /**
+     *
+     * @param goodId 商品id
+     * @return 选择已经卖光的商品
+     */
+    @Update("update goodforsale set sold = 1 where goodId = #{goodId}")
+    Long soldOutGood(@Param("goodId") Integer goodId);
+
+    /**
+     * 上货
+     * @param goodId 商品id
+     */
+    @Update("update goodforsale set sold = 0 where goodId = #{goodId}")
+    Long exhibitGood(@Param("goodDId") Integer goodId);
+
+
 
 }

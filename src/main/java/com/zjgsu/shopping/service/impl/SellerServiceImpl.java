@@ -71,19 +71,19 @@ public class SellerServiceImpl implements SellerService {
         }
         return new GoodForSaleListVo(goodForSaleShorts);
     }
-
-    @Override
-    public GoodForHistoryListVo getGoodForHistoryList(Integer sellerId) {
-        List<GoodForHistory> goodForHistories = goodForHistoryMapper.getGoodList(sellerId);
-        List<GoodForHistoryShort> goodForHistoryShorts = new ArrayList<>();
-        for(GoodForHistory goodForHistory :goodForHistories){
-            GoodImagine goodImg = goodImagineMapper.getImagine(goodForHistory.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodForHistoryShorts.add(new GoodForHistoryShort(goodForHistory.getGoodId(),goodForHistory.getPrice(),goodForHistory.getName(),goodForHistory.getDealDate(),img));
-        }
-        return new GoodForHistoryListVo(goodForHistoryShorts);
-
-    }
+//
+//    @Override
+//    public GoodForHistoryListVo getGoodForHistoryList(Integer sellerId) {
+//        List<GoodForHistory> goodForHistories = goodForHistoryMapper.getGoodList(sellerId);
+//        List<GoodForHistoryShort> goodForHistoryShorts = new ArrayList<>();
+//        for(GoodForHistory goodForHistory :goodForHistories){
+//            GoodImagine goodImg = goodImagineMapper.getImagine(goodForHistory.getGoodId()).stream().findFirst().orElse(null);
+//            String img = (goodImg != null ? goodImg.getImagine() : null);
+//            goodForHistoryShorts.add(new GoodForHistoryShort(goodForHistory.getGoodId(),goodForHistory.getPrice(),goodForHistory.getName(),goodForHistory.getDealDate(),img));
+//        }
+//        return new GoodForHistoryListVo(goodForHistoryShorts);
+//
+//    }
 
     @Override
     public GoodForSaleDetailVo getGoodForSaleDetail(Integer goodId) {
@@ -92,7 +92,8 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public GoodForHistoryDetailVo getGoodForHistoryDetail(Integer goodId) {
-        return new GoodForHistoryDetailVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
+        return null;
+        //return new GoodForHistoryDetailVo(goodForHistoryMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
@@ -140,19 +141,19 @@ public class SellerServiceImpl implements SellerService {
         GoodForHistory goodForHistory = new GoodForHistory(good.getGoodId(),good.getSellerId(),good.getName(),good.getDescription(),
                 good.getPrice(),dealDate,buyer.getPhone());
         goodForHistoryMapper.addGoodForHistory(goodForHistory);
-        goodForSaleMapper.putOffGood(business.getGoodId());
+        goodForSaleMapper.soldOutGood(good.getGoodId());
         return true;
     }
 
     @Override
     public GoodForSale putOnGood(String name, String description, Double price, Integer sellerId) {
-        GoodForSale good = new GoodForSale(null,null,price,name,description,false);
-        return (goodForSaleMapper.putOnGood(good,sellerId) ? good : null);
+        GoodForSale good = new GoodForSale(null,sellerId,price,name,description,null,null);
+        return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
 
     @Override
-    public GoodForSale putOnGood(GoodForSale good, Integer sellerId) {
-        return (goodForSaleMapper.putOnGood(good,sellerId) ? good : null);
+    public GoodForSale putOnGood(GoodForSale good) {
+        return (goodForSaleMapper.putOnGood(good) ? good : null);
     }
 
     @Override
@@ -169,6 +170,24 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean updateInfo(Seller seller) {
         return !sellerMapper.searchAccount(seller.getAccount()).isEmpty();
+    }
+
+    @Override
+    public Boolean exhibitGood(Integer goodId) {
+        return goodForSaleMapper.exhibitGood(goodId) > 0;
+    }
+
+    @Override
+    public GoodForHistoryListVo getGoodForHistoryList(Integer goodId){
+        List<GoodForHistory> li =  goodForHistoryMapper.getGoodForHistoryList(goodId);
+        List<GoodForHistoryShort> goodlist = new ArrayList<>();
+        for(GoodForHistory good : li){
+            GoodImagine goodImg = goodImagineMapper.getImagine(good.getGoodId()).stream().findFirst().orElse(null);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            goodlist.add(new GoodForHistoryShort(good.getGoodId(),good.getPrice(),good.getName(),
+                    good.getDealDate(),img));
+        }
+        return new GoodForHistoryListVo(goodlist);
     }
 
 }
