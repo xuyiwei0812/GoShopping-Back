@@ -12,7 +12,7 @@ public interface BuyerMapper {
      * @param buyer 买家信息
      * @return 提出失败返回-1
      */
-    @Options (useGeneratedKeys = true, keyProperty = "buyerId", keyColumn = "buyerId")
+    @Options (useGeneratedKeys = true, keyProperty = "buyer.buyerId", keyColumn = "buyerId")
     @Insert("insert into buyer (name,location,phone) values (#{buyer.name},#{buyer.location},#{buyer.phone})")
     Boolean creatBuyer(@Param("buyer") Buyer buyer);
 

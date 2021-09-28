@@ -22,6 +22,15 @@ import java.util.List;
 @SpringBootTest(classes = GoShoppingBackApplication.class)
 public class GoShoppingBackApplicationTests {
 
+    @Resource
+    SellerService sellerService;
+    @Test
+    public void test(){
+        Seller seller = new Seller(null,"lyy","1912190524","lyy","浙江上虞","1234567");
+        sellerService.register(seller);
+        System.out.println(seller.getSellerId());
+        System.out.println(seller);
+    }
 //    @Test
 //    public void contextLoads() {
 //        System.out.println(1);

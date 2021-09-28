@@ -11,7 +11,7 @@ public interface DealMapper {
      * @param deal 交易信息
      * @return 失败返回-1
      */
-    @Options(useGeneratedKeys = true, keyProperty = "dealId", keyColumn = "dealId")
+    @Options(useGeneratedKeys = true, keyProperty = "deal.dealId", keyColumn = "dealId")
     @Insert("insert into deal (buyerId,sellerId,goodId) values (#{deal.buyerId}," +
             "#{deal.sellerId},#{deal.goodId})")
     Boolean startDeal(@Param("deal") Deal deal);

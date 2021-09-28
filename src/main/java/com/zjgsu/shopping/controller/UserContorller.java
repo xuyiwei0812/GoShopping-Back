@@ -27,7 +27,8 @@ public class UserContorller {
     @PostMapping("/register")
     public Response<Integer> register(@RequestBody Seller seller){
         if(sellerService.searchAccount(seller.getAccount()))return Response.createErr("账号已经存在");
-        Integer response = sellerService.register(seller).getSellerId();
+        sellerService.register(seller);
+        Integer response = seller.getSellerId();
         return Response.createSuc(response);
     }
 

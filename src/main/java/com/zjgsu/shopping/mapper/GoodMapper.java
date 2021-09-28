@@ -13,7 +13,7 @@ public interface GoodMapper {
      * @param good 整个商品信息
      * @return 失败返回-1
      */
-    @Options(useGeneratedKeys = true , keyProperty = "goodId" , keyColumn = "goodId")
+    @Options(useGeneratedKeys = true , keyProperty = "good.goodId" , keyColumn = "goodId")
     @Insert("insert into good (name,description,price,frozen,sellerId) values( " +
             "#{good.name},#{good.description} , #{good.price} , #{good.frozen}, #{good.sellerId} )")
     Boolean putOnGood(@Param("good") Good good);

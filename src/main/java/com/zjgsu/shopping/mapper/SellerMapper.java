@@ -15,7 +15,7 @@ public interface SellerMapper {
      * @return 商家编号,或者无法注册返回-1
      *
      */
-    @Options (useGeneratedKeys = true, keyProperty = "sellerId", keyColumn = "sellerId")
+    @Options (useGeneratedKeys = true, keyProperty = "seller.sellerId", keyColumn = "sellerId")
     @Insert("insert into seller (name,account,password,location,phone) values (#{seller.name},#{seller.account},#{seller.password},#{seller.location},#{seller.phone})")
     Boolean register(@Param("seller") Seller seller);
 
