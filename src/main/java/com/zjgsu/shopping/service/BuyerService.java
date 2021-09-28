@@ -1,7 +1,7 @@
 package com.zjgsu.shopping.service;
 
 import com.zjgsu.shopping.pojo.Buyer;
-import com.zjgsu.shopping.pojo.GoodForSale;
+import com.zjgsu.shopping.pojo.Good;
 import com.zjgsu.shopping.pojo.Intention;
 
 import java.util.List;
@@ -41,12 +41,12 @@ public interface BuyerService {
      *
      * @return 非冻结状态的商品列表
      */
-    List<GoodForSale> getUnfrozenGoodForSaleList();
+    List<Good> getUnfrozenGoodForSaleList();
 
     /**
      *
      */
-    List<GoodForSale> getAllGoodList();
+    List<Good> getAllGoodList();
 
 
 }

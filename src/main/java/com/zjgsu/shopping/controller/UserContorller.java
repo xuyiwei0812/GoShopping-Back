@@ -1,21 +1,16 @@
 package com.zjgsu.shopping.controller;
 
-import com.zjgsu.shopping.mapper.BusinessMapper;
-import com.zjgsu.shopping.pojo.Business;
-import com.zjgsu.shopping.pojo.GoodForHistory;
-import com.zjgsu.shopping.pojo.GoodForSale;
+import com.zjgsu.shopping.pojo.Deal;
+import com.zjgsu.shopping.pojo.DealHistory;
+import com.zjgsu.shopping.pojo.Good;
 import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.SellerService;
-import com.zjgsu.shopping.service.impl.SellerServiceImpl;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
 
 //Attention : 增删改查只有查是get
 @Controller
@@ -40,7 +35,9 @@ public class UserContorller {
     @ResponseBody
     @PostMapping("/login")
     public Response<Integer> login(@RequestBody AccountVo accountVo){
+        System.out.println("接收到登录请求");
         Integer response = sellerService.login(accountVo.getAccount(),accountVo.getPassword());
+        System.out.println(response);
         if(response != -1)
             return Response.createSuc(response);
         else
@@ -59,7 +56,7 @@ public class UserContorller {
 
     @ResponseBody
     @PostMapping ("/putOnGood")
-    public Response<Integer> putOnGood(@RequestBody GoodForSale good){
+    public Response<Integer> putOnGood(@RequestBody Good good){
         if(sellerService.putOnGood(good) != null)
             return Response.createSuc(sellerService.putOnGood(good).getGoodId());
         else
@@ -68,7 +65,7 @@ public class UserContorller {
 
     @ResponseBody
     @PostMapping("/putOffGood")
-    public Response<String> putOffGood(@RequestBody GoodForSale good){
+    public Response<String> putOffGood(@RequestBody Good good){
         if(sellerService.putOffGood(good.getGoodId()))
             return Response.createSuc("下架成功");
         else
@@ -77,16 +74,16 @@ public class UserContorller {
 
     @ResponseBody
     @GetMapping("/getAllGoodForSale")
-    public Response<GoodForSaleListVo> getAllGoodForSale(){
-       GoodForSaleListVo goodlist =  sellerService.getAllGoodList();
+    public Response<GoodList> getAllGoodForSale(){
+       GoodList goodlist =  sellerService.getAllGoodList();
        if(goodlist == null) return Response.createErr("查询失败");
        else return Response.createSuc(goodlist);
     }
 
     @ResponseBody
     @PostMapping("/startBusiness")
-    public Response<String> startBusiness(@RequestBody Business business){
-        if(sellerService.startDeal(business))
+    public Response<String> startBusiness(@RequestBody Deal deal){
+        if(sellerService.startDeal(deal))
             return Response.createSuc("交易开始,商品已经冻结");
         else
             return Response.createErr("交易创建失败,请重试");
@@ -94,8 +91,8 @@ public class UserContorller {
 
     @ResponseBody
     @PostMapping("/getGoodForHistoryList")
-    public Response<GoodForHistoryListVo> getGoodForHistoryList(@RequestBody GoodForHistory good){
-        GoodForHistoryListVo li = sellerService.getGoodForHistoryList(good.getGoodId());
+    public Response<DealHistoryList> getGoodForHistoryList(@RequestBody DealHistory good){
+        DealHistoryList li = sellerService.getDealHistoryByGoodId(good.getGoodId());
         if(li == null)
             return Response.createErr("查询失败");
         else

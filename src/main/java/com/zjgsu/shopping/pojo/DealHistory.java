@@ -5,12 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GoodForHistory {
+public class DealHistory {
     /**
      * 商品编号
      * 商品价格
@@ -32,7 +31,7 @@ public class GoodForHistory {
 
 
 
-    public GoodForHistory(Integer goodId, Integer sellerId, String name, String description, Double price, Date dealDate, String phone) {
+    public DealHistory(Integer goodId, Integer sellerId, String name, String description, Double price, Date dealDate, String phone) {
         this.goodId = goodId;
         this.sellerId = sellerId;
         this.name = name;
@@ -41,6 +40,13 @@ public class GoodForHistory {
         this.dealDate = dealDate;
         this.phone = phone;
     }
-
-
+    public DealHistory(Good good,String phone,Date date){
+        this.goodId   = good.getGoodId();
+        this.sellerId = good.getSellerId();
+        this.name     = good.getName();
+        this.description = good.getDescription();
+        this.price = good.getPrice();
+        this.phone = phone;
+        this.dealDate = date;
+    }
 }

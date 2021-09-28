@@ -1,13 +1,11 @@
 package com.zjgsu.shopping.service.impl;
 
-import com.zjgsu.shopping.mapper.BusinessMapper;
 import com.zjgsu.shopping.mapper.BuyerMapper;
-
-import com.zjgsu.shopping.mapper.GoodForSaleMapper;
+import com.zjgsu.shopping.mapper.DealMapper;
+import com.zjgsu.shopping.mapper.GoodMapper;
 import com.zjgsu.shopping.mapper.IntentionMapper;
-import com.zjgsu.shopping.pojo.Business;
 import com.zjgsu.shopping.pojo.Buyer;
-import com.zjgsu.shopping.pojo.GoodForSale;
+import com.zjgsu.shopping.pojo.Good;
 import com.zjgsu.shopping.pojo.Intention;
 import com.zjgsu.shopping.service.BuyerService;
 import org.springframework.stereotype.Service;
@@ -18,13 +16,14 @@ import java.util.List;
 @Service
 public class BuyerServiceImpl implements BuyerService {
     @Resource
-    private BusinessMapper businessMapper;
+    private DealMapper dealMapper;
     @Resource
     private IntentionMapper intentionMapper;
     @Resource
     private BuyerMapper buyerMapper;
     @Resource
-    private GoodForSaleMapper goodForSaleMapper;
+    private GoodMapper goodMapper;
+
 
     @Override
     public Buyer createBuyer(String name, String location, String phone) {
@@ -49,19 +48,18 @@ public class BuyerServiceImpl implements BuyerService {
         return intentionMapper.raiseIntention(intention);
     }
 
-
     @Override
     public Boolean cancelIntention(Integer intentionId) {
         return intentionMapper.cancelIntention(intentionId);
     }
 
     @Override
-    public List<GoodForSale> getUnfrozenGoodForSaleList() {
-        return goodForSaleMapper.getUnfrozenGoodList();
+    public List<Good> getUnfrozenGoodForSaleList() {
+        return  goodMapper.getUnfrozenGoodList();
     }
 
     @Override
-    public List<GoodForSale> getAllGoodList(){
-        return goodForSaleMapper.getAllGoodList();
+    public List<Good> getAllGoodList(){
+        return goodMapper.getAllGoodList();
     }
 }

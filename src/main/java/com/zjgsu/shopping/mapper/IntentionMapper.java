@@ -35,7 +35,7 @@ public interface IntentionMapper {
      * @param goodId 商品Id
      */
     @Select("select * from intention where goodId=#{goodId}")
-    List<Intention> getIntentionList(@Param("goodId")  Integer goodId);
+    List<Intention> getIntentionListByGoodId(@Param("goodId")  Integer goodId);
 
     /**
      * 返回某个意向的具体信息

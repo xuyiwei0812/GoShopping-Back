@@ -1,18 +1,20 @@
 package com.zjgsu.shopping.service;
 
-import com.zjgsu.shopping.pojo.Business;
-import com.zjgsu.shopping.pojo.GoodForHistory;
-import com.zjgsu.shopping.pojo.GoodForSale;
-import com.zjgsu.shopping.pojo.Seller;
-import com.zjgsu.shopping.pojo.vo.*;
+import com.zjgsu.shopping.pojo.*;
+import com.zjgsu.shopping.pojo.vo.DealHistoryList;
+import com.zjgsu.shopping.pojo.vo.GoodList;
+import com.zjgsu.shopping.pojo.vo.IntentionList;
 
 import java.util.Date;
-import java.util.List;
 
-
+/**
+ * 如果是返回list,命名时请 getXXXXlistbyXXX
+ * 如果是返回单个类,请命名  getXXXinfo
+ */
 public interface SellerService {
 
     /**
+     * 注册一个账号
      * @return 注册是否成功
      */
     Seller register(String name,String account,String password,String location ,String phone);
@@ -42,25 +44,17 @@ public interface SellerService {
     /**
      * 查询某一商家的商品
      *
-     * @param sellerId 用户编号
+     * @param sellerId 用户编号-
      * @return 全部代售商品的信息
      */
-    GoodForSaleListVo getGoodFromCertainSellerList(Integer sellerId);
+    GoodList getGoodListBySellerId(Integer sellerId);
 
     /**
      *
      * @return 全部在出售的货物信息
      */
-    GoodForSaleListVo getAllGoodList();
+    GoodList getAllGoodList();
 
-//
-//    /**
-//     * 取得历史商品列表
-//     *
-//     * @param sellerId 用户编号
-//     * @return 全部历史销售商品的信息
-//     */
-//    GoodForHistoryListVo getGoodForHistoryList(Integer sellerId);
 
     /**
      * 取得某一商品的详细信息
@@ -68,15 +62,15 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    GoodForSaleDetailVo getGoodForSaleDetail(Integer goodId);
+    Good getGoodInfo(Integer goodId);
 
     /**
-     * 取得某一历史商品的详细信息
+     * 取得某一商品的历史交易信息列表
      *
      * @param goodId 商品编号
      * @return 某一历史商品的详细信息
      */
-    GoodForHistoryDetailVo getGoodForHistoryDetail(Integer goodId);
+    DealHistoryList getDealHistoryByGoodId(Integer goodId);
 
     /**
      * 取得某一商品的意向购买人列表
@@ -84,49 +78,50 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一商品的意向购买人列表
      */
-    IntentionListVo getIntentionBuyers(Integer goodId);
+    IntentionList getIntentionListByGoodId(Integer goodId);
 
     /**
-     * 取得某一意向购买人的详细信息
+     * 取得某一购买人的详细信息
      *
      * @param buyerId 买家编号
      * @return 意向购买人详细信息
      */
-    IntentionDetailVo getIntentionDetail(Integer buyerId);
+    Buyer getBuyerInfo(Integer buyerId);
 
     /**
      * 开始一场交易
-     *
-
+     *  把交易信息放入数据库之中
      * @return 如果返回商品状态码
      */
      Boolean startDeal(Integer buyerId,Integer sellerId,Integer goodId);
 
-     Boolean startDeal(Business business);
+     Boolean startDeal(Deal deal);
     /**
      * 取消一场交易
      *
-     * @param businessId 交易编号
+     * @param dealId 交易编号
      * @return 取消失败返回-1
      */
-    Boolean cancelDeal(Integer businessId);
+    Boolean cancelDeal(Integer dealId);
 
     /**
      * 完成一场交易
      *
-     * @param businessId 交易编号
+     * @param dealId 交易编号
      * @return 完成失败返回-1
      */
-    Boolean finishDeal(Integer businessId, Date dealDate);
+    Boolean finishDeal(Integer dealId, Date dealDate);
 
     /**
      * 上架一个商品
+     *
+     * 上架成功之后返回整个商品信息
      */
     //GoodForSale putOnGood(String name,String description,Integer price);
 
-    GoodForSale putOnGood(String name, String description, Double price, Integer sellerId);
+    Good putOnGood(String name, String description, Double price, Integer sellerId);
 
-    GoodForSale putOnGood(GoodForSale good);
+    Good putOnGood(Good good);
     /**
      * 下架一个商品
      *
@@ -136,6 +131,7 @@ public interface SellerService {
     Boolean putOffGood(Integer goodId);
 
     /**
+     * 查询这个账号是否存在
      * 有值返回true
      */
     Boolean searchAccount(String account);
@@ -152,10 +148,4 @@ public interface SellerService {
      */
     Boolean exhibitGood(Integer goodId);
 
-
-    /**
-     *
-     * @param goodId 商品id
-     */
-    GoodForHistoryListVo getGoodForHistoryList(Integer goodId);
 }

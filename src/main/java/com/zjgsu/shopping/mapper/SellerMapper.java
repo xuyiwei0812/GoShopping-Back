@@ -1,11 +1,8 @@
 package com.zjgsu.shopping.mapper;
 
-import com.zjgsu.shopping.pojo.Buyer;
-import com.zjgsu.shopping.pojo.GoodForSale;
-import com.zjgsu.shopping.pojo.Seller;
-import com.zjgsu.shopping.pojo.vo.*;
-import org.apache.ibatis.annotations.*;
 
+import com.zjgsu.shopping.pojo.Seller;
+import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 //存放卖家的信息
