@@ -3,10 +3,7 @@ package com.zjgsu.shopping;
 import com.zjgsu.shopping.mapper.BuyerMapper;
 import com.zjgsu.shopping.mapper.IntentionMapper;
 import com.zjgsu.shopping.mapper.SellerMapper;
-import com.zjgsu.shopping.pojo.Buyer;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Intention;
-import com.zjgsu.shopping.pojo.Seller;
+import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.BuyerService;
 import com.zjgsu.shopping.service.SellerService;
@@ -114,6 +111,30 @@ public class GoShoppingBackApplicationTests {
     public void test12() {
         IntentionList li = sellerService.getIntentionListByGoodId(1);
         System.out.println(li);
+    }
+
+    @Test
+    public void test13() {
+        Buyer buyer = sellerService.getBuyerInfo(1);
+        System.out.println(buyer);
+    }
+
+    @Test
+    public void test14(){
+        Deal deal = new Deal(null,1,1,1);
+        Boolean bo = sellerService.startDeal(deal);
+        System.out.println(bo);
+    }
+
+    @Test
+    public void test15(){
+        Date date = new Date();
+        Boolean bo = sellerService.finishDeal(4,date);
+    }
+
+    @Test
+    public void test16(){
+        Boolean bo = sellerService.exhibitGood(1);
     }
 }
 

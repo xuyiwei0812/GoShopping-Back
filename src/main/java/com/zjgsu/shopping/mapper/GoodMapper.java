@@ -83,6 +83,6 @@ public interface GoodMapper {
      * @param goodId 商品id
      */
     @Update("update good set sold = 0 where goodId = #{goodId}")
-    Long exhibitGood(@Param("goodDId") Integer goodId);
+    Long exhibitGood(@Param("goodId") Integer goodId);
 
 }

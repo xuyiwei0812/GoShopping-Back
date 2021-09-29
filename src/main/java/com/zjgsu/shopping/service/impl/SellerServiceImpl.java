@@ -122,7 +122,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean cancelDeal(Integer dealId) {
         goodMapper.unfreezeGood(dealMapper.getDealInfo(dealId).getGoodId());
-        return dealMapper.detelDeal(dealId) > 0;
+        return dealMapper.deleteDeal(dealId) > 0;
     }
 
     @Override
@@ -132,7 +132,7 @@ public class SellerServiceImpl implements SellerService {
         if(goodMapper.soldOutGood(deal.getGoodId())  == 0 )return false;
         dealHistoryMapper.addDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
                 buyerMapper.getBuyerInfo(deal.getBuyerId()).getPhone(),dealDate));
-        return dealMapper.detelDeal(dealId) > 0;
+        return dealMapper.deleteDeal(dealId) > 0;
     }
 
     @Override
