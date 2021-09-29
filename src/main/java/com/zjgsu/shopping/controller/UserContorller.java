@@ -33,7 +33,6 @@ public class UserContorller {
         sellerService.register(seller);
         Integer response = seller.getSellerId();
         return Response.createSuc(response);
-
     }
 
 
