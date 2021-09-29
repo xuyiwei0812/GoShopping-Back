@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @AllArgsConstructor
 class GoodBrief {
     private Integer goodId;
@@ -17,8 +19,10 @@ class GoodBrief {
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodList {
-    List<GoodBrief> goodlist;
+    List<GoodBrief> goodlist = new ArrayList<>();
     public void AddItem(Integer goodId , Double price , String name , String img){
+        GoodBrief good = new GoodBrief(goodId ,price ,name ,img);
+        System.out.println("1234");
         goodlist.add(new GoodBrief(goodId ,price ,name ,img));
     }
 }

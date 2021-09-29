@@ -65,8 +65,12 @@ public class SellerServiceImpl implements SellerService {
         for(Good item :li){
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
+            System.out.println(item);
+            System.out.println(img);
             goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
+            System.out.println("123");
         }
+        System.out.println(goodList);
         return goodList;
     }
 
