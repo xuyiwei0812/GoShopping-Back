@@ -27,6 +27,9 @@ public class UserContorller {
     @PostMapping("/register")
     public Response<Integer> register(@RequestBody Seller seller){
         if(sellerService.searchAccount(seller.getAccount()))return Response.createErr("账号已经存在");
+        if(seller.getPassword().length()<6 || seller.getPassword().length()>12) return Response.createErr("密码长度必须大于等于6位，小于等于12位");
+        String regex="^(?![A-Za-z0-9]+$)(?![a-z0-9\\W]+$)(?![A-Za-z\\W]+$)(?![A-Z0-9\\W]+$)[a-zA-Z0-9\\W]{1,}$";
+        if(seller.getPassword().matches(regex)==false) return Response.createErr("必须至少有1个数字、1个大写字母、1个小写字母和其它字符共同组成");
         sellerService.register(seller);
         Integer response = seller.getSellerId();
         return Response.createSuc(response);
