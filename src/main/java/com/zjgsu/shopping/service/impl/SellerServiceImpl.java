@@ -65,8 +65,12 @@ public class SellerServiceImpl implements SellerService {
         for(Good item :li){
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
+            System.out.println(item);
+            System.out.println(img);
             goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
+            System.out.println("123");
         }
+        System.out.println(goodList);
         return goodList;
     }
 
@@ -118,7 +122,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean cancelDeal(Integer dealId) {
         goodMapper.unfreezeGood(dealMapper.getDealInfo(dealId).getGoodId());
-        return dealMapper.detelDeal(dealId) > 0;
+        return dealMapper.deleteDeal(dealId) > 0;
     }
 
     @Override
@@ -128,7 +132,7 @@ public class SellerServiceImpl implements SellerService {
         if(goodMapper.soldOutGood(deal.getGoodId())  == 0 )return false;
         dealHistoryMapper.addDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
                 buyerMapper.getBuyerInfo(deal.getBuyerId()).getPhone(),dealDate));
-        return dealMapper.detelDeal(dealId) > 0;
+        return dealMapper.deleteDeal(dealId) > 0;
     }
 
     @Override

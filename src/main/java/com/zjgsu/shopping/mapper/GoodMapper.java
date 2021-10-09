@@ -78,11 +78,12 @@ public interface GoodMapper {
     @Update("update good set sold = 1 where goodId = #{goodId}")
     Long soldOutGood(@Param("goodId") Integer goodId);
 
+
     /**
      * 上货
      * @param goodId 商品id
      */
     @Update("update good set sold = 0 where goodId = #{goodId}")
-    Long exhibitGood(@Param("goodDId") Integer goodId);
+    Long exhibitGood(@Param("goodId") Integer goodId);
 
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,7 +20,7 @@ class IntentionBrief{
 @NoArgsConstructor
 
 public class IntentionList {
-    List<IntentionBrief> intentionList;
+    List<IntentionBrief> intentionList= new ArrayList<>();
     public void AddItem(Integer intentionId, Integer buyerId , Integer goodId){
         intentionList.add(new IntentionBrief(intentionId,buyerId,goodId));
     }
