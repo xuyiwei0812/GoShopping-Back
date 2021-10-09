@@ -3,6 +3,7 @@ package com.zjgsu.shopping.service;
 import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.DealHistoryList;
 import com.zjgsu.shopping.pojo.vo.GoodList;
+import com.zjgsu.shopping.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.pojo.vo.IntentionList;
 
 import java.util.Date;
@@ -55,14 +56,24 @@ public interface SellerService {
      */
     GoodList getAllGoodList();
 
+    /**
+     *
+     * @return 返回全部的历史交易信息
+     */
+    DealHistoryList getAllDealHistoryList();
 
+    /**
+     *
+     * @return 返回某个卖家的历史商品信息
+     */
+    DealHistoryList getDealHistoryListBySellerId(Integer sellerId);
     /**
      * 取得某一商品的详细信息
      *
      * @param goodId 商品编号
      * @return  某一商品的详细信息
      */
-    Good getGoodInfo(Integer goodId);
+    GoodwithImg getGoodInfo(Integer goodId);
 
     /**
      * 取得某一商品的历史交易信息列表

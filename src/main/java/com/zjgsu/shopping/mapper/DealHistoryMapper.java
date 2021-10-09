@@ -21,19 +21,22 @@ public interface DealHistoryMapper {
     Boolean addDealHsitory(@Param("deal") DealHistory deal);
 
 
-//
-//    /**
-//     * 查询某一卖家的历史商品
-//     *
-//     * @param sellerId 商品id
-//     */
-//
-//    @Select("select * from deal where sellerId =#{sellerId}")
-//    List<GoodForHistory> getGoodList(@Param("sellerId") Integer sellerId);
+
+    /**
+     * 查询某一卖家的历史商品
+     *
+     * @param sellerId 商品id
+     */
+
+    @Select("select * from dealhistory where sellerId =#{sellerId}")
+    List<DealHistory> getDealHistoryListBySellerId(@Param("sellerId") Integer sellerId);
 
     /**
      * 获得一个商品的历史出售信息
      */
-    @Select("select * from deal where goodId =#{goodId}")
+    @Select("select * from dealhistory where goodId =#{goodId}")
     List<DealHistory> getDealHistoryListByGoodId(@Param("goodId") Integer goodId);
+
+    @Select("select * from dealhistory")
+    List<DealHistory> getAllDealHistoryList();
 }

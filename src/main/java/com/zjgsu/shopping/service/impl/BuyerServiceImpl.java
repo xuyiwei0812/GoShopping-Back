@@ -1,12 +1,9 @@
 package com.zjgsu.shopping.service.impl;
 
-import com.zjgsu.shopping.mapper.BuyerMapper;
-import com.zjgsu.shopping.mapper.DealMapper;
-import com.zjgsu.shopping.mapper.GoodMapper;
-import com.zjgsu.shopping.mapper.IntentionMapper;
-import com.zjgsu.shopping.pojo.Buyer;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Intention;
+import com.zjgsu.shopping.mapper.*;
+import com.zjgsu.shopping.pojo.*;
+import com.zjgsu.shopping.pojo.vo.DealHistoryList;
+import com.zjgsu.shopping.pojo.vo.GoodList;
 import com.zjgsu.shopping.service.BuyerService;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +20,10 @@ public class BuyerServiceImpl implements BuyerService {
     private BuyerMapper buyerMapper;
     @Resource
     private GoodMapper goodMapper;
-
+    @Resource
+    private GoodImagineMapper goodImagineMapper;
+    @Resource
+    private DealHistoryMapper dealHistoryMapper;
 
     @Override
     public Buyer createBuyer(String name, String location, String phone) {
@@ -59,7 +59,28 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public List<Good> getAllGoodList(){
-        return goodMapper.getAllGoodList();
+    public GoodList getAllGoodList() {
+        List<Good> li = goodMapper.getAllGoodList();
+        GoodList goodList = new GoodList();
+        for(Good item :li){
+            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
+        }
+        return goodList;
     }
+
+    @Override
+    public GoodList getGoodListBySellerId(Integer sellerId) {
+        List<Good> li = goodMapper.getGoodListBySellerId(sellerId);
+        GoodList goodList = new GoodList();
+        for(Good item :li){
+            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
+        }
+        return goodList;
+    }
+
+
 }

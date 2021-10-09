@@ -16,4 +16,10 @@ public class Response<T> {
     public static <T> Response<T> createErr (String msg) {
         return new Response<> (- 1,msg,null);
     }
+    public static <T> Response<T> response(T o,String msg){
+        if(o == null)
+            return new Response<> ( -1 ,msg,null);
+        else
+            return new Response<>(0,null,o);
+    }
 }

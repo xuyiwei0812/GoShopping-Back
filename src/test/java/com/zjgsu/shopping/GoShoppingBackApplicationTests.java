@@ -91,7 +91,7 @@ public class GoShoppingBackApplicationTests {
 
     @Test
     public void test8() {
-        GoodList list = sellerService.getAllGoodList();
+        GoodList list = buyerService.getAllGoodList();
         System.out.println(list);
     }
 
@@ -101,11 +101,11 @@ public class GoShoppingBackApplicationTests {
         System.out.println(list);
     }
 
-    @Test
-    public void test10() {
-        Good detail = sellerService.getGoodInfo(1);
-        System.out.println(detail);
-    }
+//    @Test
+//    public void test10() {
+//        Good detail = sellerService.getGoodInfo(1);
+//        System.out.println(detail);
+//    }
 
     @Test
     public void test12() {

@@ -60,23 +60,37 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public GoodList getAllGoodList() {
-        List<Good> li = goodMapper.getAllGoodList();
-        GoodList goodList = new GoodList();
-        for(Good item :li){
+        return null;
+    }
+
+
+    @Override
+    public DealHistoryList getAllDealHistoryList() {
+        List<DealHistory> li = dealHistoryMapper.getAllDealHistoryList();
+        DealHistoryList dealHistoryList = new DealHistoryList();
+        for(DealHistory item : li){
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
-            System.out.println(item);
-            System.out.println(img);
-            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
-            System.out.println("123");
+            dealHistoryList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),item.getDealDate(),img);
         }
-        System.out.println(goodList);
-        return goodList;
+        return dealHistoryList;
     }
 
     @Override
-    public Good getGoodInfo(Integer goodId) {
-        return goodMapper.getGoodInfo(goodId);
+    public DealHistoryList getDealHistoryListBySellerId(Integer sellerId) {
+        List<DealHistory> li = dealHistoryMapper.getDealHistoryListBySellerId(sellerId);
+        DealHistoryList dealHistoryList = new DealHistoryList();
+        for(DealHistory item :li){
+            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            dealHistoryList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),item.getDealDate(),img);
+        }
+        return dealHistoryList;
+    }
+
+    @Override
+    public GoodwithImg getGoodInfo(Integer goodId) {
+        return new GoodwithImg(goodMapper.getGoodInfo(goodId),goodImagineMapper.getImagine(goodId));
     }
 
     @Override
