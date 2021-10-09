@@ -40,8 +40,10 @@ public class UserContorller {
     @PostMapping("/login")
     public Response<Integer> login(@RequestBody AccountVo accountVo){
         System.out.println("接收到登录请求");
+        System.out.println(accountVo);
         Integer response = sellerService.login(accountVo.getAccount(),accountVo.getPassword());
         System.out.println(response);
+
         if(response != -1)
             return Response.createSuc(response);
         else
@@ -102,6 +104,15 @@ public class UserContorller {
         else
             return Response.createSuc(li);
 
+    }
+    @ResponseBody
+    @PostMapping("/getGoodInfo")
+    public Response<Good> getGoodInfo(@RequestBody Good good){
+        Good re = sellerService.getGoodInfo(good.getGoodId());
+        if(re == null)
+            return Response.createErr("查询失败");
+        else
+            return Response.createSuc(re);
     }
 
 

@@ -26,7 +26,7 @@ public class GoShoppingBackApplicationTests {
     SellerService sellerService;
     @Test
     public void test(){
-        Seller seller = new Seller(null,"lyy","1912190524","lyy","浙江上虞","1234567");
+        Seller seller = new Seller(null,"lyy","111","222","浙江上虞","1234567");
         sellerService.register(seller);
         System.out.println(seller.getSellerId());
         System.out.println(seller);
