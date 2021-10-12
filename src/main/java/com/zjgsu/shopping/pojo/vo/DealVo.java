@@ -1,24 +1,16 @@
-package com.zjgsu.shopping.pojo;
+package com.zjgsu.shopping.pojo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Deal {
-    /**
-     * 交易编号
-     *
-     * 买家编号
-     * 卖家编号
-     * 商品编号
-     * Business(null,buyerId,sellerId,goodId)
-     */
+@NoArgsConstructor
+public class DealVo {
+    private Integer intentionId;
     private Integer dealId;
     private Integer buyerId;
     private Integer sellerId;
     private Integer goodId;
-
 }

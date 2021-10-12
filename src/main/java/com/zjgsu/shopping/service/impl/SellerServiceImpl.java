@@ -49,6 +49,13 @@ public class SellerServiceImpl implements SellerService {
         return sellerMapper.updatePassword(sellerId,password);
     }
 
+
+    @Override
+    public Boolean checkPassword(Integer sellerId , String password){
+        Seller seller = sellerMapper.getInfo(sellerId);
+        return Objects.equals(seller.getPassword(), password);
+    }
+
     @Override
     public GoodList getGoodListBySellerId(Integer sellerId) {
         List<Good> li = goodMapper.getGoodListBySellerId(sellerId);
@@ -132,6 +139,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean startDeal(Deal deal) {
         goodMapper.freezeGood(deal.getGoodId());
+//        intentionMapper.cancelIntention(deal.)
         return dealMapper.startDeal(deal);
     }
 
@@ -144,9 +152,9 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean finishDeal(Integer dealId, Date dealDate) {
+        if(goodMapper.soldOutGood(dealId)  == 0 )return false;
         Deal deal = dealMapper.getDealInfo(dealId);
         goodMapper.unfreezeGood(deal.getGoodId());
-        if(goodMapper.soldOutGood(deal.getGoodId())  == 0 )return false;
         dealHistoryMapper.addDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
                 buyerMapper.getBuyerInfo(deal.getBuyerId()).getPhone(),dealDate));
         return dealMapper.deleteDeal(dealId) > 0;
@@ -159,6 +167,8 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Good putOnGood(Good good) {
+        good.setSold(false);
+        good.setFrozen(false);
         if(goodMapper.putOnGood(good) == null)
             return null;
         return good;
@@ -176,6 +186,12 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean updateInfo(Seller seller) {
+        Seller oldSeller = sellerMapper.getInfo(seller.getSellerId());
+        if(seller.getAccount() == null) seller.setAccount(oldSeller.getAccount());
+        seller.setPassword(oldSeller.getPassword());
+        if(seller.getName() == null) seller.setName(oldSeller.getName());
+        if(seller.getLocation() == null) seller.setLocation(oldSeller.getLocation());
+        if(seller.getPhone() == null) seller.setPhone(oldSeller.getPhone());
         return sellerMapper.updateInfo(seller) > 0 ;
     }
 

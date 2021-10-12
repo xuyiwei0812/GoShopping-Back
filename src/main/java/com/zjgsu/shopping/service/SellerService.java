@@ -42,6 +42,7 @@ public interface SellerService {
      */
     Long updatePassword(Integer sellerId,String password,String newPassword);
 
+    Boolean checkPassword(Integer sellerId , String password);
     /**
      * 查询某一商家的商品
      *
