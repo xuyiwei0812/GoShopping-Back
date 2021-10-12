@@ -1,9 +1,6 @@
 package com.zjgsu.shopping.controller;
 
-import com.zjgsu.shopping.pojo.Deal;
-import com.zjgsu.shopping.pojo.DealHistory;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Seller;
+import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.BuyerService;
 import com.zjgsu.shopping.service.SellerService;
@@ -149,6 +146,37 @@ public class UserContorller {
         else
             return Response.createSuc(li);
     }
+
+    @ResponseBody
+    @PostMapping("/updatePassword")
+    public Response<Long> updatePassword(@RequestBody AccountVo accountVo){
+        System.out.println("收到一个修改密码的请求");
+        Long re = sellerService.updatePassword(accountVo.getUserId(),accountVo.getPassword(),accountVo.getNewPassword());
+        if(re == -2)return Response.createErr("密码错误");
+        else if(re == 0)return Response.createErr("无此账号");
+        else return Response.createSuc(re);
+    }
+    @ResponseBody
+    @GetMapping("/setBuyerInfo")
+    public Response<Buyer> setBuyerInfo(@Param("name") String name ,@Param("location") String location ,@Param("phone") String phone){
+        Buyer buyer = buyerService.createBuyer(name,location,phone);
+        if(buyer == null) return Response.createErr("创建账号失败");
+        else return Response.createSuc(buyer);
+    }
+
+
+    @ResponseBody
+    @PostMapping("/getIntentionListByGoodId")
+    public Response<IntentionList> getIntentionListByGoodId(@RequestBody Good good){
+        System.out.println("收到查询商品意向购买人的请求");
+        if(good.getGoodId() == null) return Response.createErr("参数错误");
+        System.out.println("商品id为" + good.getGoodId().toString());
+        IntentionList li = sellerService.getIntentionListByGoodId(good.getGoodId());
+        if(li == null) return Response.createErr("查询失败");
+        else return Response.createSuc(li);
+    }
+
+
 
     @ResponseBody
     @GetMapping("/test")

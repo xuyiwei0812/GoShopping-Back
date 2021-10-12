@@ -40,7 +40,7 @@ public interface SellerService {
      * @param sellerId 用户编号
      * @return 是否更新成功
      */
-    Boolean updatePassword(Integer sellerId,String password);
+    Long updatePassword(Integer sellerId,String password,String newPassword);
 
     /**
      * 查询某一商家的商品

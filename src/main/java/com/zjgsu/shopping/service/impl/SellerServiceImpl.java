@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 // 注意: 只有在查询简短brief的时候会返回带图片,查询具体信息的时候
 @Service
@@ -42,8 +43,10 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Boolean updatePassword(Integer sellerId, String password) {
-        return sellerMapper.updatePassword(sellerId,password) > 0;
+    public Long updatePassword(Integer sellerId, String password ,String newPassword) {
+        Seller seller = sellerMapper.getInfo(sellerId);
+        if(!Objects.equals(seller.getPassword(), password)) return (long) -2;
+        return sellerMapper.updatePassword(sellerId,password);
     }
 
     @Override

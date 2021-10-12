@@ -83,11 +83,11 @@ public class GoShoppingBackApplicationTests {
         System.out.println(n);
     }
 
-    @Test
-    public void test7() {
-        Boolean bo = sellerService.updatePassword(8, "12345");
-        System.out.println(bo);
-    }
+//    @Test
+//    public void test7() {
+//        Boolean bo = sellerService.updatePassword(8, "12345");
+//        System.out.println(bo);
+//    }
 
     @Test
     public void test8() {
