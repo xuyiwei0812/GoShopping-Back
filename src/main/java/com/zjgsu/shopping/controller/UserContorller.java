@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.controller;
 
+import com.zjgsu.shopping.mapper.IntentionMapper;
 import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.BuyerService;
@@ -157,11 +158,13 @@ public class UserContorller {
         else return Response.createSuc(re);
     }
     @ResponseBody
-    @GetMapping("/setBuyerInfo")
-    public Response<Buyer> setBuyerInfo(@Param("name") String name ,@Param("location") String location ,@Param("phone") String phone){
+    @GetMapping("/raiseIntention")
+    public Response<Buyer> raiseIntention(@Param("goodId")Integer goodId,@Param("name") String name ,@Param("location") String location ,@Param("phone") String phone){
         Buyer buyer = buyerService.createBuyer(name,location,phone);
         if(buyer == null) return Response.createErr("创建账号失败");
-        else return Response.createSuc(buyer);
+        if(buyerService.raiseIntention(buyer.getBuyerId(),goodId))
+        return Response.createSuc(buyer);
+        else return Response.createErr("意向添加失败");
     }
 
 
@@ -175,6 +178,8 @@ public class UserContorller {
         if(li == null) return Response.createErr("查询失败");
         else return Response.createSuc(li);
     }
+
+
 
 
 
