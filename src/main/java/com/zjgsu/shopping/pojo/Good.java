@@ -1,8 +1,12 @@
 package com.zjgsu.shopping.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Good {
     /**
      * 商品编号(自增)
@@ -20,16 +24,6 @@ public class Good {
     private String description;
     private Boolean frozen;
     private Boolean sold;
+    private Boolean wanted;
 
-    public Good(Integer goodId, Integer sellerId, Double price, String name, String description, Boolean frozen,Boolean sold) {
-        this.price = price;
-        this.name = name;
-        this.description = description;
-        this.sellerId = sellerId;
-        this.frozen = false;
-        this.sold = false;
-    }
-
-    public Good() {
-    }
 }

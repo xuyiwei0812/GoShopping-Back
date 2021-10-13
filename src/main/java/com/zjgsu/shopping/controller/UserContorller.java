@@ -372,18 +372,34 @@ public class UserContorller {
         else
             return Response.createErr("商品补货失败");
     }
-//
+
+    /**
+     *
+     * 通过买家id查询买家的具体信息
+     * @param buyer xx
+     * buyer.id 买家id
+     * @return 成功返回具体信息,失败....
+     */
+    @ResponseBody
+    @PostMapping("/getBuyerInfo")
+    public Response<Buyer> getBuyerInfo(@RequestBody Buyer buyer){
+        buyer = sellerService.getBuyerInfo(buyer.getBuyerId());
+        if(buyer == null)
+            return Response.createErr("查询失败");
+        else
+            return Response.createSuc(buyer);
+    }
 //    @ResponseBody
 //    @PostMapping("/getDealByGoodId")
 //    public Response<Deal>
-
-
-
-
-    @ResponseBody
-    @GetMapping("/test")
-    public int test(@Param("x") int x){
-        return x + 1;
-    }
+//
+//
+//
+//
+//    @ResponseBody
+//    @GetMapping("/test")
+//    public int test(@Param("x") int x){
+//        return x + 1;
+//    }
 
 }

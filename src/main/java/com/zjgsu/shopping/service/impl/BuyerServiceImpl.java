@@ -41,17 +41,22 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public Boolean raiseIntention(Integer buyerId, Integer goodId) {
         Intention intention = new Intention(null,buyerId,goodId,new Date());
+        goodMapper.setGoodWant(goodId);
         return intentionMapper.raiseIntention(intention);
     }
 
     @Override
     public Boolean raiseIntention(Intention intention) {
+        goodMapper.setGoodWant(intention.getGoodId());
         return intentionMapper.raiseIntention(intention);
     }
 
     @Override
     public Boolean cancelIntention(Integer intentionId) {
-        return intentionMapper.cancelIntention(intentionId);
+        Intention intention = intentionMapper.getIntentionInfo(intentionId);
+        if(!intentionMapper.cancelIntention(intentionId)) return false;
+        if(intentionMapper.getIntentionListByGoodId(intention.getGoodId()).isEmpty()) goodMapper.cancelGoodWant(intention.getGoodId());
+        return true;
     }
 
     @Override

@@ -69,16 +69,8 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public GoodList getWantedGoodListBySellerId(Integer sellerId) {
-        List<Intention> intention = intentionMapper.getIntentionListBySellerId(sellerId);
-        Set<Integer> set = new HashSet<>();
-        for(Intention item : intention)
-            set.add(item.getGoodId());
-        List<Good> li = new ArrayList<>();
-        Iterator<Integer> it = set.iterator();
+        List<Good> li = goodMapper.getWantedGoodListBySellerId(sellerId);
         GoodList goodList = new GoodList();
-        while (it.hasNext()) {
-            li.add(goodMapper.getGoodInfo( it.next()));
-        }
         for(Good item :li){
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
@@ -138,9 +130,11 @@ public class SellerServiceImpl implements SellerService {
     public IntentionList getIntentionListByGoodId(Integer goodId) {
         List<Intention> li = intentionMapper.getIntentionListByGoodId(goodId);
         IntentionList intentionList = new IntentionList();
+
         for(Intention item :li){
             intentionList.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId(),item.getDate(), buyerMapper.getBuyerInfo(item.getBuyerId()).getName());
         }
+        System.out.println(intentionList);
         return intentionList;
     }
 
@@ -158,7 +152,6 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean startDeal(Deal deal) {
         goodMapper.freezeGood(deal.getGoodId());
-//        intentionMapper.cancelIntention(deal.)
         return dealMapper.startDeal(deal);
     }
 
@@ -188,6 +181,7 @@ public class SellerServiceImpl implements SellerService {
     public Good putOnGood(Good good) {
         good.setSold(false);
         good.setFrozen(false);
+        good.setWanted(false);
         if(goodMapper.putOnGood(good) == null)
             return null;
         return good;

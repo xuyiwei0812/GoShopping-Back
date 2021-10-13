@@ -14,8 +14,8 @@ public interface GoodMapper {
      * @return 失败返回-1
      */
     @Options(useGeneratedKeys = true , keyProperty = "good.goodId" , keyColumn = "goodId")
-    @Insert("insert into good (name,description,price,frozen,sellerId) values( " +
-            "#{good.name},#{good.description} , #{good.price} , #{good.frozen}, #{good.sellerId} )")
+    @Insert("insert into good (name,description,price,frozen,sellerId,wanted) values( " +
+            "#{good.name},#{good.description} , #{good.price} , #{good.frozen}, #{good.sellerId} , #{good.wanted} )")
     Boolean putOnGood(@Param("good") Good good);
 
     /**
@@ -45,6 +45,11 @@ public interface GoodMapper {
     @Update("update good set frozen = 0 where goodId = #{goodId}")
     Long unfreezeGood(@Param("goodId") Integer goodId);
 
+    @Update("update good set wanted = 1 where goodId = #{goodId}")
+    Long setGoodWant(@Param("goodId") Integer goodId);
+
+    @Update("update good set wanted = 0 where goodId = #{goodId}")
+    Long cancelGoodWant(@Param("goodId") Integer goodId);
     /**
      * 得到一个商品的信息
      *
@@ -63,6 +68,8 @@ public interface GoodMapper {
     @Select("select * from good where sellerId =#{sellerId}")
     List<Good> getGoodListBySellerId(@Param("sellerId") Integer sellerId);
 
+    @Select("select * from good where sellerId =#{sellerId} && wanted = 1")
+    List<Good> getWantedGoodListBySellerId(@Param("sellerId" )Integer sellerId);
 
     @Select("select * from good where frozen = 0")
     List<Good> getUnfrozenGoodList();
