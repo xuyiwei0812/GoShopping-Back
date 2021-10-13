@@ -8,6 +8,7 @@ import com.zjgsu.shopping.service.BuyerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,7 +40,7 @@ public class BuyerServiceImpl implements BuyerService {
     //添加一个意向
     @Override
     public Boolean raiseIntention(Integer buyerId, Integer goodId) {
-        Intention intention = new Intention(null,buyerId,goodId);
+        Intention intention = new Intention(null,buyerId,goodId,new Date());
         return intentionMapper.raiseIntention(intention);
     }
 
@@ -65,7 +66,7 @@ public class BuyerServiceImpl implements BuyerService {
         for(Good item :li){
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
+            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img,item.getDescription(),item.getFrozen(),item.getSold());
         }
         return goodList;
     }
@@ -77,7 +78,7 @@ public class BuyerServiceImpl implements BuyerService {
         for(Good item :li){
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
+            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img,item.getDescription(),item.getFrozen(),item.getSold());
         }
         return goodList;
     }

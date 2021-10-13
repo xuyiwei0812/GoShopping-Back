@@ -5,13 +5,12 @@ import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.Deal;
 import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.SellerService;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import javax.swing.text.html.HTMLDocument;
+import java.util.*;
 
 // 注意: 只有在查询简短brief的时候会返回带图片,查询具体信息的时候
 @Service
@@ -63,7 +62,27 @@ public class SellerServiceImpl implements SellerService {
         for(Good item :li){
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img);
+            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img,item.getDescription(),item.getFrozen(),item.getSold());
+        }
+        return goodList;
+    }
+
+    @Override
+    public GoodList getWantedGoodListBySellerId(Integer sellerId) {
+        List<Intention> intention = intentionMapper.getIntentionListBySellerId(sellerId);
+        Set<Integer> set = new HashSet<>();
+        for(Intention item : intention)
+            set.add(item.getGoodId());
+        List<Good> li = new ArrayList<>();
+        Iterator<Integer> it = set.iterator();
+        GoodList goodList = new GoodList();
+        while (it.hasNext()) {
+            li.add(goodMapper.getGoodInfo( it.next()));
+        }
+        for(Good item :li){
+            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            goodList.AddItem(item.getGoodId(),item.getPrice(),item.getName(),img,item.getDescription(),item.getFrozen(),item.getSold());
         }
         return goodList;
     }
@@ -120,7 +139,7 @@ public class SellerServiceImpl implements SellerService {
         List<Intention> li = intentionMapper.getIntentionListByGoodId(goodId);
         IntentionList intentionList = new IntentionList();
         for(Intention item :li){
-            intentionList.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId());
+            intentionList.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId(),item.getDate(), buyerMapper.getBuyerInfo(item.getBuyerId()).getName());
         }
         return intentionList;
     }

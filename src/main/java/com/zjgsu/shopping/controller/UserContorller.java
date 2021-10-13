@@ -198,14 +198,29 @@ public class UserContorller {
 
     /**
      * 通过卖家id取得卖家全部商品
-     * @param sellerId 卖家id
+     * @param seller 卖家id
      * @return 成功返回商品列表,失败....
      */
+//    @ResponseBody
+//    @GetMapping("/getGoodListBySellerId")
     @ResponseBody
-    @GetMapping("/getGoodListBySellerId")
-    public Response<GoodList> getGoodListBySellerId(@Param("sellerId") Integer sellerId){
+    @PostMapping("/getGoodListBySellerId")
+    public Response<GoodList> getGoodListBySellerId(@RequestBody Seller seller){
         System.out.println("收到对于特定卖家商品信息的查询");
-        GoodList li = buyerService.getGoodListBySellerId(sellerId);
+        GoodList li = sellerService.getGoodListBySellerId(seller.getSellerId());
+
+        if(li == null)
+            return Response.createErr("查询失败");
+        else
+            return Response.createSuc(li);
+    }
+
+    @ResponseBody
+    @PostMapping("/getWantedGoodListBySellerId")
+    public Response<GoodList> getWantedGoodListBySellerId(@RequestBody Seller seller){
+        System.out.println("收到对于有意向购买人的卖家商品信息");
+        GoodList li = sellerService.getWantedGoodListBySellerId(seller.getSellerId());
+
         if(li == null)
             return Response.createErr("查询失败");
         else
@@ -247,7 +262,7 @@ public class UserContorller {
     }
 
     @ResponseBody
-    @PostMapping("/checkPasswprd")
+    @PostMapping("/checkPassword")
     public Response<Object> checkPassword(@RequestBody AccountVo accountVo){
         if(sellerService.checkPassword(accountVo.getUserId(),accountVo.getPassword()))return Response.createSuc(null);
         else return Response.createErr("密码不正确");
@@ -357,11 +372,18 @@ public class UserContorller {
         else
             return Response.createErr("商品补货失败");
     }
-
+//
 //    @ResponseBody
-//    @GetMapping("/test")
-//    public int test(@Param("x") int x){
-//        return x + 1;
-//    }
+//    @PostMapping("/getDealByGoodId")
+//    public Response<Deal>
+
+
+
+
+    @ResponseBody
+    @GetMapping("/test")
+    public int test(@Param("x") int x){
+        return x + 1;
+    }
 
 }

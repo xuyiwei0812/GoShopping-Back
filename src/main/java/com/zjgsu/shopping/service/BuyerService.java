@@ -6,6 +6,7 @@ import com.zjgsu.shopping.pojo.Intention;
 import com.zjgsu.shopping.pojo.vo.DealHistoryList;
 import com.zjgsu.shopping.pojo.vo.GoodList;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BuyerService {

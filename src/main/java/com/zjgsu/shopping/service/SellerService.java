@@ -52,6 +52,11 @@ public interface SellerService {
     GoodList getGoodListBySellerId(Integer sellerId);
 
     /**
+     * 通过商家id 查询有意向购买人的商品
+     * @param sellerId 商品id
+     */
+    GoodList getWantedGoodListBySellerId(Integer sellerId);
+    /**
      *
      * @return 全部在出售的货物信息
      */
@@ -91,6 +96,14 @@ public interface SellerService {
      * @return 某一商品的意向购买人列表
      */
     IntentionList getIntentionListByGoodId(Integer goodId);
+
+//    /**
+//     *
+//     * @param sellerId
+//     * @return
+//     */
+//    IntentionList getIntentionListBySellerId(Integer sellerId);
+
 
     /**
      * 取得某一购买人的详细信息

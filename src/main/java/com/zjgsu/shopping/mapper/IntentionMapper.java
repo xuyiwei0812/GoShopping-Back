@@ -16,7 +16,7 @@ public interface IntentionMapper {
      */
     @Options(useGeneratedKeys = true, keyProperty = "intention.intentionId", keyColumn = "intentionId")
     @Insert("insert into intention (buyerId , goodId) values (#{intention.buyerId}," +
-            "#{intention.goodId})")
+            "#{intention.goodId},#{intention.date})")
     Boolean raiseIntention(@Param("intention") Intention intention);
 
     /**
@@ -44,4 +44,12 @@ public interface IntentionMapper {
      */
     @Select("select * from intention where intentionId=#{intentionId}")
     Intention getIntentionInfo(@Param("intentionId")  Integer intentionId);
+
+    /**
+     * 通过商家id查询购买意向
+     * @return list
+     * @param sellerId xx
+     */
+    @Select("select * from intention where sellerId=#{sellerId}")
+    List<Intention> getIntentionListBySellerId(@Param("sellerId")Integer sellerId);
 }
