@@ -27,6 +27,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Seller register(String name, String account, String password, String location, String phone) {
         Seller seller = new Seller(null,name,account,password,location,phone);
+        System.out.println(seller);
         return (sellerMapper.register(seller) ? seller : null);
     }
 
@@ -45,7 +46,7 @@ public class SellerServiceImpl implements SellerService {
     public Long updatePassword(Integer sellerId, String password ,String newPassword) {
         Seller seller = sellerMapper.getInfo(sellerId);
         if(!Objects.equals(seller.getPassword(), password)) return (long) -2;
-        return sellerMapper.updatePassword(sellerId,password);
+        return sellerMapper.updatePassword(sellerId,newPassword);
     }
 
 

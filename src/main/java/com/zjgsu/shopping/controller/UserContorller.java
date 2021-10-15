@@ -63,7 +63,6 @@ public class UserContorller {
         System.out.println(accountVo);
         Integer response = sellerService.login(accountVo.getAccount(),accountVo.getPassword());
         System.out.println(response);
-
         if(response != -1)
             return Response.createSuc(response);
         else
@@ -255,6 +254,7 @@ public class UserContorller {
     @PostMapping("/updatePassword")
     public Response<Object> updatePassword(@RequestBody AccountVo accountVo){
         System.out.println("收到一个修改密码的请求");
+        System.out.println(accountVo);
         Long re = sellerService.updatePassword(accountVo.getUserId(),accountVo.getPassword(),accountVo.getNewPassword());
         if(re == -2)return Response.createErr("密码错误");
         else if(re == 0)return Response.createErr("无此账号");
@@ -264,8 +264,15 @@ public class UserContorller {
     @ResponseBody
     @PostMapping("/checkPassword")
     public Response<Object> checkPassword(@RequestBody AccountVo accountVo){
-        if(sellerService.checkPassword(accountVo.getUserId(),accountVo.getPassword()))return Response.createSuc(null);
-        else return Response.createErr("密码不正确");
+        System.out.print("收到检验密码正确性的请求 ");
+        System.out.println(accountVo);
+        if(sellerService.checkPassword(accountVo.getUserId(),accountVo.getPassword())){
+            return Response.createSuc(null);
+        }
+        else {
+            return Response.createErr("密码不正确");
+        }
+
     }
 
     /**
@@ -280,6 +287,7 @@ public class UserContorller {
     @ResponseBody
     @PostMapping("/uploadBuyerInfo")
     public Response<Integer> uploadBuyerInfo(@RequestBody Buyer buyer){
+        System.out.println("收到一个添加买家的请求 :"+ buyer);
         if(buyerService.createBuyer(buyer) == null)
             return Response.createErr("登录买家信息失败");
         else
@@ -297,6 +305,7 @@ public class UserContorller {
     @ResponseBody
     @PostMapping("/raiseIntention")
     public Response<Integer> raiseIntention(@RequestBody Intention intention){
+        System.out.println("收到一个添加意向的请求");
         if(buyerService.raiseIntention(intention.getBuyerId(),intention.getGoodId()))
         return Response.createSuc(intention.getIntentionId());
         else return Response.createErr("意向添加失败");

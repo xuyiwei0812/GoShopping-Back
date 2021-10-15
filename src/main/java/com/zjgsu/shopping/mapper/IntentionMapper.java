@@ -15,7 +15,7 @@ public interface IntentionMapper {
      * @return 提出失败返回-1
      */
     @Options(useGeneratedKeys = true, keyProperty = "intention.intentionId", keyColumn = "intentionId")
-    @Insert("insert into intention (buyerId , goodId) values (#{intention.buyerId}," +
+    @Insert("insert into intention (buyerId,goodId,date) values (#{intention.buyerId}," +
             "#{intention.goodId},#{intention.date})")
     Boolean raiseIntention(@Param("intention") Intention intention);
 

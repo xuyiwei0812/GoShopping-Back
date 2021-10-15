@@ -42,6 +42,7 @@ public class BuyerServiceImpl implements BuyerService {
     public Boolean raiseIntention(Integer buyerId, Integer goodId) {
         Intention intention = new Intention(null,buyerId,goodId,new Date());
         goodMapper.setGoodWant(goodId);
+        System.out.println(intention);
         return intentionMapper.raiseIntention(intention);
     }
 
