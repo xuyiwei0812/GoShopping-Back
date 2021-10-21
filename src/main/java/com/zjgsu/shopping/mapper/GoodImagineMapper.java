@@ -16,7 +16,7 @@ public interface GoodImagineMapper {
     @Options(useGeneratedKeys = true, keyProperty = "goodImagine.imagineId", keyColumn = "imagineId")
     @Insert("insert into goodimagine(goodId,imagine) values (#{goodImagine.goodId}," +
             "#{goodImagine.imagine})")
-    Boolean addImagine(@Param("goodImagine")GoodImagine goodImagine);
+    Boolean addImagine(@Param("goodImagine") GoodImagine goodImagine);
 
     /**
      * 删除一张图片

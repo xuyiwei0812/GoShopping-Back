@@ -13,7 +13,7 @@ public interface GoodMapper {
      * @param good 整个商品信息
      * @return 失败返回-1
      */
-    @Options(useGeneratedKeys = true , keyProperty = "good.goodId" , keyColumn = "goodId")
+    @Options(useGeneratedKeys = true, keyProperty = "good.goodId", keyColumn = "goodId")
     @Insert("insert into good (name,description,price,frozen,sellerId,wanted) values( " +
             "#{good.name},#{good.description} , #{good.price} , #{good.frozen}, #{good.sellerId} , #{good.wanted} )")
     Boolean putOnGood(@Param("good") Good good);
@@ -50,6 +50,7 @@ public interface GoodMapper {
 
     @Update("update good set wanted = 0 where goodId = #{goodId}")
     Long cancelGoodWant(@Param("goodId") Integer goodId);
+
     /**
      * 得到一个商品的信息
      *
@@ -69,7 +70,7 @@ public interface GoodMapper {
     List<Good> getGoodListBySellerId(@Param("sellerId") Integer sellerId);
 
     @Select("select * from good where sellerId =#{sellerId} && wanted = 1")
-    List<Good> getWantedGoodListBySellerId(@Param("sellerId" )Integer sellerId);
+    List<Good> getWantedGoodListBySellerId(@Param("sellerId") Integer sellerId);
 
     @Select("select * from good where frozen = 0")
     List<Good> getUnfrozenGoodList();
@@ -78,7 +79,6 @@ public interface GoodMapper {
     List<Good> getAllGoodList();
 
     /**
-     *
      * @param goodId 商品id
      * @return 选择已经卖光的商品
      */
@@ -88,6 +88,7 @@ public interface GoodMapper {
 
     /**
      * 上货
+     *
      * @param goodId 商品id
      */
     @Update("update good set sold = 0 where goodId = #{goodId}")

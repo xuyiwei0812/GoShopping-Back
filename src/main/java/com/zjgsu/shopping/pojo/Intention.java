@@ -13,14 +13,13 @@ public class Intention {
     /**
      * 意向编号
      * 用户编号
-     *
+     * <p>
      * 构造方式Intention(null,buyer,goodId)
      */
     private Integer intentionId;
     private Integer buyerId;
     private Integer goodId;
     private Date date;
-
 
 
 }

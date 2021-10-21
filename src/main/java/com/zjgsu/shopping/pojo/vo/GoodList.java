@@ -18,13 +18,15 @@ class GoodBrief {
     private Boolean frozen;
     private Boolean sold;
 }
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodList {
     List<GoodBrief> goodlist = new ArrayList<>();
-    public void AddItem(Integer goodId , Double price , String name , String img,String description,Boolean frozen, Boolean sold){
-        GoodBrief good = new GoodBrief(goodId ,price ,name ,img,description,frozen,sold);
+
+    public void AddItem(Integer goodId, Double price, String name, String img, String description, Boolean frozen, Boolean sold) {
+        GoodBrief good = new GoodBrief(goodId, price, name, img, description, frozen, sold);
         goodlist.add(good);
     }
 }

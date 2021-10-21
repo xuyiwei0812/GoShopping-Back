@@ -1,6 +1,5 @@
 package com.zjgsu.shopping.pojo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +16,7 @@ public class GoodImagine {
     private Integer imagineId;
     private Integer goodId;
     private String imagine;
+
     public GoodImagine(Integer imagineId, Integer goodId, String imagine) {
         this.goodId = goodId;
         this.imagine = imagine;

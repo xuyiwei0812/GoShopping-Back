@@ -23,7 +23,7 @@ public interface DealMapper {
      * @return 删除是否成功
      */
     @Delete("delete from deal where dealId =#{dealId}")
-    Long deleteDeal(@Param("dealId")Integer dealId);
+    Long deleteDeal(@Param("dealId") Integer dealId);
 
     /**
      * 查询交易的具体信息

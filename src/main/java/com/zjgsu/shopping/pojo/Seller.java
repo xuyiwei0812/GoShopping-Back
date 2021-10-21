@@ -28,7 +28,7 @@ public class Seller {
     private String phone;
     //private String profilePicture;//base64
 
-    public Seller(Integer sellerId , String name, String account, String password, String location, String phone) {
+    public Seller(Integer sellerId, String name, String account, String password, String location, String phone) {
         this.name = name;
         this.account = account;
         this.password = password;

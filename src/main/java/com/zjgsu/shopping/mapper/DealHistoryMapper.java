@@ -21,7 +21,6 @@ public interface DealHistoryMapper {
     Boolean addDealHsitory(@Param("deal") DealHistory deal);
 
 
-
     /**
      * 查询某一卖家的历史商品
      *

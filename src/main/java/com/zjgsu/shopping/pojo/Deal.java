@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Deal {
     /**
      * 交易编号
-     *
+     * <p>
      * 买家编号
      * 卖家编号
      * 商品编号

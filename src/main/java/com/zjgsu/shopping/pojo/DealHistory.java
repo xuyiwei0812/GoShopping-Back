@@ -30,7 +30,6 @@ public class DealHistory {
     private Date dealDate;
 
 
-
     public DealHistory(Integer goodId, Integer sellerId, String name, String description, Double price, Date dealDate, String phone) {
         this.goodId = goodId;
         this.sellerId = sellerId;
@@ -40,10 +39,11 @@ public class DealHistory {
         this.dealDate = dealDate;
         this.phone = phone;
     }
-    public DealHistory(Good good,String phone,Date date){
-        this.goodId   = good.getGoodId();
+
+    public DealHistory(Good good, String phone, Date date) {
+        this.goodId = good.getGoodId();
         this.sellerId = good.getSellerId();
-        this.name     = good.getName();
+        this.name = good.getName();
         this.description = good.getDescription();
         this.price = good.getPrice();
         this.phone = phone;

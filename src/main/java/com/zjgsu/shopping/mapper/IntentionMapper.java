@@ -1,7 +1,6 @@
 package com.zjgsu.shopping.mapper;
 
 import com.zjgsu.shopping.pojo.Intention;
-
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public interface IntentionMapper {
      *
      * @param intentionId 意向编号
      * @return 撤销失败返回-1
-     *
      */
     @Delete("delete from intention where intentionId=#{intentionId}")
     Boolean cancelIntention(@Param("intentionId") Integer intentionId);
@@ -35,7 +33,7 @@ public interface IntentionMapper {
      * @param goodId 商品Id
      */
     @Select("select * from intention where goodId=#{goodId}")
-    List<Intention> getIntentionListByGoodId(@Param("goodId")  Integer goodId);
+    List<Intention> getIntentionListByGoodId(@Param("goodId") Integer goodId);
 
     /**
      * 返回某个意向的具体信息
@@ -43,7 +41,7 @@ public interface IntentionMapper {
      * @param intentionId 意向Id
      */
     @Select("select * from intention where intentionId=#{intentionId}")
-    Intention getIntentionInfo(@Param("intentionId")  Integer intentionId);
+    Intention getIntentionInfo(@Param("intentionId") Integer intentionId);
 
 //    /**
 //     * 通过商家id查询购买意向

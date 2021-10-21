@@ -12,7 +12,7 @@ public interface BuyerMapper {
      * @param buyer 买家信息
      * @return 提出失败返回-1
      */
-    @Options (useGeneratedKeys = true, keyProperty = "buyer.buyerId", keyColumn = "buyerId")
+    @Options(useGeneratedKeys = true, keyProperty = "buyer.buyerId", keyColumn = "buyerId")
     @Insert("insert into buyer (name,location,phone) values (#{buyer.name},#{buyer.location},#{buyer.phone})")
     Boolean creatBuyer(@Param("buyer") Buyer buyer);
 
@@ -21,7 +21,7 @@ public interface BuyerMapper {
      *
      * @param buyer 商品信息
      * @return 撤销失败 返回-1
-     *
+     * <p>
      * 无用,暂时没必要删除掉写入数据库的信息
      */
     @Delete("delete from buyer where buyerId=#{buyer.buyerId}")
@@ -29,8 +29,9 @@ public interface BuyerMapper {
 
     /**
      * 返回买家的信息
+     *
      * @param buyerId 用户编号
      */
     @Select("select * from buyer where buyerId=#{buyerId}")
-    Buyer getBuyerInfo(@Param("buyerId")Integer buyerId);
+    Buyer getBuyerInfo(@Param("buyerId") Integer buyerId);
 }
