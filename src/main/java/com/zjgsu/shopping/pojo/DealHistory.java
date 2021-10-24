@@ -43,9 +43,9 @@ public class DealHistory {
     public DealHistory(Good good, String phone, Date date) {
         this.goodId = good.getGoodId();
         this.sellerId = good.getSellerId();
-        this.name = good.getName();
+        this.name = good.getGoodName();
         this.description = good.getDescription();
-        this.price = good.getPrice();
+        this.price = good.getGoodPrice();
         this.phone = phone;
         this.dealDate = date;
     }

@@ -69,7 +69,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public GoodList getGoodListBySellerId(Integer sellerId) {
         try {
-            return tool.toGoodList(goodMapper.getGoodListBySellerId(sellerId));
+            return tool.toGoodList(goodMapper.getAllGoodListBySellerId(sellerId) );
         }catch (Exception e){
             return (GoodList) tool.soutErr("getGoodListBySellerId",e);
         }
@@ -183,14 +183,14 @@ public class SellerServiceImpl implements SellerService {
         good.setFrozen(false);
         good.setWanted(false);
         good.setRemoved(false);
-        if (goodMapper.putOnGood(good) == null)
+        if (goodMapper.putOnGood(good.getGoodId()) == null)
             return null;
         return good;
     }
 
     @Override
-    public Boolean putOffGood(Integer goodId) {
-        return goodMapper.putOffGood(goodId) > 0;
+    public Boolean pullOffGood(Integer goodId) {
+        return goodMapper.pullOffGood(goodId) > 0;
     }
 
     @Override

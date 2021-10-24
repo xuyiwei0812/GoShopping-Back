@@ -162,7 +162,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 下架失败返回-1
      */
-    Boolean putOffGood(Integer goodId);
+    Boolean pullOffGood(Integer goodId);
 
     /**
      * 查询这个账号是否存在

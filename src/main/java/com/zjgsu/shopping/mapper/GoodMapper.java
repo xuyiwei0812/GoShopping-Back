@@ -21,48 +21,20 @@ import java.util.List;
 public interface GoodMapper {
 
     /**
-     * 上传一个商品
+     *  上传一个商品
      *
-     * @param good 整个商品信息
+     * @param good xx
+     *             good.sellerId    卖家的id
+     *             good.goodPrice   商品价格
+     *             good.goodName    商品名称
+     *             good.description 商品描述
      * @return 失败返回-1
+     * 注意:上传商品之后商品就不会从数据库中删除
      */
     @Options(useGeneratedKeys = true, keyProperty = "good.goodId", keyColumn = "goodId")
     @Insert("insert into good (sellerId,goodPrice,goodName,description) values( " +
             "#{good.sellerId},#{good.goodPrice} , #{good.goodName} , #{good.description})")
-    Boolean putOnGood(@Param("good") Good good);
-
-    /**
-     * 下架一个商品
-     *
-     * @param goodId 商品Id
-     * @return 失败返回-1
-     */
-    @Delete("delete from good where goodId =#{goodId}")
-    Long putOffGood(@Param("goodId") Integer goodId);
-
-    /**
-     * 冻结一个商品
-     *
-     * @param goodId 商品Id
-     * @return 失败返回-1
-     */
-    @Update("update good set frozen = 1 where goodId = #{goodId}")
-    Long freezeGood(@Param("goodId") Integer goodId);
-
-    /**
-     * 解冻一个商品
-     *
-     * @param goodId 商品Id
-     * @return 失败返回-1
-     */
-    @Update("update good set frozen = 0 where goodId = #{goodId}")
-    Long unfreezeGood(@Param("goodId") Integer goodId);
-
-    @Update("update good set wanted = 1 where goodId = #{goodId}")
-    Long setGoodWant(@Param("goodId") Integer goodId);
-
-    @Update("update good set wanted = 0 where goodId = #{goodId}")
-    Long cancelGoodWant(@Param("goodId") Integer goodId);
+    Boolean raiseGood(@Param("good") Good good);
 
     /**
      * 得到一个商品的信息
@@ -74,24 +46,59 @@ public interface GoodMapper {
     Good getGoodInfo(@Param("goodId") Integer goodId);
 
     /**
-     * 得到卖家的商品列表
      *
-     * @param sellerId 卖家id
-     * @return 商品列表
+     * @param good xx
+     *             good.goodPrice   商品价格
+     *             good.goodName    商品名称
+     *             good.description 商品描述
      */
-    @Select("select * from good where sellerId =#{sellerId}")
-    List<Good> getGoodListBySellerId(@Param("sellerId") Integer sellerId);
+    @Update("update good set goodPrice = #{good.goodPrice} , goodName = #{good.goodName} ,+" +
+            "description =  #{good.description} where goodId = #{good.goodId}")
+    Long updateGoodInfo(@Param("good") Good good);
 
-    @Select("select * from good where sellerId =#{sellerId} && wanted = 1")
-    List<Good> getWantedGoodListBySellerId(@Param("sellerId") Integer sellerId);
-
-    @Select("select * from good where frozen = 0")
-    List<Good> getUnfrozenGoodList();
-
-    @Select("select * from good")
-    List<Good> getAllGoodList();
 
     /**
+     *针对removed属性的设置
+     */
+    @Update("update good set removed = 0 where goodId = #{goodId}")
+    Long putOnGood(@Param("goodId") Integer goodId);
+    /**
+     * 下架一个商品
+     *
+
+     */
+    @Update("update good set removed = 1 where goodId = #{goodId}")
+    Long pullOffGood(@Param("goodId") Integer goodId);
+
+    /**
+     * 针对frozen属性的设置
+     *
+
+     * @return 失败返回-1
+     */
+    @Update("update good set frozen = 1 where goodId = #{goodId}")
+    Long freezeGood(@Param("goodId") Integer goodId);
+
+    /**
+     * 解冻一个商品
+
+     * @return 失败返回-1
+     */
+    @Update("update good set frozen = 0 where goodId = #{goodId}")
+    Long unfreezeGood(@Param("goodId") Integer goodId);
+
+    /**
+     * 针对want属性的设置
+     */
+    @Update("update good set wanted = 1 where goodId =  #{goodId}")
+    Long WantGood(@Param("goodId") Integer goodId);
+
+    @Update("update good set wanted = 0 where goodId =  #{goodId}")
+    Long refuseGood(@Param("goodId") Integer goodId);
+
+    /**
+     * 针对sold属性的设置
+     *
      * @param goodId 商品id
      * @return 选择已经卖光的商品
      */
@@ -100,11 +107,72 @@ public interface GoodMapper {
 
 
     /**
-     * 上货
+     * 添货
      *
      * @param goodId 商品id
      */
     @Update("update good set sold = 0 where goodId = #{goodId}")
     Long exhibitGood(@Param("goodId") Integer goodId);
+
+
+
+    /**
+     * 得到卖家的全部商品列表
+     *
+     * @param sellerId 卖家id
+     * @return 商品列表
+     */
+    @Select("select * from good where sellerId =#{sellerId}")
+    List<Good> getAllGoodListBySellerId(@Param("sellerId") Integer sellerId);
+
+    /**
+     * 卖家的非下架商品(包括冻结,卖空,是否有意向人)
+     */
+    @Select("select * from good where sellerId =#{sellerId} and removed = 0")
+    List<Good> getUnremovedGoodListBySellerId(@Param("sellerId") Integer sellerId);
+
+    /**
+     * 卖家的已下架商品
+     */
+    @Select("select * from good where sellerId =#{sellerId} and removed = 1")
+    List<Good> getRemovedGoodListBySellerId(@Param("sellerId") Integer sellerId);
+
+    /**
+     *  有买家意向的商品列表
+     */
+    @Select("select * from good where sellerId =#{sellerId} and wanted = 1 and removed = 0")
+    List<Good> getWantedGoodListBySellerId(@Param("sellerId") Integer sellerId);
+
+    /**
+
+     */
+    @Select("select * from good where sellerId =#{sellerId} and frozen = 0 and removed = 1")
+    List<Good> getUnfrozenGoodListBySellerId(@Param("sellerId") Integer sellerId);
+
+
+
+
+    //*********************************************************************************
+    //以下数据库操作针对买家
+
+    @Select("select * from good where removed = 1")
+    List<Good> getAllGoodListForBuyer();
+
+    @Select("select * from good where frozen = 0 and removed = 1")
+    List<Good> getUnfrozenGoodForBuyer();
+
+
+    @Select("select * from good where removed = 1 and sellerId = #{sellerId}")
+    List<Good> getAllGoodListBySellerIdForBuyer(@Param("sellerId") Integer sellerId);
+
+    @Select("select * from good where frozen = 0 and removed = 1 and sellerId = #{sellerId}")
+    List<Good> getUnfrozenGoodBySellerIdForBuyer(@Param("sellerId") Integer sellerId);
+
+
+    //*********************************************************************************
+    //以下数据库操作针对超级管理员
+//    @Select("select * from good")
+//    List<Good> getAllGoodList();
+
 
 }

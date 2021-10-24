@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.ObjectOutputStream;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,11 +21,20 @@ public class Good {
      */
     private Integer goodId;
     private Integer sellerId;
-    private Double goodPrice;
-    private String goodName;
-    private String description;
+    private Double  goodPrice;
+    private String  goodName;
+    private String  description;
     private Boolean frozen;
     private Boolean sold;
     private Boolean wanted;
     private Boolean removed;
+//    public Good(Integer sellerId , Double goodPrice , String goodName,String description){
+//        this.sellerId    = sellerId;
+//        this.goodPrice   = goodPrice;
+//        this.goodName    = goodName;
+//        this.description = description;
+//    }
+    public Good(Integer goodId){
+        this.goodId = goodId;
+    }
 }

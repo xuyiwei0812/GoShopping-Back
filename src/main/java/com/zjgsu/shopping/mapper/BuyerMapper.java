@@ -14,7 +14,7 @@ public interface BuyerMapper {
      */
     @Options(useGeneratedKeys = true, keyProperty = "buyer.buyerId", keyColumn = "buyerId")
     @Insert("insert into buyer (name,location,phone) values (#{buyer.name},#{buyer.location},#{buyer.phone})")
-    Boolean creatBuyer(@Param("buyer") Buyer buyer);
+    Boolean raiseBuyer(@Param("buyer") Buyer buyer);
 
     /**
      * 撤销一个购买意向

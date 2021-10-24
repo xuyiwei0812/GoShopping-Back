@@ -127,7 +127,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("/putOffGood")
     public Response<Object> putOffGood(@RequestBody Good good) {
-        if (sellerService.putOffGood(good.getGoodId()))
+        if (sellerService.pullOffGood(good.getGoodId()))
             return Response.createSuc(null);
         else
             return Response.createErr("下架失败,请稍后重试");
@@ -303,29 +303,29 @@ public class UserController {
     @PostMapping("/uploadBuyerInfo")
     public Response<Integer> uploadBuyerInfo(@RequestBody Buyer buyer) {
         System.out.println("收到一个添加买家的请求 :" + buyer);
-        if (buyerService.createBuyer(buyer) == null)
+        if (buyerService.raiseBuyer(buyer) == null)
             return Response.createErr("登录买家信息失败");
         else
             return Response.createSuc(buyer.getBuyerId());
     }
 
-    /**
-     * 提出一个意向
-     *
-     * @param intention xx
-     *                  intention.goodId 商品id
-     *                  intention.buyerId 卖家id
-     * @return 成功返回意向编号, 失败....
-     * 注:在登录一个意向的时候需要调用两个接口,后调用这个,然后拿着上面那个返回的id来调用这个
-     */
-    @ResponseBody
-    @PostMapping("/raiseIntention")
-    public Response<Integer> raiseIntention(@RequestBody Intention intention) {
-        System.out.println("收到一个添加意向的请求");
-        if (buyerService.raiseIntention(intention.getBuyerId(), intention.getGoodId()))
-            return Response.createSuc(intention.getIntentionId());
-        else return Response.createErr("意向添加失败");
-    }
+//    /**
+//     * 提出一个意向
+//     *
+//     * @param intention xx
+//     *                  intention.goodId 商品id
+//     *                  intention.buyerId 卖家id
+//     * @return 成功返回意向编号, 失败....
+//     * 注:在登录一个意向的时候需要调用两个接口,后调用这个,然后拿着上面那个返回的id来调用这个
+//     */
+//    @ResponseBody
+//    @PostMapping("/raiseIntention")
+//    public Response<Integer> raiseIntention(@RequestBody Intention intention) {
+//        System.out.println("收到一个添加意向的请求");
+//        if (buyerService.raiseIntention(intention.getBuyerId(), intention.getGoodId()))
+//            return Response.createSuc(intention.getIntentionId());
+//        else return Response.createErr("意向添加失败");
+//    }
 
     /**
      * 通过商品id拿商品意向列表
