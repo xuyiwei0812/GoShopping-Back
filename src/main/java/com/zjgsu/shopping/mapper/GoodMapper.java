@@ -5,8 +5,21 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+/**
+ * Good 参数:
+ *  1   Integer goodId;
+ *  2   Integer sellerId;
+ *  3   Double  goodPrice;
+ *  4   String  goodName;
+ *  5   String  description;
+ *  6   Boolean frozen;
+ *  7   Boolean sold;
+ *  8   Boolean wanted;
+ *  9   Boolean removed;
+ */
 @Mapper
 public interface GoodMapper {
+
     /**
      * 上传一个商品
      *
@@ -14,8 +27,8 @@ public interface GoodMapper {
      * @return 失败返回-1
      */
     @Options(useGeneratedKeys = true, keyProperty = "good.goodId", keyColumn = "goodId")
-    @Insert("insert into good (name,description,price,frozen,sellerId,wanted) values( " +
-            "#{good.name},#{good.description} , #{good.price} , #{good.frozen}, #{good.sellerId} , #{good.wanted} )")
+    @Insert("insert into good (sellerId,goodPrice,goodName,description) values( " +
+            "#{good.sellerId},#{good.goodPrice} , #{good.goodName} , #{good.description})")
     Boolean putOnGood(@Param("good") Good good);
 
     /**

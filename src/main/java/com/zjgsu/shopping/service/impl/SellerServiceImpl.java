@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.service.impl;
 
+import com.zjgsu.shopping.Mytool;
 import com.zjgsu.shopping.mapper.*;
 import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.DealHistoryList;
@@ -8,7 +9,6 @@ import com.zjgsu.shopping.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.pojo.vo.IntentionList;
 import com.zjgsu.shopping.service.SellerService;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +32,7 @@ public class SellerServiceImpl implements SellerService {
     @Resource
     IntentionMapper intentionMapper;
 
+    Mytool tool = new Mytool();
 
     @Override
     public Seller register(String name, String account, String password, String location, String phone) {
@@ -67,56 +68,45 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public GoodList getGoodListBySellerId(Integer sellerId) {
-        List<Good> li = goodMapper.getGoodListBySellerId(sellerId);
-        GoodList goodList = new GoodList();
-        for (Good item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getPrice(), item.getName(), img, item.getDescription(), item.getFrozen(), item.getSold());
+        try {
+            return tool.toGoodList(goodMapper.getGoodListBySellerId(sellerId));
+        }catch (Exception e){
+            return (GoodList) tool.soutErr("getGoodListBySellerId",e);
         }
-        return goodList;
     }
 
     @Override
     public GoodList getWantedGoodListBySellerId(Integer sellerId) {
-        List<Good> li = goodMapper.getWantedGoodListBySellerId(sellerId);
-        GoodList goodList = new GoodList();
-        for (Good item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getPrice(), item.getName(), img, item.getDescription(), item.getFrozen(), item.getSold());
+        try{
+            return tool.toGoodList(goodMapper.getWantedGoodListBySellerId(sellerId));
+        }catch (Exception e){
+            return (GoodList) tool.soutErr("getWantedGoodListBySellerId",e);
         }
-        return goodList;
     }
 
     @Override
     public GoodList getAllGoodList() {
+        System.out.println("R U KIDDING?");
         return null;
     }
 
 
     @Override
     public DealHistoryList getAllDealHistoryList() {
-        List<DealHistory> li = dealHistoryMapper.getAllDealHistoryList();
-        DealHistoryList dealHistoryList = new DealHistoryList();
-        for (DealHistory item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            dealHistoryList.AddItem(item.getGoodId(), item.getPrice(), item.getName(), item.getDealDate(), img);
+        try{
+            return tool.toDealHistoryList(dealHistoryMapper.getAllDealHistoryList());
+        }catch (Exception e){
+            return (DealHistoryList) tool.soutErr("getAllDealHistoryList",e);
         }
-        return dealHistoryList;
     }
 
     @Override
     public DealHistoryList getDealHistoryListBySellerId(Integer sellerId) {
-        List<DealHistory> li = dealHistoryMapper.getDealHistoryListBySellerId(sellerId);
-        DealHistoryList dealHistoryList = new DealHistoryList();
-        for (DealHistory item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            dealHistoryList.AddItem(item.getGoodId(), item.getPrice(), item.getName(), item.getDealDate(), img);
+        try{
+            return tool.toDealHistoryList(dealHistoryMapper.getDealHistoryListBySellerId(sellerId));
+        }catch (Exception e){
+            return (DealHistoryList)  tool.soutErr("getDealHistoryListBySellerId",e);
         }
-        return dealHistoryList;
     }
 
     @Override
@@ -192,6 +182,7 @@ public class SellerServiceImpl implements SellerService {
         good.setSold(false);
         good.setFrozen(false);
         good.setWanted(false);
+        good.setRemoved(false);
         if (goodMapper.putOnGood(good) == null)
             return null;
         return good;
