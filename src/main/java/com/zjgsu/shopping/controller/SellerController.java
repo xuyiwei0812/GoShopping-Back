@@ -39,8 +39,8 @@ public class SellerController {
     @PostMapping("/sellerRegister")
     public Response<Seller> sellerRegister(@RequestBody Seller seller) {
         try {
-            if((12 - seller.getAccount().length()) * (seller.getAccount().length() - 6) < 0)
-                return Response.createErr("密码长度不符合规范");
+            if(!(tool.checkPasswordLegitimacy(seller.getPassword())))
+                return Response.createErr("密码不符合规范");
             if (sellerService.searchAccount(seller.getAccount()))
                 return Response.createErr("账号已经存在");
             sellerService.sellerRegister(seller);
@@ -63,7 +63,6 @@ public class SellerController {
     @ResponseBody
     @PostMapping("/sellerLogin")
     public Response<Integer> sellerLogin(@RequestBody AccountVo accountVo) {
-        System.out.println("接收到登录请求");
         try {
             Integer response = sellerService.sellerLogin(accountVo.getAccount(), accountVo.getPassword());
             System.out.println(response);
@@ -72,7 +71,7 @@ public class SellerController {
             else
                 return Response.createErr("账号不存在或者密码错误");
         }catch (Exception e){
-            System.out.println("发生错误" + e.toString());
+            System.out.println("发生错误" + e);
             return Response.BUG();
         }
     }
@@ -104,6 +103,35 @@ public class SellerController {
     }
 
 
+    @ResponseBody
+    @PostMapping("/updateSellerPassword")
+    public Response<Object> updateSellerPassword(@RequestBody AccountVo accountVo) {
+        try {
+
+            Long re = sellerService.updateSellerPassword(accountVo.getUserId(), accountVo.getPassword(), accountVo.getNewPassword());
+            if (re == -2) return Response.createErr("密码错误");
+            else if (re == 0) return Response.createErr("无此账号");
+            else return Response.createSuc(null);
+        }catch (Exception e){
+            tool.soutErr("updateSellerPassword" ,e);
+            return  Response.BUG();
+        }
+    }
+
+
+    @ResponseBody
+    @PostMapping("/checkSellerPassword")
+    public Response<Object> checkSellerPassword(@RequestBody AccountVo accountVo) {
+        try {
+            if(sellerService.checkSellerPassword(accountVo.getUserId(), accountVo.getPassword()))
+                return Response.createSuc(null);
+            else
+                return Response.createErr("账号不存在或者密码错误");
+        }catch (Exception e){
+            tool.soutErr("checkSellerPassword" ,e);
+            return  Response.BUG();
+        }
+    }
 
 
 
@@ -170,34 +198,6 @@ public class SellerController {
         }
     }
 
-    @ResponseBody
-    @PostMapping("/updateSellerPassword")
-    public Response<Object> updateSellerPassword(@RequestBody AccountVo accountVo) {
-        try {
-            Long re = sellerService.updateSellerPassword(accountVo.getUserId(), accountVo.getPassword(), accountVo.getNewPassword());
-            if (re == -2) return Response.createErr("密码错误");
-            else if (re == 0) return Response.createErr("无此账号");
-            else return Response.createSuc(null);
-        }catch (Exception e){
-            tool.soutErr("updateSellerPassword" ,e);
-            return  Response.BUG();
-        }
-    }
-
-
-    @ResponseBody
-    @PostMapping("/checkSellerPassword")
-    public Response<Object> checkSellerPassword(@RequestBody AccountVo accountVo) {
-        try {
-            if(sellerService.checkSellerPassword(accountVo.getUserId(), accountVo.getPassword()))
-                return Response.createSuc(null);
-            else
-                return Response.createErr("账号不存在或者密码错误");
-        }catch (Exception e){
-            tool.soutErr("checkSellerPassword" ,e);
-            return  Response.BUG();
-        }
-    }
 
 
     /**

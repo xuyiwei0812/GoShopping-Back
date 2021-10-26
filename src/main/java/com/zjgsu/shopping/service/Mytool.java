@@ -14,11 +14,11 @@ public interface Mytool {
 
     Object soutErr(String s,Exception e);
 
-
     GoodList toGoodList(List<Good> li);
-
 
     DealHistoryList toDealHistoryList(List<DealHistory> li);
 
     IntentionList toIntentionList(List<Intention> li);
+
+    Boolean checkPasswordLegitimacy(String s);
 }

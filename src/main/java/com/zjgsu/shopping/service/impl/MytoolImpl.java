@@ -54,4 +54,15 @@ public class MytoolImpl implements Mytool {
         return list;
     }
 
+    /**
+     * 检查密码合法性
+     */
+    @Override
+    public Boolean checkPasswordLegitimacy(String s) {
+        if(s == null) return false;
+        int len = s.length();
+        if(len < 6 || len > 12) return false;
+        return true;
+    }
+
 }

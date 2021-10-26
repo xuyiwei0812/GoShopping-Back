@@ -9,6 +9,7 @@ import com.zjgsu.shopping.service.BuyerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public Boolean raiseIntention(Intention intention) {
         goodMapper.WantGood(intention.getGoodId());
+        intention.setDate(new Date());
         return intentionMapper.raiseIntention(intention);
     }
 
