@@ -19,10 +19,7 @@ public class Response<T> {
         return new Response<>(-1, msg, null);
     }
 
-    public static <T> Response<T> response(T o, String msg) {
-        if (o == null)
-            return new Response<>(-1, msg, null);
-        else
-            return new Response<>(0, null, o);
+    public static <T> Response<T> BUG() {
+        return new Response<>(-2, "程序出错,请联系管理员", null);
     }
 }

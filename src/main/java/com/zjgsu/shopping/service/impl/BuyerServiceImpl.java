@@ -3,11 +3,9 @@ package com.zjgsu.shopping.service.impl;
 import com.zjgsu.shopping.mapper.*;
 import com.zjgsu.shopping.pojo.Buyer;
 import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.GoodImagine;
 import com.zjgsu.shopping.pojo.Intention;
-import com.zjgsu.shopping.pojo.vo.GoodList;
+import com.zjgsu.shopping.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.service.BuyerService;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,8 +14,6 @@ import java.util.List;
 @Service
 public class BuyerServiceImpl implements BuyerService {
     @Resource
-    private DealMapper dealMapper;
-    @Resource
     private IntentionMapper intentionMapper;
     @Resource
     private BuyerMapper buyerMapper;
@@ -25,17 +21,12 @@ public class BuyerServiceImpl implements BuyerService {
     private GoodMapper goodMapper;
     @Resource
     private GoodImagineMapper goodImagineMapper;
-    @Resource
-    private DealHistoryMapper dealHistoryMapper;
 
 
     @Override
     public Buyer raiseBuyer(Buyer buyer) {
         return (buyerMapper.raiseBuyer(buyer) ? buyer : null);
     }
-
-
-
 
     @Override
     public Boolean raiseIntention(Intention intention) {
@@ -52,54 +43,28 @@ public class BuyerServiceImpl implements BuyerService {
         return true;
     }
 
-
     @Override
-    public GoodList getAllGoodList() {
-        List<Good> li = goodMapper.getAllGoodListForBuyer();
-        GoodList goodList = new GoodList();
-        for (Good item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
-        }
-        return goodList;
+    public List<Good> getAllGoodListForBuyers() {
+        return goodMapper.getAllGoodListForBuyers();
     }
 
     @Override
-    public GoodList getUnfrozenGoodList() {
-        List<Good> li = goodMapper.getUnfrozenGoodForBuyer();
-        GoodList goodList = new GoodList();
-        for (Good item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
-        }
-        return goodList;
+    public  List<Good> getUnfrozenGoodListForBuyers() {
+        return goodMapper.getUnfrozenGoodListForBuyers();
     }
 
     @Override
-    public GoodList getUnfrozenGoodListBySellerId(Integer sellerId){
-        List<Good> li = goodMapper.getUnfrozenGoodBySellerIdForBuyer(sellerId);
-        GoodList goodList = new GoodList();
-        for (Good item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
-        }
-        return goodList;
+    public  List<Good> getAllGoodListBySellerIdForBuyers(Integer sellerId) {
+        return goodMapper.getAllGoodListBySellerIdForBuyers(sellerId);
     }
 
     @Override
-    public GoodList getAllGoodListBySellerId(Integer sellerId){
-        List<Good> li = goodMapper.getUnfrozenGoodBySellerIdForBuyer(sellerId);
-        GoodList goodList = new GoodList();
-        for (Good item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
-        }
-        return goodList;
+    public  List<Good> getUnfrozenGoodListBySellerIdForBuyers(Integer sellerId) {
+        return goodMapper.getUnfrozenGoodListBySellerIdForBuyers(sellerId);
     }
 
-
+    @Override
+    public GoodwithImg getGoodInfo(Integer goodId) {
+        return new GoodwithImg(goodMapper.getGoodInfo(goodId), goodImagineMapper.getImagine(goodId));
+    }
 }

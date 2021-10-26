@@ -1,13 +1,10 @@
 package com.zjgsu.shopping.service.impl;
 
-import com.zjgsu.shopping.Mytool;
 import com.zjgsu.shopping.mapper.*;
 import com.zjgsu.shopping.pojo.*;
-import com.zjgsu.shopping.pojo.vo.DealHistoryList;
-import com.zjgsu.shopping.pojo.vo.GoodList;
-import com.zjgsu.shopping.pojo.vo.GoodwithImg;
-import com.zjgsu.shopping.pojo.vo.IntentionList;
+import com.zjgsu.shopping.pojo.vo.*;
 import com.zjgsu.shopping.service.SellerService;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
@@ -26,34 +23,26 @@ public class SellerServiceImpl implements SellerService {
     @Resource
     DealMapper dealMapper;
     @Resource
-    GoodImagineMapper goodImagineMapper;
-    @Resource
     DealHistoryMapper dealHistoryMapper;
     @Resource
     IntentionMapper intentionMapper;
 
-    Mytool tool = new Mytool();
 
     @Override
-    public Seller register(String name, String account, String password, String location, String phone) {
-        Seller seller = new Seller(null, name, account, password, location, phone);
-        System.out.println(seller);
-        return (sellerMapper.register(seller) ? seller : null);
+    public Seller sellerRegister(Seller seller){
+        sellerMapper.register(seller);
+        return seller;
     }
 
-    @Override
-    public Seller register(Seller seller) {
-        return (sellerMapper.register(seller) ? seller : null);
-    }
 
     @Override
-    public Integer login(String account, String password) {
+    public Integer sellerLogin(String account, String password) {
         Seller seller = sellerMapper.login(account, password);
         return (seller != null ? seller.getSellerId() : -1);
     }
 
     @Override
-    public Long updatePassword(Integer sellerId, String password, String newPassword) {
+    public Long updateSellerPassword(Integer sellerId, String password, String newPassword) {
         Seller seller = sellerMapper.getInfo(sellerId);
         if (!Objects.equals(seller.getPassword(), password)) return (long) -2;
         return sellerMapper.updatePassword(sellerId, newPassword);
@@ -61,141 +50,55 @@ public class SellerServiceImpl implements SellerService {
 
 
     @Override
-    public Boolean checkPassword(Integer sellerId, String password) {
+    public Boolean checkSellerPassword(Integer sellerId, String password) {
         Seller seller = sellerMapper.getInfo(sellerId);
         return Objects.equals(seller.getPassword(), password);
     }
 
-    @Override
-    public GoodList getGoodListBySellerId(Integer sellerId) {
-        try {
-            return tool.toGoodList(goodMapper.getAllGoodListBySellerId(sellerId) );
-        }catch (Exception e){
-            return (GoodList) tool.soutErr("getGoodListBySellerId",e);
-        }
-    }
-
-    @Override
-    public GoodList getWantedGoodListBySellerId(Integer sellerId) {
-        try{
-            return tool.toGoodList(goodMapper.getWantedGoodListBySellerId(sellerId));
-        }catch (Exception e){
-            return (GoodList) tool.soutErr("getWantedGoodListBySellerId",e);
-        }
-    }
-
-    @Override
-    public GoodList getAllGoodList() {
-        System.out.println("R U KIDDING?");
-        return null;
-    }
-
-
-    @Override
-    public DealHistoryList getAllDealHistoryList() {
-        try{
-            return tool.toDealHistoryList(dealHistoryMapper.getAllDealHistoryList());
-        }catch (Exception e){
-            return (DealHistoryList) tool.soutErr("getAllDealHistoryList",e);
-        }
-    }
-
-    @Override
-    public DealHistoryList getDealHistoryListBySellerId(Integer sellerId) {
-        try{
-            return tool.toDealHistoryList(dealHistoryMapper.getDealHistoryListBySellerId(sellerId));
-        }catch (Exception e){
-            return (DealHistoryList)  tool.soutErr("getDealHistoryListBySellerId",e);
-        }
-    }
-
-    @Override
-    public GoodwithImg getGoodInfo(Integer goodId) {
-        return new GoodwithImg(goodMapper.getGoodInfo(goodId), goodImagineMapper.getImagine(goodId));
-    }
-
-    @Override
-    public DealHistoryList getDealHistoryByGoodId(Integer goodId) {
-        List<DealHistory> li = dealHistoryMapper.getDealHistoryListByGoodId(goodId);
-        DealHistoryList dealHistoryList = new DealHistoryList();
-        for (DealHistory item : li) {
-            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-            String img = (goodImg != null ? goodImg.getImagine() : null);
-            dealHistoryList.AddItem(item.getGoodId(), item.getPrice(), item.getName(), item.getDealDate(), img);
-        }
-        return dealHistoryList;
-    }
-
-    @Override
-    public IntentionList getIntentionListByGoodId(Integer goodId) {
-        List<Intention> li = intentionMapper.getIntentionListByGoodId(goodId);
-        IntentionList intentionList = new IntentionList();
-
-        for (Intention item : li) {
-            intentionList.AddItem(item.getIntentionId(), item.getBuyerId(), item.getGoodId(), item.getDate(), buyerMapper.getBuyerInfo(item.getBuyerId()).getName());
-        }
-        System.out.println(intentionList);
-        return intentionList;
-    }
-
-    @Override
-    public Buyer getBuyerInfo(Integer buyerId) {
-        return buyerMapper.getBuyerInfo(buyerId);
-    }
-
-    //弃用
-    @Override
-    public Boolean startDeal(Integer buyerId, Integer sellerId, Integer goodId) {
-        return null;
-    }
-
-    @Override
-    public Boolean startDeal(Deal deal) {
-        goodMapper.freezeGood(deal.getGoodId());
-        return dealMapper.startDeal(deal);
-    }
-
-
-    @Override
-    public Boolean cancelDeal(Integer dealId) {
-        goodMapper.unfreezeGood(dealMapper.getDealInfo(dealId).getGoodId());
-        return dealMapper.deleteDeal(dealId) > 0;
-    }
-
-    @Override
-    public Boolean finishDeal(Integer dealId, Date dealDate) {
-        if (goodMapper.soldOutGood(dealId) == 0) return false;
-        Deal deal = dealMapper.getDealInfo(dealId);
-        goodMapper.unfreezeGood(deal.getGoodId());
-        dealHistoryMapper.addDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
-                buyerMapper.getBuyerInfo(deal.getBuyerId()).getPhone(), dealDate));
-        return dealMapper.deleteDeal(dealId) > 0;
-    }
-
-    @Override
-    public Good putOnGood(String name, String description, Double price, Integer sellerId) {
-        return null;
-    }
-
-    @Override
-    public Good putOnGood(Good good) {
-        good.setSold(false);
-        good.setFrozen(false);
-        good.setWanted(false);
-        good.setRemoved(false);
-        if (goodMapper.putOnGood(good.getGoodId()) == null)
-            return null;
-        return good;
-    }
-
-    @Override
-    public Boolean pullOffGood(Integer goodId) {
-        return goodMapper.pullOffGood(goodId) > 0;
-    }
 
     @Override
     public Boolean searchAccount(String account) {
         return !sellerMapper.searchAccount(account).isEmpty();
+    }
+
+    @Override
+    public List<Good> getAllGoodListBySellerId(Integer sellerId) {
+        return goodMapper.getAllGoodListBySellerId(sellerId);
+    }
+
+    @Override
+    public List<Good> getUnremovedGoodListBySellerId(Integer sellerId) {
+        return goodMapper.getUnremovedGoodListBySellerId(sellerId);
+    }
+
+    @Override
+    public List<Good> getWantedGoodListBySellerId(Integer sellerId) {
+        return goodMapper.getWantedGoodListBySellerId(sellerId);
+    }
+
+    @Override
+    public List<Good> getRemovedGoodListBySellerId(Integer sellerId) {
+        return goodMapper.getRemovedGoodListBySellerId(sellerId);
+    }
+
+    @Override
+    public List<Good> getUnfrozenGoodListBySellerId(Integer sellerId) {
+        return goodMapper.getUnfrozenGoodListBySellerId(sellerId);
+    }
+
+    @Override
+    public List<DealHistory> getDealHistoryListBySellerId(Integer sellerId) {
+        return dealHistoryMapper.getDealHistoryListBySellerId(sellerId);
+    }
+
+    @Override
+    public List<DealHistory> getDealHistoryListByGoodId(Integer goodId) {
+        return dealHistoryMapper.getDealHistoryListByGoodId(goodId);
+    }
+
+    @Override
+    public List<Intention> getIntentionListByGoodId(Integer goodId) {
+        return intentionMapper.getIntentionListByGoodId(goodId);
     }
 
     @Override
@@ -210,7 +113,68 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    public Buyer getBuyerInfo(Integer buyerId) {
+        return buyerMapper.getBuyerInfo(buyerId);
+    }
+
+
+
+    @Override
+    public Boolean startDeal(DealVo deal) {
+        goodMapper.freezeGood(deal.getGoodId());
+        intentionMapper.cancelIntention(deal.getIntentionId());
+        return dealMapper.startDeal(deal);
+    }
+
+
+    @Override
+    public Boolean cancelDeal(Integer dealId) {
+        goodMapper.unfreezeGood(dealMapper.getDealInfo(dealId).getGoodId());
+        return dealMapper.cancelDeal(dealId) > 0;
+    }
+
+    @Override
+    public Boolean finishDeal(Integer dealId, Date dealDate) {
+        if (goodMapper.soldOutGood(dealId) == 0) return false;
+        Deal deal = dealMapper.getDealInfo(dealId);
+        goodMapper.unfreezeGood(deal.getGoodId());
+        dealHistoryMapper.raiseDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
+                buyerMapper.getBuyerInfo(deal.getBuyerId()).getPhone(), dealDate));
+        return dealMapper.cancelDeal(dealId) > 0;
+    }
+
+    @Override
+    public Good getGoodInfo(Integer goodId) {
+        return goodMapper.getGoodInfo(goodId);
+    }
+
+    @Override
+    public Good raiseGood(Good good) {
+        goodMapper.raiseGood(good);
+        return good;
+    }
+
+    @Override
+    public Boolean putOnGood(Integer goodId) {
+        return goodMapper.putOnGood(goodId) > 0;
+    }
+
+    @Override
+    public Boolean pullOffGood(Integer goodId) {
+        return goodMapper.pullOffGood(goodId) > 0;
+    }
+
+
+
+    //添货
+    @Override
     public Boolean exhibitGood(Integer goodId) {
         return goodMapper.exhibitGood(goodId) > 0;
+    }
+
+
+    @Override
+    public Boolean soldOutGood(Integer goodId) {
+        return goodMapper.soldOutGood(goodId) > 0;
     }
 }

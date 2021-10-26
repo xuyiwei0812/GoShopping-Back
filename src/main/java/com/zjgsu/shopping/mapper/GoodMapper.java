@@ -146,7 +146,7 @@ public interface GoodMapper {
     /**
 
      */
-    @Select("select * from good where sellerId =#{sellerId} and frozen = 0 and removed = 1")
+    @Select("select * from good where sellerId =#{sellerId} and frozen = 0 and removed = 0")
     List<Good> getUnfrozenGoodListBySellerId(@Param("sellerId") Integer sellerId);
 
 
@@ -155,18 +155,18 @@ public interface GoodMapper {
     //*********************************************************************************
     //以下数据库操作针对买家
 
-    @Select("select * from good where removed = 1")
-    List<Good> getAllGoodListForBuyer();
+    @Select("select * from good where removed = 0")
+    List<Good> getAllGoodListForBuyers();
 
-    @Select("select * from good where frozen = 0 and removed = 1")
-    List<Good> getUnfrozenGoodForBuyer();
+    @Select("select * from good where frozen = 0 and removed = 0")
+    List<Good> getUnfrozenGoodListForBuyers();
 
 
-    @Select("select * from good where removed = 1 and sellerId = #{sellerId}")
-    List<Good> getAllGoodListBySellerIdForBuyer(@Param("sellerId") Integer sellerId);
+    @Select("select * from good where removed = 0 and sellerId = #{sellerId}")
+    List<Good> getAllGoodListBySellerIdForBuyers(@Param("sellerId") Integer sellerId);
 
-    @Select("select * from good where frozen = 0 and removed = 1 and sellerId = #{sellerId}")
-    List<Good> getUnfrozenGoodBySellerIdForBuyer(@Param("sellerId") Integer sellerId);
+    @Select("select * from good where frozen = 0 and removed = 0 and sellerId = #{sellerId}")
+    List<Good> getUnfrozenGoodListBySellerIdForBuyers(@Param("sellerId") Integer sellerId);
 
 
     //*********************************************************************************

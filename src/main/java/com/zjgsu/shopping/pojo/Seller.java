@@ -4,6 +4,7 @@
 
 package com.zjgsu.shopping.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

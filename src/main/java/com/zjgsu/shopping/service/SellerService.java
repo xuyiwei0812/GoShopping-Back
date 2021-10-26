@@ -1,15 +1,11 @@
 package com.zjgsu.shopping.service;
 
-import com.zjgsu.shopping.pojo.Buyer;
-import com.zjgsu.shopping.pojo.Deal;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Seller;
-import com.zjgsu.shopping.pojo.vo.DealHistoryList;
-import com.zjgsu.shopping.pojo.vo.GoodList;
-import com.zjgsu.shopping.pojo.vo.GoodwithImg;
-import com.zjgsu.shopping.pojo.vo.IntentionList;
+import com.zjgsu.shopping.pojo.*;
+import com.zjgsu.shopping.pojo.vo.*;
+import org.springframework.data.relational.core.sql.In;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 如果是返回list,命名时请 getXXXXlistbyXXX
@@ -18,82 +14,49 @@ import java.util.Date;
 public interface SellerService {
 
     /**
-     * 注册一个账号
-     *
-     * @return 注册是否成功
+     * 对账号信息进行操作
+     * 1.账号注册
+     * 2.账号登录
+     * 3.更新账号密码
+     * 4.检查账号密码
+     * 5.更新卖家的信息
+     * 6.查询账号是否存在
      */
-    Seller register(String name, String account, String password, String location, String phone);
+    Seller sellerRegister(Seller seller);
+    Integer sellerLogin(String account, String password);
+    Long updateSellerPassword(Integer sellerId, String password, String newPassword);
+    Boolean checkSellerPassword(Integer sellerId, String password);
+    Boolean updateInfo(Seller seller);
+    Boolean searchAccount(String account);
+
+
 
     /**
-     * 重载register
-     */
-    Seller register(Seller seller);
-
-    /**
-     * 登录
-     *
-     * @param account  用户
-     * @param password 密码
-     * @return 用户编号, 或者无法登录返回-1
-     */
-    Integer login(String account, String password);
-
-    /**
-     * 修改密码
-     *
-     * @param password 密码
-     * @param sellerId 用户编号
-     * @return 是否更新成功
-     */
-    Long updatePassword(Integer sellerId, String password, String newPassword);
-
-    Boolean checkPassword(Integer sellerId, String password);
-
-    /**
-     * 查询某一商家的商品
-     *
-     * @param sellerId 用户编号-
-     * @return 全部代售商品的信息
-     */
-    GoodList getGoodListBySellerId(Integer sellerId);
-
-    /**
-     * 通过商家id 查询有意向购买人的商品
-     *
+     * 针对商品信息的查询:
+     * 1.全部商品
+     * 2.非下架商品
+     * 3.非下架商品中的有意向商品
+     * 4.非下架商品中的非冻结商品
+     * 5.已下架商品
      * @param sellerId 商品id
      */
-    GoodList getWantedGoodListBySellerId(Integer sellerId);
+    List<Good> getAllGoodListBySellerId(Integer sellerId);
+    List<Good> getUnremovedGoodListBySellerId(Integer sellerId);
+    List<Good> getWantedGoodListBySellerId(Integer sellerId);
+    List<Good> getRemovedGoodListBySellerId(Integer sellerId);
+    List<Good> getUnfrozenGoodListBySellerId(Integer sellerId);
+
 
     /**
-     * @return 全部在出售的货物信息
+     * 针对历史交易信息的查询
+     * 1.某一买家的历史交易信息
+     * 2.某一商品的历史交易信息
      */
-    GoodList getAllGoodList();
+    List<DealHistory> getDealHistoryListBySellerId(Integer sellerId);
+    List<DealHistory> getDealHistoryListByGoodId(Integer goodId);
 
-    /**
-     * @return 返回全部的历史交易信息
-     */
-    DealHistoryList getAllDealHistoryList();
 
-    /**
-     * @return 返回某个卖家的历史商品信息
-     */
-    DealHistoryList getDealHistoryListBySellerId(Integer sellerId);
 
-    /**
-     * 取得某一商品的详细信息
-     *
-     * @param goodId 商品编号
-     * @return 某一商品的详细信息
-     */
-    GoodwithImg getGoodInfo(Integer goodId);
-
-    /**
-     * 取得某一商品的历史交易信息列表
-     *
-     * @param goodId 商品编号
-     * @return 某一历史商品的详细信息
-     */
-    DealHistoryList getDealHistoryByGoodId(Integer goodId);
 
     /**
      * 取得某一商品的意向购买人列表
@@ -101,14 +64,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一商品的意向购买人列表
      */
-    IntentionList getIntentionListByGoodId(Integer goodId);
-
-//    /**
-//     *
-//     * @param sellerId
-//     * @return
-//     */
-//    IntentionList getIntentionListBySellerId(Integer sellerId);
+    List<Intention> getIntentionListByGoodId(Integer goodId);
 
 
     /**
@@ -120,67 +76,32 @@ public interface SellerService {
     Buyer getBuyerInfo(Integer buyerId);
 
     /**
-     * 开始一场交易
-     * 把交易信息放入数据库之中
-     *
-     * @return 如果返回商品状态码
+     * 对交易的操作:
+     * 1.开始一场交易:添加到交易列表,同时删除对应意向,商品冻结
+     * 2.取消一场交易:在交易列表中删除这项交易,商品解冻
+     * 3.结束一场交易:商品列表中删除该交易,商品解冻,商品售空,历史交易记录中添加这项交易
+     * @return 操作成功返回1,失败返回0
      */
-    Boolean startDeal(Integer buyerId, Integer sellerId, Integer goodId);
 
-    Boolean startDeal(Deal deal);
-
-    /**
-     * 取消一场交易
-     *
-     * @param dealId 交易编号
-     * @return 取消失败返回-1
-     */
+    Boolean startDeal(DealVo deal);
     Boolean cancelDeal(Integer dealId);
-
-    /**
-     * 完成一场交易
-     *
-     * @param dealId 交易编号
-     * @return 完成失败返回-1
-     */
     Boolean finishDeal(Integer dealId, Date dealDate);
 
     /**
-     * 上架一个商品
-     * <p>
-     * 上架成功之后返回整个商品信息
+     * 对于商品的操作:
+     * 1.查询商品信息
+     * 2.发布一个全!新!的商品,商品发布之后就不会从数据库中删除,发布后默认上架,非冻结
+     * 3.将一个已下架商品上架
+     * 4.将一个上架的商品下架
      */
-    //GoodForSale putOnGood(String name,String description,Integer price);
-
-    Good putOnGood(String name, String description, Double price, Integer sellerId);
-
-    Good putOnGood(Good good);
-
-    /**
-     * 下架一个商品
-     *
-     * @param goodId 商品编号
-     * @return 下架失败返回-1
-     */
+    Good getGoodInfo(Integer goodId);
+    Good raiseGood(Good good);
+    Boolean putOnGood(Integer goodId);
     Boolean pullOffGood(Integer goodId);
-
-    /**
-     * 查询这个账号是否存在
-     * 有值返回true
-     */
-    Boolean searchAccount(String account);
-
-    /**
-     * 更新卖家信息
-     */
-    Boolean updateInfo(Seller seller);
-
-
-    /**
-     * 添货
-     *
-     * @param goodId 商品id
-     */
     Boolean exhibitGood(Integer goodId);
+    Boolean soldOutGood(Integer goodId);
+
+
+
 
 }

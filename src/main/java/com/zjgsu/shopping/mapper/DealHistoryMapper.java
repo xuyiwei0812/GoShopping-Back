@@ -18,7 +18,7 @@ public interface DealHistoryMapper {
      */
     @Insert("insert into dealhistory (goodId,name,description,price,dealDate,phone,sellerId) values(#{deal.goodId}," +
             "#{deal.name},#{deal.description},#{deal.price},#{deal.dealDate},#{deal.phone},#{deal.sellerId})")
-    Boolean addDealHsitory(@Param("deal") DealHistory deal);
+    Boolean raiseDealHsitory(@Param("deal") DealHistory deal);
 
 
     /**
@@ -36,6 +36,8 @@ public interface DealHistoryMapper {
     @Select("select * from dealhistory where goodId =#{goodId}")
     List<DealHistory> getDealHistoryListByGoodId(@Param("goodId") Integer goodId);
 
-    @Select("select * from dealhistory")
-    List<DealHistory> getAllDealHistoryList();
+    //******************************************************
+    //管理员操作
+//    @Select("select * from dealhistory")
+//    List<DealHistory> getAllDealHistoryList();
 }

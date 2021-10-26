@@ -1,6 +1,7 @@
 package com.zjgsu.shopping.mapper;
 
 import com.zjgsu.shopping.pojo.Deal;
+import com.zjgsu.shopping.pojo.vo.DealVo;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -14,7 +15,7 @@ public interface DealMapper {
     @Options(useGeneratedKeys = true, keyProperty = "deal.dealId", keyColumn = "dealId")
     @Insert("insert into deal (buyerId,sellerId,goodId) values (#{deal.buyerId}," +
             "#{deal.sellerId},#{deal.goodId})")
-    Boolean startDeal(@Param("deal") Deal deal);
+    Boolean startDeal(@Param("deal") DealVo deal);
 
     /**
      * 删除一个交易
@@ -23,7 +24,7 @@ public interface DealMapper {
      * @return 删除是否成功
      */
     @Delete("delete from deal where dealId =#{dealId}")
-    Long deleteDeal(@Param("dealId") Integer dealId);
+    Long cancelDeal(@Param("dealId") Integer dealId);
 
     /**
      * 查询交易的具体信息
