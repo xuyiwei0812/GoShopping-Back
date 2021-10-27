@@ -1,6 +1,6 @@
 package com.zjgsu.shopping.controller;
 
-
+import com.zjgsu.shopping.pojo.vo.GoodVo;
 import com.zjgsu.shopping.pojo.Buyer;
 import com.zjgsu.shopping.pojo.Deal;
 import com.zjgsu.shopping.pojo.Good;
@@ -210,6 +210,7 @@ public class SellerController {
     @ResponseBody
     @PostMapping("/getIntentionListByGoodId")
     public Response<IntentionList> getIntentionListByGoodId(@RequestBody Good good) {
+        System.out.println(good.getGoodId());
         try {
             return Response.createSuc(tool.toIntentionList(sellerService.getIntentionListByGoodId(good.getGoodId())));
         }catch (Exception e){
@@ -251,7 +252,7 @@ public class SellerController {
     @PostMapping("/finishDeal")
     public Response<Object> finishDeal(@RequestBody Deal deal) {
         try{
-            sellerService.finishDeal(deal.getDealId(), new Date());
+            sellerService.finishDeal(deal.getDealId());
             return Response.createSuc(null);
         }catch (Exception e){
             tool.soutErr("finishDeal",e );
@@ -265,7 +266,7 @@ public class SellerController {
     /**
      * 上架一个货物
      *
-     * @param good xx
+     * @param goodVo xx
      *             good.sellerId 卖家id
      *             good.price    商品价格
      *             good.name     商品名称
@@ -275,9 +276,11 @@ public class SellerController {
 
     @ResponseBody
     @PostMapping("/raiseGood")
-    public Response<Good> raiseGood(@RequestBody Good good) {
+    public Response<Good> raiseGood(@RequestBody GoodVo goodVo) {
         try {
+            Good good = new Good(null,goodVo.getSellerId(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null);
             sellerService.raiseGood(good);
+            sellerService.uploadGoodImg(good.getGoodId(),goodVo.getImg());
             return Response.createSuc(good);
         }catch (Exception e){
             tool.soutErr("raiseGood" , e);
@@ -434,6 +437,18 @@ public class SellerController {
             return Response.createSuc(tool.toGoodList(sellerService.getUnfrozenGoodListBySellerId(seller.getSellerId())));
         }catch (Exception e){
             tool.soutErr("getUnfrozenGoodListBySellerId" ,e) ;
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getDealListByGoodId")
+    public Response<DealList> getDealListByGoodId(@RequestBody Good good){
+        try{
+
+            return Response.createSuc(tool.toDealList(sellerService.getDealListByGoodId(good.getGoodId())));
+        }catch (Exception e){
+            tool.soutErr("getDealListByGoodId",e);
             return Response.BUG();
         }
     }

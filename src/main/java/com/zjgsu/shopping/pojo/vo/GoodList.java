@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 class GoodBrief {
     private Integer goodId;
-    private Double price;
-    private String name;
+    private Double goodPrice;
+    private String goodName;
     private String img;
     private String description;
     private Boolean frozen;

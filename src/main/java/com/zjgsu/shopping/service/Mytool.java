@@ -1,9 +1,11 @@
 package com.zjgsu.shopping.service;
 
+import com.zjgsu.shopping.pojo.Deal;
 import com.zjgsu.shopping.pojo.DealHistory;
 import com.zjgsu.shopping.pojo.Good;
 import com.zjgsu.shopping.pojo.Intention;
 import com.zjgsu.shopping.pojo.vo.DealHistoryList;
+import com.zjgsu.shopping.pojo.vo.DealList;
 import com.zjgsu.shopping.pojo.vo.GoodList;
 import com.zjgsu.shopping.pojo.vo.IntentionList;
 
@@ -21,4 +23,6 @@ public interface Mytool {
     IntentionList toIntentionList(List<Intention> li);
 
     Boolean checkPasswordLegitimacy(String s);
+
+    DealList toDealList(List<Deal> li);
 }

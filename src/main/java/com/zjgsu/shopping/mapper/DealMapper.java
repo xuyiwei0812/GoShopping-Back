@@ -4,6 +4,8 @@ import com.zjgsu.shopping.pojo.Deal;
 import com.zjgsu.shopping.pojo.vo.DealVo;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface DealMapper {
     /**
@@ -13,8 +15,8 @@ public interface DealMapper {
      * @return 失败返回-1
      */
     @Options(useGeneratedKeys = true, keyProperty = "deal.dealId", keyColumn = "dealId")
-    @Insert("insert into deal (buyerId,sellerId,goodId) values (#{deal.buyerId}," +
-            "#{deal.sellerId},#{deal.goodId})")
+    @Insert("insert into deal (buyerId,sellerId,goodId,date) values (#{deal.buyerId}," +
+            "#{deal.sellerId},#{deal.goodId},#{deal.date})")
     Boolean startDeal(@Param("deal") DealVo deal);
 
     /**
@@ -34,4 +36,7 @@ public interface DealMapper {
      */
     @Select("select * from deal where dealId=#{dealId}")
     Deal getDealInfo(@Param("dealId") Integer dealId);
+
+    @Select("select * from deal where goodId=#{goodId}")
+    List<Deal> getDealList(@Param("goodId") Integer goodId);
 }

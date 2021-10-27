@@ -4,6 +4,7 @@ import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
 import org.springframework.data.relational.core.sql.In;
 
+import javax.management.StringValueExp;
 import java.util.Date;
 import java.util.List;
 
@@ -56,8 +57,6 @@ public interface SellerService {
     List<DealHistory> getDealHistoryListByGoodId(Integer goodId);
 
 
-
-
     /**
      * 取得某一商品的意向购买人列表
      *
@@ -85,7 +84,7 @@ public interface SellerService {
 
     Boolean startDeal(DealVo deal);
     Boolean cancelDeal(Integer dealId);
-    Boolean finishDeal(Integer dealId, Date dealDate);
+    Boolean finishDeal(Integer dealId);
 
     /**
      * 对于商品的操作:
@@ -102,6 +101,6 @@ public interface SellerService {
     Boolean soldOutGood(Integer goodId);
 
 
-
-
+    List<Deal> getDealListByGoodId(Integer goodId);
+    Boolean uploadGoodImg(Integer goodId ,List<String> li);
 }

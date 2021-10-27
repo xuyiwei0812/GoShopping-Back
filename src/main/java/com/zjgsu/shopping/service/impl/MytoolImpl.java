@@ -2,11 +2,10 @@ package com.zjgsu.shopping.service.impl;
 
 import com.zjgsu.shopping.mapper.BuyerMapper;
 import com.zjgsu.shopping.mapper.GoodImagineMapper;
-import com.zjgsu.shopping.pojo.DealHistory;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.GoodImagine;
-import com.zjgsu.shopping.pojo.Intention;
+import com.zjgsu.shopping.mapper.GoodMapper;
+import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.DealHistoryList;
+import com.zjgsu.shopping.pojo.vo.DealList;
 import com.zjgsu.shopping.pojo.vo.GoodList;
 import com.zjgsu.shopping.pojo.vo.IntentionList;
 import com.zjgsu.shopping.service.Mytool;
@@ -21,7 +20,8 @@ public class MytoolImpl implements Mytool {
     GoodImagineMapper goodImagineMapper ;
     @Resource
     BuyerMapper buyerMapper;
-
+    @Resource
+    GoodMapper goodMapper;
     public Object soutErr(String s,Exception e){
         System.out.println("发生错误,错误方法名: " + s + "错误: " + e.toString());
         return null;
@@ -54,6 +54,14 @@ public class MytoolImpl implements Mytool {
         return list;
     }
 
+    public DealList toDealList(List<Deal> li){
+        DealList list = new DealList();
+        for(Deal item : li){
+            list.AddItem(item.getDealId(),item.getGoodId(),buyerMapper.getBuyerInfo(item.getBuyerId()).getName(),
+                    goodMapper.getGoodInfo(item.getGoodId()).getGoodName(),item.getDate());
+        }
+        return list;
+    }
     /**
      * 检查密码合法性
      */

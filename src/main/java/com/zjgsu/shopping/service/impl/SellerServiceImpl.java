@@ -26,7 +26,8 @@ public class SellerServiceImpl implements SellerService {
     DealHistoryMapper dealHistoryMapper;
     @Resource
     IntentionMapper intentionMapper;
-
+    @Resource
+    GoodImagineMapper goodImagineMapper;
 
     @Override
     public Seller sellerRegister(Seller seller){
@@ -97,6 +98,11 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    public List<Deal> getDealListByGoodId(Integer goodId) {
+        return dealMapper.getDealList(goodId);
+    }
+
+    @Override
     public List<Intention> getIntentionListByGoodId(Integer goodId) {
         return intentionMapper.getIntentionListByGoodId(goodId);
     }
@@ -121,8 +127,11 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean startDeal(DealVo deal) {
+        deal.setDate(new Date());
         goodMapper.freezeGood(deal.getGoodId());
         intentionMapper.cancelIntention(deal.getIntentionId());
+        if(intentionMapper.getIntentionListByGoodId(deal.getGoodId()).isEmpty())
+            goodMapper.refuseGood(deal.getGoodId());
         return dealMapper.startDeal(deal);
     }
 
@@ -133,8 +142,13 @@ public class SellerServiceImpl implements SellerService {
         return dealMapper.cancelDeal(dealId) > 0;
     }
 
+    /**
+     * 卖空
+     */
+
     @Override
-    public Boolean finishDeal(Integer dealId, Date dealDate) {
+    public Boolean finishDeal(Integer dealId) {
+        Date dealDate = new Date();
         if (goodMapper.soldOutGood(dealId) == 0) return false;
         Deal deal = dealMapper.getDealInfo(dealId);
         goodMapper.unfreezeGood(deal.getGoodId());
@@ -161,6 +175,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean pullOffGood(Integer goodId) {
+        goodMapper.soldOutGood(goodId);
         return goodMapper.pullOffGood(goodId) > 0;
     }
 
@@ -176,5 +191,13 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean soldOutGood(Integer goodId) {
         return goodMapper.soldOutGood(goodId) > 0;
+    }
+
+    @Override
+    public Boolean uploadGoodImg(Integer goodId ,List<String> li){
+        for(String item:li){
+            goodImagineMapper.addImagine(new GoodImagine(null,goodId,item));
+        }
+        return true;
     }
 }
