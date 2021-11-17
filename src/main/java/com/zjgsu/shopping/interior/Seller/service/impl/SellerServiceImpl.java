@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.interior.Seller.service.impl;
 
+import ch.qos.logback.core.util.InvocationGate;
 import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
@@ -131,7 +132,8 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean startDeal(DealVo deal) {
         deal.setDate(new Date());
-        goodMapper.freezeGood(deal.getGoodId());
+        if(Objects.equals(goodMapper.getGoodInfo(deal.getGoodId()).getStorage(), deal.getNumber()))
+            goodMapper.freezeGood(deal.getGoodId());
         intentionMapper.cancelIntention(deal.getIntentionId());
         if(intentionMapper.getIntentionListByGoodId(deal.getGoodId()).isEmpty())
             goodMapper.refuseGood(deal.getGoodId());
@@ -152,8 +154,13 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean finishDeal(Integer dealId) {
         Date dealDate = new Date();
-        if (goodMapper.soldOutGood(dealId) == 0) return false;
         Deal deal = dealMapper.getDealInfo(dealId);
+        int l = goodMapper.getGoodInfo(deal.getGoodId()).getStorage()  - deal.getNumber();
+        if(l < 0) return false;
+        else if( l == 0) goodMapper.soldOutGood(deal.getGoodId());
+        Good good = goodMapper.getGoodInfo(deal.getGoodId());
+        good.setStorage(l);
+        goodMapper.updateGoodStorage(good);
         goodMapper.unfreezeGood(deal.getGoodId());
         dealHistoryMapper.raiseDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
                 buyerMapper.getBuyerInfo(deal.getBuyerId()).getBuyerPhone(), dealDate));
@@ -186,8 +193,10 @@ public class SellerServiceImpl implements SellerService {
 
     //添货
     @Override
-    public Boolean exhibitGood(Integer goodId) {
-        return goodMapper.exhibitGood(goodId) > 0;
+    public Boolean exhibitGood(Good good) {
+        good.setStorage(goodMapper.getGoodInfo(good.getGoodId()).getStorage() + good.getStorage());
+        goodMapper.updateGoodStorage(good);
+        return goodMapper.exhibitGood(good.getGoodId()) > 0;
     }
 
 

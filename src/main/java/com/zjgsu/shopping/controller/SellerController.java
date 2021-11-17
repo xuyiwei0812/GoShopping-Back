@@ -317,7 +317,7 @@ public class SellerController {
     @ResponseBody
     @PostMapping("/exhibitGood")
     public Response<Object> exhibitGood(@RequestBody Good good) {
-        if (sellerService.exhibitGood(good.getGoodId()))
+        if (sellerService.exhibitGood(good))
             return Response.createSuc(null);
         else
             return Response.createErr("商品补货失败");

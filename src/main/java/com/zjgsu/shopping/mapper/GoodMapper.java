@@ -32,8 +32,8 @@ public interface GoodMapper {
      * 注意:上传商品之后商品就不会从数据库中删除
      */
     @Options(useGeneratedKeys = true, keyProperty = "good.goodId", keyColumn = "goodId")
-    @Insert("insert into good (sellerId,goodPrice,goodName,description) values( " +
-            "#{good.sellerId},#{good.goodPrice} , #{good.goodName} , #{good.description})")
+    @Insert("insert into good (sellerId,storage,goodPrice,goodName,description) values( " +
+            "#{good.sellerId},#{good.storage},#{good.goodPrice} , #{good.goodName} , #{good.description})")
     Boolean raiseGood(@Param("good") Good good);
 
     /**
@@ -114,6 +114,8 @@ public interface GoodMapper {
     @Update("update good set sold = 0 where goodId = #{goodId}")
     Long exhibitGood(@Param("goodId") Integer goodId);
 
+    @Update("update good set storage = #{good.storage} where goodId = #{good.goodId}")
+    Long updateGoodStorage(@Param("good" )Good good);
 
 
     /**

@@ -16,6 +16,7 @@ public class Intention {
      * 构造方式Intention(null,buyer,goodId)
      */
     private Integer intentionId;
+    private Integer number;
     private Integer buyerId;
     private Integer goodId;
     private Date date;

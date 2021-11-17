@@ -96,7 +96,7 @@ public interface SellerService {
     Good raiseGood(Good good);
     Boolean putOnGood(Integer goodId);
     Boolean pullOffGood(Integer goodId);
-    Boolean exhibitGood(Integer goodId);
+    Boolean exhibitGood(Good good);
     Boolean soldOutGood(Integer goodId);
 
 

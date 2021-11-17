@@ -21,6 +21,7 @@ public class Deal {
     private Integer buyerId;
     private Integer sellerId;
     private Integer goodId;
+    private Integer number;
     private Date date;
 
 }
