@@ -1,11 +1,10 @@
-package com.zjgsu.shopping.service;
+package com.zjgsu.shopping.interior.Seller.service;
 
+import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
-import org.springframework.data.relational.core.sql.In;
 
-import javax.management.StringValueExp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,8 +26,8 @@ public interface SellerService {
     Integer sellerLogin(String account, String password);
     Long updateSellerPassword(Integer sellerId, String password, String newPassword);
     Boolean checkSellerPassword(Integer sellerId, String password);
-    Boolean updateInfo(Seller seller);
-    Boolean searchAccount(String account);
+    Boolean updateSellerInfo(Seller seller);
+    Boolean searchSellerAccount(String account);
 
 
 

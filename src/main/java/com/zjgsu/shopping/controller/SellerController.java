@@ -1,20 +1,18 @@
 package com.zjgsu.shopping.controller;
 
+import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import com.zjgsu.shopping.pojo.vo.GoodVo;
-import com.zjgsu.shopping.pojo.Buyer;
+import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.pojo.Deal;
 import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Seller;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.*;
-import com.zjgsu.shopping.service.BuyerService;
-import com.zjgsu.shopping.service.Mytool;
-import com.zjgsu.shopping.service.SellerService;
-import org.apache.ibatis.annotations.Param;
+import com.zjgsu.shopping.Tool.Mytool;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -25,8 +23,6 @@ public class SellerController {
     private SellerService sellerService;
     @Resource
     private Mytool tool;
-    @Resource
-    private BuyerService buyerService;
     /**
      * 注册一个卖家账号
      *
@@ -41,7 +37,7 @@ public class SellerController {
         try {
             if(!(tool.checkPasswordLegitimacy(seller.getPassword())))
                 return Response.createErr("密码不符合规范");
-            if (sellerService.searchAccount(seller.getAccount()))
+            if (sellerService.searchSellerAccount(seller.getAccount()))
                 return Response.createErr("账号已经存在");
             sellerService.sellerRegister(seller);
             return Response.createSuc(seller);
@@ -92,12 +88,12 @@ public class SellerController {
     @PostMapping("/updateSellerInfo")
     public Response<Object> updateSellerInfo(@RequestBody Seller seller) {
         try {
-            if (sellerService.updateInfo(seller))
+            if (sellerService.updateSellerInfo(seller))
                 return Response.createSuc(null);
             else
                 return Response.createErr("信息更新失败");
         }catch(Exception e){
-            System.out.println("发生错误" + e.toString());
+            System.out.println("发生错误" + e);
             return Response.BUG();
         }
     }
@@ -278,7 +274,7 @@ public class SellerController {
     @PostMapping("/raiseGood")
     public Response<Good> raiseGood(@RequestBody GoodVo goodVo) {
         try {
-            Good good = new Good(null,goodVo.getSellerId(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null);
+            Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null);
             sellerService.raiseGood(good);
             sellerService.uploadGoodImg(good.getGoodId(),goodVo.getImg());
             return Response.createSuc(good);

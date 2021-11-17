@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 class GoodBrief {
     private Integer goodId;
+    private Integer storage;
     private Double goodPrice;
     private String goodName;
     private String img;
@@ -25,8 +26,8 @@ class GoodBrief {
 public class GoodList {
     List<GoodBrief> goodlist = new ArrayList<>();
 
-    public void AddItem(Integer goodId, Double price, String name, String img, String description, Boolean frozen, Boolean sold) {
-        GoodBrief good = new GoodBrief(goodId, price, name, img, description, frozen, sold);
+    public void AddItem(Integer goodId, Integer storage,Double price, String name, String img, String description, Boolean frozen, Boolean sold) {
+        GoodBrief good = new GoodBrief(goodId, storage,price, name, img, description, frozen, sold);
         goodlist.add(good);
     }
 }

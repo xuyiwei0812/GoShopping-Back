@@ -1,7 +1,7 @@
-package com.zjgsu.shopping.mapper;
+package com.zjgsu.shopping.interior.Seller.mapper;
 
 
-import com.zjgsu.shopping.pojo.Seller;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

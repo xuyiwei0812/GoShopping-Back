@@ -1,6 +1,10 @@
-package com.zjgsu.shopping.service.impl;
+package com.zjgsu.shopping.Tool;
 
-import com.zjgsu.shopping.mapper.BuyerMapper;
+import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
+import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
+import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
+import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
 import com.zjgsu.shopping.mapper.GoodImagineMapper;
 import com.zjgsu.shopping.mapper.GoodMapper;
 import com.zjgsu.shopping.pojo.*;
@@ -8,7 +12,6 @@ import com.zjgsu.shopping.pojo.vo.DealHistoryList;
 import com.zjgsu.shopping.pojo.vo.DealList;
 import com.zjgsu.shopping.pojo.vo.GoodList;
 import com.zjgsu.shopping.pojo.vo.IntentionList;
-import com.zjgsu.shopping.service.Mytool;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,7 +35,7 @@ public class MytoolImpl implements Mytool {
         for (Good item : li) {
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
+            goodList.AddItem(item.getGoodId(), item.getStorage(),item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
         }
         return goodList;
     }
@@ -49,7 +52,7 @@ public class MytoolImpl implements Mytool {
     public IntentionList toIntentionList(List<Intention> li){
         IntentionList  list = new IntentionList();
         for(Intention item :li){
-            list.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId(),item.getDate(),buyerMapper.getBuyerInfo(item.getBuyerId()).getName());
+            list.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId(),item.getDate(),buyerMapper.getBuyerInfo(item.getBuyerId()).getBuyerName());
         }
         return list;
     }
@@ -57,11 +60,30 @@ public class MytoolImpl implements Mytool {
     public DealList toDealList(List<Deal> li){
         DealList list = new DealList();
         for(Deal item : li){
-            list.AddItem(item.getDealId(),item.getGoodId(),buyerMapper.getBuyerInfo(item.getBuyerId()).getName(),
+            list.AddItem(item.getDealId(),item.getGoodId(),buyerMapper.getBuyerInfo(item.getBuyerId()).getBuyerName(),
                     goodMapper.getGoodInfo(item.getGoodId()).getGoodName(),item.getDate());
         }
         return list;
     }
+
+    @Override
+    public BuyerHistoryList toBuyerHistoryList(List<BuyerHistory> li) {
+      BuyerHistoryList list = new BuyerHistoryList();
+      for(BuyerHistory item :li ){
+          list.AddItem(item.getHistoryId(),item.getGoodId(),item.getBuyerId(),item.getSellerId(),goodMapper.getGoodInfo(item.getGoodId()).getGoodName(),item.getDate());
+      }
+      return list;
+    }
+
+    @Override
+    public BuyerList toBuyerList(List<Buyer> li) {
+        BuyerList list = new BuyerList();
+        for(Buyer item: li){
+            list.AddItem(item);
+        }
+        return list;
+    }
+
     /**
      * 检查密码合法性
      */

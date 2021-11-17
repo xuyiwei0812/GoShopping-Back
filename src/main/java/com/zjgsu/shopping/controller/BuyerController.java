@@ -1,19 +1,20 @@
 package com.zjgsu.shopping.controller;
 
-import com.zjgsu.shopping.mapper.GoodMapper;
-import com.zjgsu.shopping.pojo.Buyer;
+import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
+import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
+import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
+import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
+import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.pojo.Good;
 import com.zjgsu.shopping.pojo.Intention;
-import com.zjgsu.shopping.pojo.Seller;
 import com.zjgsu.shopping.pojo.vo.GoodList;
 import com.zjgsu.shopping.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.pojo.vo.Response;
-import com.zjgsu.shopping.service.BuyerService;
-import com.zjgsu.shopping.service.Mytool;
-import org.apache.coyote.http2.Http2OutputBuffer;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 
 @Controller
@@ -25,7 +26,8 @@ public class BuyerController {
     private BuyerService buyerService;
     @Resource
     private Mytool tool;
-
+    @Resource
+    private BuyerHistoryService buyerHistoryService;
 
     /**
      * 登录买家信息
@@ -41,7 +43,7 @@ public class BuyerController {
     @PostMapping("/uploadBuyerInfo")
     public Response<Integer> uploadBuyerInfo(@RequestBody Buyer buyer) {
         try {
-            if (buyerService.raiseBuyer(buyer) == null)
+            if (buyerService.buyerRegister(buyer) == null)
                 return Response.createErr("登录买家信息失败");
             else
                 return Response.createSuc(buyer.getBuyerId());
@@ -90,7 +92,7 @@ public class BuyerController {
     @PostMapping("/getUnfrozenGoodListFB")
     public Response<GoodList> getUnfrozenGoodListFB(){
         try {
-           return Response.createSuc(tool.toGoodList(buyerService.getUnfrozenGoodListForBuyers()));
+            return Response.createSuc(tool.toGoodList(buyerService.getUnfrozenGoodListForBuyers()));
         }catch (Exception e){
             tool.soutErr("getUnforzenGoodFB" , e);
             return Response.BUG();
@@ -142,6 +144,25 @@ public class BuyerController {
             tool.soutErr("getGoodInfo" , e);
             return Response.BUG();
         }
+    }
+
+
+    @ResponseBody
+    @PostMapping("/getBuyerHistoryByBuyerId")
+    public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer){
+        try {
+            BuyerHistoryList list = tool.toBuyerHistoryList(buyerHistoryService.getBuyerHistory(buyer.getBuyerId()));
+            return Response.createSuc(list);
+        }catch (Exception e){
+            tool.soutErr("getBuyerHistoryByBuyerId" ,e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/searchGood")
+    public Response<GoodList> searchGood(@Param("q") String q){
+        return null;
     }
 
 }

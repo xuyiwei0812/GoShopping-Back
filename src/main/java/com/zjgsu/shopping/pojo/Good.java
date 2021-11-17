@@ -21,6 +21,7 @@ public class Good {
      */
     private Integer goodId;
     private Integer sellerId;
+    private Integer storage;
     private Double  goodPrice;
     private String  goodName;
     private String  description;

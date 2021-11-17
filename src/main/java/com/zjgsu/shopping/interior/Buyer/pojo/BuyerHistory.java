@@ -1,4 +1,4 @@
-package com.zjgsu.shopping.pojo;
+package com.zjgsu.shopping.interior.Buyer.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,18 +7,13 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Intention {
-    /**
-     * 意向编号
-     * 用户编号
-     * 构造方式Intention(null,buyer,goodId)
-     */
-    private Integer intentionId;
+@NoArgsConstructor
+public class BuyerHistory {
+
+    private Integer historyId;
     private Integer buyerId;
     private Integer goodId;
+    private Integer sellerId;
     private Date date;
-
-
 }

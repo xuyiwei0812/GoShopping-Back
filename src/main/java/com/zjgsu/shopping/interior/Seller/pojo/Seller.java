@@ -2,9 +2,8 @@
 // but only God know what it is now.
 //                        -- K-desperate
 
-package com.zjgsu.shopping.pojo;
+package com.zjgsu.shopping.interior.Seller.pojo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,11 +28,4 @@ public class Seller {
     private String phone;
     //private String profilePicture;//base64
 
-    public Seller(Integer sellerId, String name, String account, String password, String location, String phone) {
-        this.name = name;
-        this.account = account;
-        this.password = password;
-        this.location = location;
-        this.phone = phone;
-    }
 }

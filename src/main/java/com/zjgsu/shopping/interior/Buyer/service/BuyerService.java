@@ -1,6 +1,6 @@
-package com.zjgsu.shopping.service;
+package com.zjgsu.shopping.interior.Buyer.service;
 
-import com.zjgsu.shopping.pojo.Buyer;
+import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.pojo.Good;
 import com.zjgsu.shopping.pojo.Intention;
 import com.zjgsu.shopping.pojo.vo.GoodwithImg;
@@ -10,8 +10,22 @@ import java.util.List;
 public interface BuyerService {
 
 
-    Buyer raiseBuyer(Buyer buyer);
 
+    /**
+     * 对账号信息进行操作
+     * 1.账号注册
+     * 2.账号登录
+     * 3.更新账号密码
+     * 4.检查账号密码
+     * 5.更新卖家的信息
+     * 6.查询账号是否存在
+     */
+    Buyer buyerRegister(Buyer buyer);
+    Integer  buyerLogin(String account, String password);
+    Long updateBuyerPassword(Integer buyerId, String password, String newPassword);
+    Boolean checkBuyerPassword(Integer buyerId, String password);
+    Boolean updateBuyerInfo(Buyer buyer);
+    Boolean searchBuyerAccount(String account);
 
 
     Boolean raiseIntention(Intention intention);

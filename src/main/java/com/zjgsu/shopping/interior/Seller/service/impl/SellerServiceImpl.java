@@ -1,10 +1,13 @@
-package com.zjgsu.shopping.service.impl;
+package com.zjgsu.shopping.interior.Seller.service.impl;
 
+import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
+import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.mapper.*;
 import com.zjgsu.shopping.pojo.*;
 import com.zjgsu.shopping.pojo.vo.*;
-import com.zjgsu.shopping.service.SellerService;
-import org.springframework.data.relational.core.sql.In;
+import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
@@ -58,7 +61,7 @@ public class SellerServiceImpl implements SellerService {
 
 
     @Override
-    public Boolean searchAccount(String account) {
+    public Boolean searchSellerAccount(String account) {
         return !sellerMapper.searchAccount(account).isEmpty();
     }
 
@@ -108,7 +111,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Boolean updateInfo(Seller seller) {
+    public Boolean updateSellerInfo(Seller seller) {
         Seller oldSeller = sellerMapper.getInfo(seller.getSellerId());
         if (seller.getAccount() == null) seller.setAccount(oldSeller.getAccount());
         seller.setPassword(oldSeller.getPassword());
@@ -153,7 +156,7 @@ public class SellerServiceImpl implements SellerService {
         Deal deal = dealMapper.getDealInfo(dealId);
         goodMapper.unfreezeGood(deal.getGoodId());
         dealHistoryMapper.raiseDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
-                buyerMapper.getBuyerInfo(deal.getBuyerId()).getPhone(), dealDate));
+                buyerMapper.getBuyerInfo(deal.getBuyerId()).getBuyerPhone(), dealDate));
         return dealMapper.cancelDeal(dealId) > 0;
     }
 

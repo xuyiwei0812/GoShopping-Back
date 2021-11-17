@@ -4,13 +4,15 @@
 
 //暂时没什么用
 
-package com.zjgsu.shopping.pojo;
+package com.zjgsu.shopping.interior.Buyer.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Buyer {
 
     /**
@@ -21,13 +23,11 @@ public class Buyer {
      * Buyer(null,name,location,phone)
      */
     private Integer buyerId;
-    private String name;
-    private String location;
-    private String phone;
+    private String buyerName;
+    private String buyerAccount;
+    private String buyerPassword;
+    private String buyerLocation;
+    private String buyerPhone;
 
-    public Buyer(Integer buyerId, String name, String location, String phone) {
-        this.name = name;
-        this.location = location;
-        this.phone = phone;
-    }
+
 }
