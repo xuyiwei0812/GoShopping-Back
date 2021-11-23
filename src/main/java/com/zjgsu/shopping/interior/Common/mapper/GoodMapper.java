@@ -1,7 +1,9 @@
-package com.zjgsu.shopping.mapper;
+package com.zjgsu.shopping.interior.Common.mapper;
 
-import com.zjgsu.shopping.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
 import org.apache.ibatis.annotations.*;
+import org.springframework.data.relational.core.sql.In;
 
 import java.util.List;
 
@@ -32,8 +34,8 @@ public interface GoodMapper {
      * 注意:上传商品之后商品就不会从数据库中删除
      */
     @Options(useGeneratedKeys = true, keyProperty = "good.goodId", keyColumn = "goodId")
-    @Insert("insert into good (sellerId,storage,goodPrice,goodName,description) values( " +
-            "#{good.sellerId},#{good.storage},#{good.goodPrice} , #{good.goodName} , #{good.description})")
+    @Insert("insert into good (sellerId,storage,goodPrice,goodName,description,class2) values( " +
+            "#{good.sellerId},#{good.storage},#{good.goodPrice} , #{good.goodName} , #{good.description} , #{good.class2})")
     Boolean raiseGood(@Param("good") Good good);
 
     /**
@@ -157,6 +159,24 @@ public interface GoodMapper {
     //*********************************************************************************
     //以下数据库操作针对买家
 
+    /**
+        得到非下架商品(包括已经冻结,已经售空)
+     */
+
+    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and" +
+            "sold = #{mode.sold}")
+    List<Good> getAllGoodList(@Param("mode") Mode mode);
+
+
+    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and" +
+            "sold = #{mode.sold} and sellerId = #{mode.sellerId}")
+    List<Good> getGoodListBySellerId(@Param("mode") Mode mode );
+
+    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and" +
+            "sold = #{mode.sold} and class2 = #{mode.class2}")
+    List<Good> getClass2GoodListByClassId(@Param("mode")Mode mode );
+
+
     @Select("select * from good where removed = 0")
     List<Good> getAllGoodListForBuyers();
 
@@ -169,12 +189,7 @@ public interface GoodMapper {
 
     @Select("select * from good where frozen = 0 and removed = 0 and sellerId = #{sellerId}")
     List<Good> getUnfrozenGoodListBySellerIdForBuyers(@Param("sellerId") Integer sellerId);
-
-
-    //*********************************************************************************
-    //以下数据库操作针对超级管理员
-//    @Select("select * from good")
-//    List<Good> getAllGoodList();
-
+//
+//    @Select("select * from good where ")
 
 }

@@ -1,13 +1,17 @@
 package com.zjgsu.shopping.interior.Seller.service.impl;
 
-import ch.qos.logback.core.util.InvocationGate;
 import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Common.mapper.DealHistoryMapper;
+import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
+import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
+import com.zjgsu.shopping.interior.Common.mapper.IntentionMapper;
+import com.zjgsu.shopping.interior.Seller.mapper.DealMapper;
 import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
+import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
-import com.zjgsu.shopping.mapper.*;
-import com.zjgsu.shopping.pojo.*;
-import com.zjgsu.shopping.pojo.vo.*;
+import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
+import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -174,6 +178,14 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Good raiseGood(Good good) {
+        goodMapper.raiseGood(good);
+        return good;
+    }
+
+    @Override
+    public Good updateGoodInfo(Good good) {
+        goodMapper.pullOffGood(good.getGoodId());
+        good.setGoodId(null);
         goodMapper.raiseGood(good);
         return good;
     }

@@ -1,4 +1,4 @@
-package com.zjgsu.shopping.pojo;
+package com.zjgsu.shopping.interior.Common.pojo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

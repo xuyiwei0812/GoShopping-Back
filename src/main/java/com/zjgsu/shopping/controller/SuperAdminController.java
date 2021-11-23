@@ -3,10 +3,9 @@ package com.zjgsu.shopping.controller;
 
 import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
-import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
 import com.zjgsu.shopping.interior.SuperAdmin.service.SuperAdminService;
-import com.zjgsu.shopping.pojo.vo.Response;
+import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

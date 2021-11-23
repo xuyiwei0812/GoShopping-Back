@@ -1,6 +1,5 @@
-package com.zjgsu.shopping.pojo.vo;
+package com.zjgsu.shopping.interior.Seller.pojo.vo;
 
-import com.zjgsu.shopping.pojo.Deal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

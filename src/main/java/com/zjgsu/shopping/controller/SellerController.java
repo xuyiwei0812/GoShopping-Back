@@ -1,12 +1,14 @@
 package com.zjgsu.shopping.controller;
 
+import com.zjgsu.shopping.interior.Seller.pojo.vo.DealList;
+import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
-import com.zjgsu.shopping.pojo.vo.GoodVo;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodVo;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.pojo.Deal;
-import com.zjgsu.shopping.pojo.Good;
+import com.zjgsu.shopping.interior.Seller.pojo.Deal;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
-import com.zjgsu.shopping.pojo.vo.*;
+import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.Tool.Mytool;
 
 import org.springframework.stereotype.Controller;
@@ -274,7 +276,7 @@ public class SellerController {
     @PostMapping("/raiseGood")
     public Response<Good> raiseGood(@RequestBody GoodVo goodVo) {
         try {
-            Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null);
+            Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null,goodVo.getClass2());
             sellerService.raiseGood(good);
             sellerService.uploadGoodImg(good.getGoodId(),goodVo.getImg());
             return Response.createSuc(good);
@@ -445,6 +447,17 @@ public class SellerController {
             return Response.createSuc(tool.toDealList(sellerService.getDealListByGoodId(good.getGoodId())));
         }catch (Exception e){
             tool.soutErr("getDealListByGoodId",e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/updateGoodInfo")
+    public Response<Good> updateGoodInfo(@RequestBody Good good){
+        try{
+            return Response.createSuc(sellerService.updateGoodInfo(good));
+        }catch (Exception e){
+            tool.soutErr("updateGoodInfo",e);
             return Response.BUG();
         }
     }

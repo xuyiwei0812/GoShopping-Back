@@ -1,6 +1,6 @@
-package com.zjgsu.shopping.mapper;
+package com.zjgsu.shopping.interior.Common.mapper;
 
-import com.zjgsu.shopping.pojo.GoodImagine;
+import com.zjgsu.shopping.interior.Common.pojo.GoodImagine;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

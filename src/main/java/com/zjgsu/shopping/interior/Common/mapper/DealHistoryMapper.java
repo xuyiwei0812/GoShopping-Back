@@ -1,6 +1,6 @@
-package com.zjgsu.shopping.mapper;
+package com.zjgsu.shopping.interior.Common.mapper;
 
-import com.zjgsu.shopping.pojo.DealHistory;
+import com.zjgsu.shopping.interior.Common.pojo.DealHistory;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -36,8 +36,4 @@ public interface DealHistoryMapper {
     @Select("select * from dealhistory where goodId =#{goodId}")
     List<DealHistory> getDealHistoryListByGoodId(@Param("goodId") Integer goodId);
 
-    //******************************************************
-    //管理员操作
-//    @Select("select * from dealhistory")
-//    List<DealHistory> getAllDealHistoryList();
 }

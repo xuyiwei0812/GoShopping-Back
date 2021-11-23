@@ -1,21 +1,22 @@
 package com.zjgsu.shopping.controller;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
+import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.Tool.Mytool;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Intention;
-import com.zjgsu.shopping.pojo.vo.GoodList;
-import com.zjgsu.shopping.pojo.vo.GoodwithImg;
-import com.zjgsu.shopping.pojo.vo.Response;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.Intention;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodList;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
+import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.nio.file.attribute.AclEntryPermission;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -160,9 +161,35 @@ public class BuyerController {
     }
 
     @ResponseBody
+    @PostMapping("/getClass2GoodListByClassId")
+    public Response<GoodList> getClass2GoodListByClassId(@RequestBody Mode mode){
+        try{
+            GoodList list = tool.toGoodList(buyerService.getClass2GoodListByClassId(mode));
+            return Response.createSuc(list);
+        }catch (Exception e){
+            tool.soutErr("getClass2GoodListByClassId" ,e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getClass1GoodListByClassId")
+    public Response<GoodList> getClass1GoodListByClassId(@RequestBody Mode mode){
+        try{
+            GoodList list = tool.toGoodList(buyerService.getClass1GoodListByClassId(mode));
+            return Response.createSuc(list);
+        }catch (Exception e){
+            tool.soutErr("getClass1GoodListByClassId" ,e);
+            return Response.BUG();
+        }
+    }
+
+
+    @ResponseBody
     @GetMapping("/searchGood")
     public Response<GoodList> searchGood(@Param("q") String q){
         return null;
     }
+
 
 }

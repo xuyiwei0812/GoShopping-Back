@@ -4,14 +4,14 @@ import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
 import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
-import com.zjgsu.shopping.pojo.Deal;
-import com.zjgsu.shopping.pojo.DealHistory;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Intention;
-import com.zjgsu.shopping.pojo.vo.DealHistoryList;
-import com.zjgsu.shopping.pojo.vo.DealList;
-import com.zjgsu.shopping.pojo.vo.GoodList;
-import com.zjgsu.shopping.pojo.vo.IntentionList;
+import com.zjgsu.shopping.interior.Seller.pojo.Deal;
+import com.zjgsu.shopping.interior.Common.pojo.DealHistory;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.Intention;
+import com.zjgsu.shopping.interior.Common.pojo.vo.DealHistoryList;
+import com.zjgsu.shopping.interior.Seller.pojo.vo.DealList;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodList;
+import com.zjgsu.shopping.interior.Common.pojo.vo.IntentionList;
 
 import java.util.List;
 

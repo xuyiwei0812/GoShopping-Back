@@ -1,9 +1,10 @@
 package com.zjgsu.shopping.interior.Seller.service;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
-import com.zjgsu.shopping.pojo.*;
-import com.zjgsu.shopping.pojo.vo.*;
+import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
+import com.zjgsu.shopping.interior.Common.pojo.*;
 
 import java.util.List;
 
@@ -94,6 +95,7 @@ public interface SellerService {
      */
     Good getGoodInfo(Integer goodId);
     Good raiseGood(Good good);
+    Good updateGoodInfo(Good good);
     Boolean putOnGood(Integer goodId);
     Boolean pullOffGood(Integer goodId);
     Boolean exhibitGood(Good good);

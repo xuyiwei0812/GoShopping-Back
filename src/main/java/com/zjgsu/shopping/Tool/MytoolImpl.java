@@ -4,14 +4,15 @@ import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
+import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
-import com.zjgsu.shopping.mapper.GoodImagineMapper;
-import com.zjgsu.shopping.mapper.GoodMapper;
-import com.zjgsu.shopping.pojo.*;
-import com.zjgsu.shopping.pojo.vo.DealHistoryList;
-import com.zjgsu.shopping.pojo.vo.DealList;
-import com.zjgsu.shopping.pojo.vo.GoodList;
-import com.zjgsu.shopping.pojo.vo.IntentionList;
+import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
+import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
+import com.zjgsu.shopping.interior.Common.pojo.*;
+import com.zjgsu.shopping.interior.Common.pojo.vo.DealHistoryList;
+import com.zjgsu.shopping.interior.Seller.pojo.vo.DealList;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodList;
+import com.zjgsu.shopping.interior.Common.pojo.vo.IntentionList;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -91,8 +92,7 @@ public class MytoolImpl implements Mytool {
     public Boolean checkPasswordLegitimacy(String s) {
         if(s == null) return false;
         int len = s.length();
-        if(len < 6 || len > 12) return false;
-        return true;
+        return len >= 6 && len <= 12;
     }
 
 }

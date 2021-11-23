@@ -1,9 +1,10 @@
 package com.zjgsu.shopping.interior.Buyer.service;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Intention;
-import com.zjgsu.shopping.pojo.vo.GoodwithImg;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.Intention;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
+import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
 
 import java.util.List;
 
@@ -45,6 +46,10 @@ public interface BuyerService {
     List<Good> getAllGoodListBySellerIdForBuyers(Integer sellerId);
 
     List<Good> getUnfrozenGoodListBySellerIdForBuyers(Integer sellerId);
+
+    List<Good> getClass2GoodListByClassId(Mode mode);
+
+    List<Good> getClass1GoodListByClassId(Mode mode);
 
 
     /**

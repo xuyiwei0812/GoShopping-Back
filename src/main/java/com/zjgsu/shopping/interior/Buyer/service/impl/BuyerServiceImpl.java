@@ -2,14 +2,19 @@ package com.zjgsu.shopping.interior.Buyer.service.impl;
 
 import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
-import com.zjgsu.shopping.mapper.*;
+import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
+import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
+import com.zjgsu.shopping.interior.Common.mapper.IntentionMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.Intention;
-import com.zjgsu.shopping.pojo.vo.GoodwithImg;
+import com.zjgsu.shopping.interior.Common.mapper.One2TwoClassMapper;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.Intention;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
+import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +29,8 @@ public class BuyerServiceImpl implements BuyerService {
     private GoodMapper goodMapper;
     @Resource
     private GoodImagineMapper goodImagineMapper;
-
+    @Resource
+    private One2TwoClassMapper one2TwoClassMapper;
 
 
     @Override
@@ -99,6 +105,24 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public  List<Good> getUnfrozenGoodListBySellerIdForBuyers(Integer sellerId) {
         return goodMapper.getUnfrozenGoodListBySellerIdForBuyers(sellerId);
+    }
+
+    @Override
+    public List<Good> getClass2GoodListByClassId(Mode mode) {
+       return goodMapper.getClass2GoodListByClassId(mode);
+    }
+
+
+
+    @Override
+    public List<Good> getClass1GoodListByClassId(Mode mode) {
+        List<Good> li = goodMapper.getAllGoodList(mode);
+        List<Good> re = new ArrayList<>();
+        for(Good item:li){
+            if(Objects.equals(one2TwoClassMapper.getClassInfoBySecondClass(item.getClass2()).getClass1(), mode.getClass1()))
+                re.add(item);
+        }
+        return re;
     }
 
     @Override

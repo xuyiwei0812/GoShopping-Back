@@ -1,7 +1,7 @@
-package com.zjgsu.shopping.pojo.vo;
+package com.zjgsu.shopping.interior.Common.pojo.vo;
 
-import com.zjgsu.shopping.pojo.Good;
-import com.zjgsu.shopping.pojo.GoodImagine;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.GoodImagine;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
