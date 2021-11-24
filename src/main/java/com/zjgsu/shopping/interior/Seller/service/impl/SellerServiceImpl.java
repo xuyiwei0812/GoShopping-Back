@@ -224,4 +224,15 @@ public class SellerServiceImpl implements SellerService {
         }
         return true;
     }
+
+    //视频
+    public Integer saveVideoToDatabase(Video video){
+        Boolean bo = goodMapper.saveVideoToDatabase(video);
+        if(bo==false) return -1;
+        else return 1;
+    }
+
+    public List<String> getVideoByGoodId(Integer goodId){
+        return goodMapper.getVideoByGoodId(goodId);
+    }
 }

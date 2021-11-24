@@ -4,6 +4,7 @@ import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
+import com.zjgsu.shopping.interior.Common.mapper.One2TwoClassMapper;
 import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
 import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
@@ -26,6 +27,8 @@ public class MytoolImpl implements Mytool {
     BuyerMapper buyerMapper;
     @Resource
     GoodMapper goodMapper;
+    @Resource
+    One2TwoClassMapper one2TwoClassMapper;
     public Object soutErr(String s,Exception e){
         System.out.println("发生错误,错误方法名: " + s + "错误: " + e.toString());
         return null;
@@ -36,7 +39,8 @@ public class MytoolImpl implements Mytool {
         for (Good item : li) {
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
             String img = (goodImg != null ? goodImg.getImagine() : null);
-            goodList.AddItem(item.getGoodId(), item.getStorage(),item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
+            Integer class1 = one2TwoClassMapper.getClassInfoBySecondClass(item.getClass2()).getClass1();
+            goodList.AddItem(item.getGoodId(), item.getStorage(),class1,item.getClass2(),item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
         }
         return goodList;
     }

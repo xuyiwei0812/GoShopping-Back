@@ -164,7 +164,10 @@ public class BuyerController {
     @PostMapping("/getClass2GoodListByClassId")
     public Response<GoodList> getClass2GoodListByClassId(@RequestBody Mode mode){
         try{
+            System.out.println(mode);
+            System.out.println("收到一个查类2");
             GoodList list = tool.toGoodList(buyerService.getClass2GoodListByClassId(mode));
+            System.out.println(list);
             return Response.createSuc(list);
         }catch (Exception e){
             tool.soutErr("getClass2GoodListByClassId" ,e);
@@ -176,6 +179,7 @@ public class BuyerController {
     @PostMapping("/getClass1GoodListByClassId")
     public Response<GoodList> getClass1GoodListByClassId(@RequestBody Mode mode){
         try{
+            System.out.println(mode);
             GoodList list = tool.toGoodList(buyerService.getClass1GoodListByClassId(mode));
             return Response.createSuc(list);
         }catch (Exception e){
@@ -188,6 +192,9 @@ public class BuyerController {
     @ResponseBody
     @GetMapping("/searchGood")
     public Response<GoodList> searchGood(@Param("q") String q){
+        System.out.println("收到了一个搜索的请求");
+        System.out.println("q"+q);
+
         return null;
     }
 
