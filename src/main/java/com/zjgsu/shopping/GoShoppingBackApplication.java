@@ -14,11 +14,4 @@ public class GoShoppingBackApplication {
     public static void main(String[] args) {
         SpringApplication.run(GoShoppingBackApplication.class, args);
     }
-
-//    //解决上传文件控制层接收为null的方法
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver multipartResolver() {
-//        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//        return multipartResolver;
-//    }
 }

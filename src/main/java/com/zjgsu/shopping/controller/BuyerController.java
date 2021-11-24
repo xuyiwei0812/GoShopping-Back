@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.nio.file.attribute.AclEntryPermission;
+import java.util.List;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -82,7 +83,10 @@ public class BuyerController {
     @PostMapping("/getAllGoodListFB")
     public Response<GoodList> getAllGoodListFB() {
         try {
-            return Response.createSuc(tool.toGoodList(buyerService.getAllGoodListForBuyers()));
+            //System.out.println("1"+buyerService.getAllGoodListForBuyers());
+            GoodList goodList = tool.toGoodList(buyerService.getAllGoodListForBuyers());
+            //System.out.println("2"+goodList);
+            return Response.createSuc(goodList);
         } catch (Exception e) {
             tool.soutErr("getAllGoodListFB", e);
             return Response.BUG();
@@ -147,6 +151,17 @@ public class BuyerController {
         }
     }
 
+    @ResponseBody
+    @PostMapping("/getVideoByGoodId")
+    public Response<String> getVideoByGoodId(@RequestBody Integer goodId){
+        try{
+            return Response.createSuc(buyerService.getVideoByGoodId(goodId));
+        }
+        catch (Exception e){
+            System.out.println("发生错误" + e);
+            return Response.BUG();
+        }
+    }
 
     @ResponseBody
     @PostMapping("/getBuyerHistoryByBuyerId")
@@ -190,13 +205,19 @@ public class BuyerController {
 
 
     @ResponseBody
-    @GetMapping("/searchGood")
-    public Response<GoodList> searchGood(@Param("q") String q){
-        System.out.println("收到了一个搜索的请求");
-        System.out.println("q"+q);
-
+    @PostMapping("/searchGood")
+    public Response<GoodList> searchGood(@RequestBody String keyword){
+//        try {
+//            System.out.println("收到了一个搜索的请求");
+//            System.out.println("keyword:" + keyword);
+//            List<Good> goodList = buyerService.searchGood(keyword);
+//            return Response.createSuc(goodList);
+//        }
+//        catch (Exception e){
+//            tool.soutErr("searchGood" ,e);
+//            return Response.BUG();
+//        }
         return null;
     }
-
 
 }

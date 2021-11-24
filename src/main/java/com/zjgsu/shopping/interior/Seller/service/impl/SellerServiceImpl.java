@@ -232,7 +232,7 @@ public class SellerServiceImpl implements SellerService {
         else return 1;
     }
 
-    public List<String> getVideoByGoodId(Integer goodId){
+    public String getVideoByGoodId(Integer goodId){
         return goodMapper.getVideoByGoodId(goodId);
     }
 }

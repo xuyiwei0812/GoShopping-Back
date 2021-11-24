@@ -107,5 +107,5 @@ public interface SellerService {
 
     //视频
     public Integer saveVideoToDatabase(Video video);
-    public List<String> getVideoByGoodId(Integer goodId);
+    public String getVideoByGoodId(Integer goodId);
 }

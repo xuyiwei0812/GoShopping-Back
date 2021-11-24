@@ -285,9 +285,10 @@ public class SellerController {
 
     @ResponseBody
     @PostMapping("/raiseGood")
-    public Response<Good> raiseGood(@RequestBody MultipartFile file) throws IllegalStateException, IOException {
+    public Response<Good> raiseGood(@RequestBody GoodVo goodVo, MultipartFile file) throws IllegalStateException, IOException {
         try {
-            GoodVo goodVo = new GoodVo(null,1,10,1,1,1.2,"aaa","description",false,false,false,false, Collections.singletonList("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200717ac%2F40%2Fw480h360%2F20200717%2Fcab4-iwpcxkr6938255.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640322623&t=c868cf59d345e2bfe8090b7702b0c277"));
+            System.out.println("file::"+file);
+            //GoodVo goodVo = new GoodVo(null,1,10,1,1,1.2,"aaa","description",false,false,false,false, Collections.singletonList("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200717ac%2F40%2Fw480h360%2F20200717%2Fcab4-iwpcxkr6938255.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640322623&t=c868cf59d345e2bfe8090b7702b0c277"));
             Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null,goodVo.getClass2());
             sellerService.raiseGood(good);
             System.out.println(good);
@@ -295,7 +296,7 @@ public class SellerController {
             System.out.println(good);
             //视频
             Video video = new Video();
-            System.out.println("file"+file);
+            System.out.println("file:"+file);
 
             if (!file.isEmpty()) {
                 System.out.println("收到传视频的请求");

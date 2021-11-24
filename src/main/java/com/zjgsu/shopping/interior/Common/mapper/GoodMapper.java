@@ -210,5 +210,9 @@ public interface GoodMapper {
      * @return
      */
     @Select("select localAddress from goodvideo where goodId=#{goodId}")
-    List<String> getVideoByGoodId(@Param("goodId") Integer goodId);
+    String getVideoByGoodId(@Param("goodId") Integer goodId);
+
+
+    @Select("select * from good where goodName like '%${keyword}%'")
+    List<Good> searchGood(@Param("keyword") String keyword);
 }

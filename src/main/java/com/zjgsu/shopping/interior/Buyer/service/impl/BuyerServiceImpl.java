@@ -11,6 +11,8 @@ import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Intention;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -128,5 +130,21 @@ public class BuyerServiceImpl implements BuyerService {
     @Override
     public GoodwithImg getGoodInfo(Integer goodId) {
         return new GoodwithImg(goodMapper.getGoodInfo(goodId), goodImagineMapper.getImagine(goodId));
+    }
+
+    /**
+     * 拿某个goodId的视频
+     * @param goodId
+     * @return
+     */
+    public String getVideoByGoodId(Integer goodId){
+        return goodMapper.getVideoByGoodId(goodId);
+    }
+
+    /**
+     * 模糊搜索
+     */
+    public List<Good> searchGood(String keyword){
+        return goodMapper.searchGood(keyword);
     }
 }

@@ -38,8 +38,11 @@ public class MytoolImpl implements Mytool {
         GoodList goodList = new GoodList();
         for (Good item : li) {
             GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
+            //System.out.println("3"+goodImg);
             String img = (goodImg != null ? goodImg.getImagine() : null);
+            //System.out.println("4"+img);
             Integer class1 = one2TwoClassMapper.getClassInfoBySecondClass(item.getClass2()).getClass1();
+            //System.out.println("5"+class1);
             goodList.AddItem(item.getGoodId(), item.getStorage(),class1,item.getClass2(),item.getGoodPrice(), item.getGoodName(), img, item.getDescription(), item.getFrozen(), item.getSold());
         }
         return goodList;
