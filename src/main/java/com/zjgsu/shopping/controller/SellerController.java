@@ -1,5 +1,6 @@
 package com.zjgsu.shopping.controller;
 
+import com.zjgsu.shopping.interior.Common.pojo.Video;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealList;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
@@ -11,10 +12,16 @@ import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.Tool.Mytool;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -25,6 +32,14 @@ public class SellerController {
     private SellerService sellerService;
     @Resource
     private Mytool tool;
+
+    @Autowired
+    private static String FILE_ADDRESS;
+
+    @Value("${file_address}")//保存地址，写在application.properties里
+    public void setfILE_ADDRESS(String fILE_ADDRESS) {
+        FILE_ADDRESS = fILE_ADDRESS;
+    }
     /**
      * 注册一个卖家账号
      *
@@ -264,27 +279,62 @@ public class SellerController {
     /**
      * 上架一个货物
      *
-     * @param goodVo xx
-     *             good.sellerId 卖家id
-     *             good.price    商品价格
-     *             good.name     商品名称
-     *             good.descript 商品描述
+     * @param
      * @return 上架成功返回商品id, 失败返回错误信息
      */
 
     @ResponseBody
     @PostMapping("/raiseGood")
-    public Response<Good> raiseGood(@RequestBody GoodVo goodVo) {
+    public Response<Good> raiseGood(@RequestBody GoodVo goodVo, MultipartFile file) throws IllegalStateException, IOException {
         try {
+            System.out.println("file::"+file);
+            //GoodVo goodVo = new GoodVo(null,1,10,1,1,1.2,"aaa","description",false,false,false,false, Collections.singletonList("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200717ac%2F40%2Fw480h360%2F20200717%2Fcab4-iwpcxkr6938255.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640322623&t=c868cf59d345e2bfe8090b7702b0c277"));
             Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null,goodVo.getClass2());
             sellerService.raiseGood(good);
+            System.out.println(good);
             sellerService.uploadGoodImg(good.getGoodId(),goodVo.getImg());
+            System.out.println(good);
+            //视频
+            Video video = new Video();
+            System.out.println("file:"+file);
+
+            if (!file.isEmpty()) {
+                System.out.println("收到传视频的请求");
+                //存放地址
+                String path = FILE_ADDRESS;
+                System.out.println("path" + path);
+                //如果父文件夹不存在 则创建文件夹 文件夹为path,视频名字file.getOriginalFilename()
+                File filepath = new File(path, file.getOriginalFilename());
+                if (!filepath.getParentFile().exists()) {
+                    filepath.getParentFile().mkdirs();
+                }
+                File fi = new File(path + File.separator + file.getOriginalFilename());
+                //下载到本地
+                file.transferTo(fi);
+                //获取绝对路径
+                String localAddress = fi.getAbsolutePath();
+                System.out.println("存入本地文件地址:" + localAddress);
+                video.setLocalAddress(localAddress);
+                //获取后缀名
+                String suffix = localAddress.substring(localAddress.lastIndexOf("."), localAddress.length());
+                System.out.println("后缀名:" + suffix);
+                video.setSuffix(suffix);
+                System.out.println("视频保存本地成功");
+                video.setGoodId(good.getGoodId());
+                System.out.println("goodId"+good.getGoodId());
+                //视频路径存数据库
+                Integer response1=sellerService.saveVideoToDatabase(video);
+                System.out.println("视频路径保存数据库成功");
+            }
+            else {
+                System.out.println("视频为空");
+            }
+
             return Response.createSuc(good);
         }catch (Exception e){
             tool.soutErr("raiseGood" , e);
             return Response.BUG();
         }
-
     }
 
 
@@ -342,6 +392,7 @@ public class SellerController {
     public Response<Object> putOnGood(@RequestBody Good good) {
         try {
             sellerService.putOnGood(good.getGoodId());
+
             return Response.createSuc(null);
         }catch (Exception e){
             tool.soutErr("putOnGood" ,e);

@@ -13,6 +13,7 @@ public class GoodVo {
     private Integer goodId;
     private Integer sellerId;
     private Integer storage;
+    private Integer class1;
     private Integer class2;
     private Double  goodPrice;
     private String  goodName;

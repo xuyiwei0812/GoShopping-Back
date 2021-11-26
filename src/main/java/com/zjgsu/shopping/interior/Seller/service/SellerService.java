@@ -104,4 +104,8 @@ public interface SellerService {
 
     List<Deal> getDealListByGoodId(Integer goodId);
     Boolean uploadGoodImg(Integer goodId ,List<String> li);
+
+    //视频
+    public Integer saveVideoToDatabase(Video video);
+    public String getVideoByGoodId(Integer goodId);
 }

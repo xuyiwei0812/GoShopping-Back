@@ -60,4 +60,8 @@ public interface BuyerService {
      */
     GoodwithImg getGoodInfo(Integer goodId);
 
+    public String getVideoByGoodId(Integer goodId);
+
+    public List<Good> searchGood(String keyword);
+
 }

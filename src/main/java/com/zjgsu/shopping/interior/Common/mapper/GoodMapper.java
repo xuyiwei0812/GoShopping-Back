@@ -1,6 +1,7 @@
 package com.zjgsu.shopping.interior.Common.mapper;
 
 import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.Video;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
 import org.apache.ibatis.annotations.*;
 import org.springframework.data.relational.core.sql.In;
@@ -163,17 +164,17 @@ public interface GoodMapper {
         得到非下架商品(包括已经冻结,已经售空)
      */
 
-    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and" +
+    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and " +
             "sold = #{mode.sold}")
     List<Good> getAllGoodList(@Param("mode") Mode mode);
 
 
-    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and" +
-            "sold = #{mode.sold} and sellerId = #{mode.sellerId}")
+    @Select("select * from good where removed > #{mode.removed} and frozen > #{mode.frozen} and " +
+            "sold > #{mode.sold} and sellerId > #{mode.sellerId}")
     List<Good> getGoodListBySellerId(@Param("mode") Mode mode );
 
-    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and" +
-            "sold = #{mode.sold} and class2 = #{mode.class2}")
+    @Select("select * from good where removed > #{mode.removed} and frozen > #{mode.frozen} and " +
+            "sold > #{mode.sold} and class2 > #{mode.class2}")
     List<Good> getClass2GoodListByClassId(@Param("mode")Mode mode );
 
 
@@ -192,4 +193,26 @@ public interface GoodMapper {
 //
 //    @Select("select * from good where ")
 
+
+    //视频
+    /**
+     * 把路径存进数据库里
+     * @param video
+     * @return
+     */
+    @Options(useGeneratedKeys = true, keyProperty = "video.videoId", keyColumn = "videoId")
+    @Insert("insert into goodvideo (localAddress,suffix,goodId) values (#{video.localAddress},#{video.suffix},#{video.goodId})")
+    Boolean saveVideoToDatabase(@Param("video") Video video);
+
+    /**
+     * 拿某个goodId的视频
+     * @param goodId
+     * @return
+     */
+    @Select("select localAddress from goodvideo where goodId=#{goodId}")
+    String getVideoByGoodId(@Param("goodId") Integer goodId);
+
+
+    @Select("select * from good where goodName like '%${keyword}%'")
+    List<Good> searchGood(@Param("keyword") String keyword);
 }
