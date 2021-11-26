@@ -2,6 +2,7 @@ package com.zjgsu.shopping.controller;
 
 
 import com.zjgsu.shopping.Tool.Mytool;
+import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
 import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
 import com.zjgsu.shopping.interior.SuperAdmin.service.SuperAdminService;
@@ -41,6 +42,18 @@ public class SuperAdminController {
     public Response<BuyerHistoryList> getAllBuyerHistory() {
         try {
             BuyerHistoryList list = tool.toBuyerHistoryList(superAdminService.getAllBuyerHistory());
+            return Response.createSuc(list);
+        } catch (Exception e) {
+            tool.soutErr("getAllBuyerHistory", e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getBuyerHistoryByBuyerId")
+    public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer) {
+        try {
+            BuyerHistoryList list = tool.toBuyerHistoryList(superAdminService.getBuyerHistoryByBuyerId(buyer.getBuyerId()));
             return Response.createSuc(list);
         } catch (Exception e) {
             tool.soutErr("getAllBuyerHistory", e);

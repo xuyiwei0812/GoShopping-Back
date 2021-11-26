@@ -9,4 +9,5 @@ public interface SuperAdminService {
 
     List<Buyer> getAllBuyerInfo();
     List<BuyerHistory> getAllBuyerHistory();
+    List<BuyerHistory> getBuyerHistoryByBuyerId(Integer buyerId);
 }

@@ -23,4 +23,9 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     public List<BuyerHistory> getAllBuyerHistory() {
         return superAdminMapper.getAllBuyerHistory();
     }
+
+    @Override
+    public List<BuyerHistory> getBuyerHistoryByBuyerId(Integer buyerId) {
+        return superAdminMapper.getBuyerHistoryByBuyerId(buyerId);
+    }
 }
