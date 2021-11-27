@@ -288,12 +288,12 @@ public class SellerController {
 
     @ResponseBody
     @PostMapping("/raiseGood")
-    public Response<Good> raiseGood(@RequestBody MultipartFile file) throws IllegalStateException, IOException {
+    public Response<Good> raiseGood(@RequestBody GoodVo goodVo, MultipartFile file) throws IllegalStateException, IOException {
         try {
             System.out.println("file::"+file);
-            List<MultipartFile> tryimg=new ArrayList<>();
-            tryimg.add(file);
-            GoodVo goodVo = new GoodVo(null,1,10,1,1,1.2,"aaa","description",false,false,false,false, tryimg);
+            //List<MultipartFile> tryimg=new ArrayList<>();
+            //tryimg.add(file);
+            //GoodVo goodVo = new GoodVo(null,1,10,1,1,1.2,"aaa","description",false,false,false,false, tryimg);
             Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null,goodVo.getClass2());
             sellerService.raiseGood(good);
             //sellerService.uploadGoodImg(good.getGoodId(),goodVo.getImg());
@@ -332,38 +332,38 @@ public class SellerController {
             }
 
             //视频
-//            Video video = new Video();
-//            if (!file.isEmpty()) {
-//                System.out.println("收到传视频的请求");
-//                //存放地址
-//                String path = FILE_ADDRESS;
-//                System.out.println("path" + path);
-//                //如果父文件夹不存在 则创建文件夹 文件夹为path,视频名字file.getOriginalFilename()
-//                File filepath = new File(path, file.getOriginalFilename());
-//                if (!filepath.getParentFile().exists()) {
-//                    filepath.getParentFile().mkdirs();
-//                }
-//                File fi = new File(path + File.separator + file.getOriginalFilename());
-//                //下载到本地
-//                file.transferTo(fi);
-//                //获取绝对路径
-//                String localAddress = fi.getAbsolutePath();
-//                System.out.println("存入本地文件地址:" + localAddress);
-//                video.setLocalAddress(localAddress);
-//                //获取后缀名
-//                String suffix = localAddress.substring(localAddress.lastIndexOf("."), localAddress.length());
-//                System.out.println("后缀名:" + suffix);
-//                video.setSuffix(suffix);
-//                System.out.println("视频保存本地成功");
-//                video.setGoodId(good.getGoodId());
-//                System.out.println("goodId"+good.getGoodId());
-//                //视频路径存数据库
-//                Boolean response1=sellerService.saveVideoToDatabase(video);
-//                System.out.println("视频路径保存数据库成功");
-//            }
-//            else {
-//                System.out.println("视频为空");
-//            }
+            Video video = new Video();
+            if (!file.isEmpty()) {
+                System.out.println("收到传视频的请求");
+                //存放地址
+                String path = FILE_ADDRESS;
+                System.out.println("path" + path);
+                //如果父文件夹不存在 则创建文件夹 文件夹为path,视频名字file.getOriginalFilename()
+                File filepath = new File(path, file.getOriginalFilename());
+                if (!filepath.getParentFile().exists()) {
+                    filepath.getParentFile().mkdirs();
+                }
+                File fi = new File(path + File.separator + file.getOriginalFilename());
+                //下载到本地
+                file.transferTo(fi);
+                //获取绝对路径
+                String localAddress = fi.getAbsolutePath();
+                System.out.println("存入本地文件地址:" + localAddress);
+                video.setLocalAddress(localAddress);
+                //获取后缀名
+                String suffix = localAddress.substring(localAddress.lastIndexOf("."), localAddress.length());
+                System.out.println("后缀名:" + suffix);
+                video.setSuffix(suffix);
+                System.out.println("视频保存本地成功");
+                video.setGoodId(good.getGoodId());
+                System.out.println("goodId"+good.getGoodId());
+                //视频路径存数据库
+                Boolean response1=sellerService.saveVideoToDatabase(video);
+                System.out.println("视频路径保存数据库成功");
+            }
+            else {
+                System.out.println("视频为空");
+            }
 
             return Response.createSuc(good);
         }catch (Exception e){
