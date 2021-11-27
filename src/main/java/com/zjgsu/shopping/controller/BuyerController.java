@@ -207,17 +207,17 @@ public class BuyerController {
     @ResponseBody
     @PostMapping("/searchGood")
     public Response<GoodList> searchGood(@RequestBody String keyword){
-//        try {
-//            System.out.println("收到了一个搜索的请求");
-//            System.out.println("keyword:" + keyword);
-//            List<Good> goodList = buyerService.searchGood(keyword);
-//            return Response.createSuc(goodList);
-//        }
-//        catch (Exception e){
-//            tool.soutErr("searchGood" ,e);
-//            return Response.BUG();
-//        }
-        return null;
+        try {
+            System.out.println("收到了一个搜索的请求");
+            System.out.println("keyword:" + keyword);
+            List<Good> goodList = buyerService.searchGood(keyword);
+            GoodList goodList1 = tool.toGoodList(goodList);
+            return Response.createSuc(goodList1);
+        }
+        catch (Exception e){
+            tool.soutErr("searchGood" ,e);
+            return Response.BUG();
+        }
     }
 
 }
