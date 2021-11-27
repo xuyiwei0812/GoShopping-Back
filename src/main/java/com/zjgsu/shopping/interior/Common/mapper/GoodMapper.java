@@ -212,7 +212,19 @@ public interface GoodMapper {
     @Select("select localAddress from goodvideo where goodId=#{goodId}")
     String getVideoByGoodId(@Param("goodId") Integer goodId);
 
+    /**
+     * 删视频
+     * @param videoId
+     * @return
+     */
+    @Delete("delete * from goodvideo where videoId=#{videoId}")
+    Boolean deleteVideo(@Param("videoId") Integer videoId);
 
+    /**
+     * 搜索
+     * @param keyword
+     * @return
+     */
     @Select("select * from good where goodName like '%${keyword}%'")
     List<Good> searchGood(@Param("keyword") String keyword);
 }

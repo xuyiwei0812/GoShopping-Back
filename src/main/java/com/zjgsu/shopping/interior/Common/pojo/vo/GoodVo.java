@@ -3,6 +3,7 @@ package com.zjgsu.shopping.interior.Common.pojo.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,5 +23,5 @@ public class GoodVo {
     private Boolean sold;
     private Boolean wanted;
     private Boolean removed;
-    private List<String> img;
+    private List<MultipartFile> img;
 }

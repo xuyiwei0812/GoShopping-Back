@@ -14,6 +14,8 @@ import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
@@ -218,21 +220,19 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Boolean uploadGoodImg(Integer goodId ,List<String> li){
-        for(String item:li){
-            goodImagineMapper.addImagine(new GoodImagine(null,goodId,item));
-        }
-        return true;
+//    public Boolean uploadGoodImg(Integer goodId, List<String> li){
+//        for(String item:li){
+//            goodImagineMapper.addImagine(new GoodImagine(null,goodId,item));
+//        }
+//        return true;
+//    }
+    public Boolean uploadGoodImg(GoodImagine goodImagine){
+        return goodImagineMapper.addImagine(goodImagine);
     }
 
     //视频
-    public Integer saveVideoToDatabase(Video video){
-        Boolean bo = goodMapper.saveVideoToDatabase(video);
-        if(bo==false) return -1;
-        else return 1;
+    public Boolean saveVideoToDatabase(Video video){
+        return goodMapper.saveVideoToDatabase(video);
     }
 
-    public String getVideoByGoodId(Integer goodId){
-        return goodMapper.getVideoByGoodId(goodId);
-    }
 }

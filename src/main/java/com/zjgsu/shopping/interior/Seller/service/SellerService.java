@@ -5,6 +5,7 @@ import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Common.pojo.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -103,9 +104,9 @@ public interface SellerService {
 
 
     List<Deal> getDealListByGoodId(Integer goodId);
-    Boolean uploadGoodImg(Integer goodId ,List<String> li);
+    //Boolean uploadGoodImg(Integer goodId ,List<String> li);
+    Boolean uploadGoodImg(GoodImagine goodImagine);
 
     //视频
-    public Integer saveVideoToDatabase(Video video);
-    public String getVideoByGoodId(Integer goodId);
+    Boolean saveVideoToDatabase(Video video);
 }
