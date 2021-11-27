@@ -291,7 +291,7 @@ public class SellerController {
     public Response<Good> raiseGood(@RequestBody GoodVo goodVo, MultipartFile file) throws IllegalStateException, IOException {
         try {
             System.out.println("file::"+file);
-            //List<MultipartFile> tryimg = new ArrayList<>();
+            //List<MultipartFile> tryimg= new ArrayList<>();
             //tryimg.add(file);
             //GoodVo goodVo = new GoodVo(null,1,10,1,1,1.2,"aaa","description",false,false,false,false, tryimg);
             Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null,goodVo.getClass2());
