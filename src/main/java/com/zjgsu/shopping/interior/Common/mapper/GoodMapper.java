@@ -69,7 +69,6 @@ public interface GoodMapper {
     /**
      * 下架一个商品
      *
-
      */
     @Update("update good set removed = 1 where goodId = #{goodId}")
     Long pullOffGood(@Param("goodId") Integer goodId);
