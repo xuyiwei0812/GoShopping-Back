@@ -288,8 +288,9 @@ public class SellerController {
 
     @ResponseBody
     @PostMapping("/raiseGood")
-    public Response<Good> raiseGood(@RequestBody GoodVo goodVo, MultipartFile file) throws IllegalStateException, IOException {
+    public Response<Good> raiseGood(@RequestParam(value = "goodVo",required = false) GoodVo goodVo, @RequestParam(value = "file",required = false) MultipartFile file) throws IllegalStateException, IOException {
         try {
+            System.out.println("goodVo::"+goodVo);
             System.out.println("file::"+file);
             //List<MultipartFile> tryimg  = new ArrayList<>();
             //tryimg.add(file);

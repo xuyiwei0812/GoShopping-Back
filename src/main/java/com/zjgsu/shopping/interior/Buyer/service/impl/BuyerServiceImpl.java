@@ -134,11 +134,11 @@ public class BuyerServiceImpl implements BuyerService {
 
     /**
      * 拿某个goodId的视频
-     * @param goodId
+     * @param good
      * @return
      */
-    public String getVideoByGoodId(Integer goodId){
-        return goodMapper.getVideoByGoodId(goodId);
+    public String getVideoByGood(Good good){
+        return goodMapper.getVideoByGood(good);
     }
 
     /**

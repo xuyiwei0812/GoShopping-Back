@@ -15,8 +15,8 @@ public interface DealMapper {
      * @return 失败返回-1
      */
     @Options(useGeneratedKeys = true, keyProperty = "deal.dealId", keyColumn = "dealId")
-    @Insert("insert into deal (buyerId,sellerId,goodId,date) values (#{deal.buyerId}," +
-            "#{deal.sellerId},#{deal.goodId},#{deal.date})")
+    @Insert("insert into deal (buyerId,sellerId,goodId,date,number) values (#{deal.buyerId}," +
+            "#{deal.sellerId},#{deal.goodId},#{deal.date},#{deal.number})")
     Boolean startDeal(@Param("deal") DealVo deal);
 
     /**

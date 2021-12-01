@@ -152,10 +152,10 @@ public class BuyerController {
     }
 
     @ResponseBody
-    @PostMapping("/getVideoByGoodId")
-    public Response<String> getVideoByGoodId(@RequestBody Integer goodId){
+    @PostMapping("/getVideoByGood")
+    public Response<String> getVideoByGood(@RequestBody Good good){
         try{
-            return Response.createSuc(buyerService.getVideoByGoodId(goodId));
+            return Response.createSuc(buyerService.getVideoByGood(good));
         }
         catch (Exception e){
             System.out.println("发生错误" + e);

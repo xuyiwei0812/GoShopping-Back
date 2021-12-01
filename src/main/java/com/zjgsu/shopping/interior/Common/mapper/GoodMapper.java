@@ -205,12 +205,12 @@ public interface GoodMapper {
     Boolean saveVideoToDatabase(@Param("video") Video video);
 
     /**
-     * 拿某个goodId的视频
-     * @param goodId
+     * 拿某个good的视频
+     * @param good
      * @return
      */
-    @Select("select localAddress from goodvideo where goodId=#{goodId}")
-    String getVideoByGoodId(@Param("goodId") Integer goodId);
+    @Select("select localAddress from goodvideo where goodId=#{good.goodId}")
+    String getVideoByGood(@Param("good") Good good);
 
     /**
      * 删视频
