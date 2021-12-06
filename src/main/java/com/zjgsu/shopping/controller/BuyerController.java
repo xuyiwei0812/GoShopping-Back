@@ -210,6 +210,12 @@ public class BuyerController {
         try {
             System.out.println("收到了一个搜索的请求");
             System.out.println("keyword:" + keyword);
+            Integer len = keyword.length();
+            if(keyword.substring(len-1).equals("=")){
+                System.out.println("=");
+                keyword=keyword.substring(0, len-1);
+            }
+            System.out.println("now keyword:"+keyword);
             List<Good> goodList = buyerService.searchGood(keyword);
             GoodList goodList1 = tool.toGoodList(goodList);
             return Response.createSuc(goodList1);
