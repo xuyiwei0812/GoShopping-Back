@@ -16,4 +16,5 @@ public class BuyerHistory {
     private Integer goodId;
     private Integer sellerId;
     private Date date;
+    private Integer number;
 }

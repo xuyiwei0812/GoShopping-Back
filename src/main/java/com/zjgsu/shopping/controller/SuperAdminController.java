@@ -51,9 +51,9 @@ public class SuperAdminController {
 
     @ResponseBody
     @PostMapping("/getBuyerHistoryByBuyerId")
-    public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer) {
+    public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Integer buyerId) {
         try {
-            BuyerHistoryList list = tool.toBuyerHistoryList(superAdminService.getBuyerHistoryByBuyerId(buyer.getBuyerId()));
+            BuyerHistoryList list = tool.toBuyerHistoryList(superAdminService.getBuyerHistoryByBuyerId(buyerId));
             return Response.createSuc(list);
         } catch (Exception e) {
             tool.soutErr("getAllBuyerHistory", e);

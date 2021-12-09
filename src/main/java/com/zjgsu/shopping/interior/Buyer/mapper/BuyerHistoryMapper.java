@@ -10,8 +10,8 @@ import java.util.List;
 public interface BuyerHistoryMapper {
 
     @Options(useGeneratedKeys = true, keyProperty = "buyerHistory.historyId", keyColumn = "historyId")
-    @Insert("insert into buyerhistory (goodId,sellerId,buyerId,date) values (#{buyerHistory.goodId} , #{buyerHistory.sellerId}" +
-            ",#{buyerHistory.buyerId}, #{buyerHistory.date})")
+    @Insert("insert into buyerhistory (goodId,sellerId,buyerId,date,number) values (#{buyerHistory.goodId} , #{buyerHistory.sellerId}" +
+            ",#{buyerHistory.buyerId}, #{buyerHistory.date}, #{buyerHistory.number})")
     Boolean raiseBuyerHistory(@Param("buyerHistory")BuyerHistory buyerHistory);
 
     @Select("select * from buyerhistory where buyerId = #{buyerId}")

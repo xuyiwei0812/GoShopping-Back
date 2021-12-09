@@ -173,8 +173,8 @@ public interface GoodMapper {
             "sold > #{mode.sold} and sellerId > #{mode.sellerId}")
     List<Good> getGoodListBySellerId(@Param("mode") Mode mode );
 
-    @Select("select * from good where removed > #{mode.removed} and frozen > #{mode.frozen} and " +
-            "sold > #{mode.sold} and class2 > #{mode.class2}")
+    @Select("select * from good where removed = #{mode.removed} and frozen = #{mode.frozen} and " +
+            "sold = #{mode.sold} and class2 = #{mode.class2}")
     List<Good> getClass2GoodListByClassId(@Param("mode")Mode mode );
 
 

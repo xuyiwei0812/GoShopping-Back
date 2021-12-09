@@ -171,9 +171,9 @@ public class SellerServiceImpl implements SellerService {
         good.setStorage(l);
         goodMapper.updateGoodStorage(good);
         goodMapper.unfreezeGood(deal.getGoodId());
-        buyerHistoryService.raiseBuyerHistory(new BuyerHistory(null,deal.getBuyerId(),deal.getGoodId(),deal.getSellerId(),dealDate));
-        dealHistoryMapper.raiseDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
-                buyerMapper.getBuyerInfo(deal.getBuyerId()).getBuyerPhone(), dealDate));
+        buyerHistoryService.raiseBuyerHistory(new BuyerHistory(null,deal.getBuyerId(),deal.getGoodId(),deal.getSellerId(),dealDate,deal.getNumber()));
+        dealHistoryMapper.raiseDealHistory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
+                buyerMapper.getBuyerInfo(deal.getBuyerId()).getBuyerPhone(), dealDate, deal.getNumber()));
         return dealMapper.cancelDeal(dealId) > 0;
     }
 
@@ -207,7 +207,16 @@ public class SellerServiceImpl implements SellerService {
         return goodMapper.pullOffGood(goodId) > 0;
     }
 
-
+    @Override
+    public Boolean pullOffMultipleGood(List<Integer> goodIds){
+        Long l= Long.valueOf(0);
+        for(Integer i=0;i<goodIds.size();i++){
+            goodMapper.soldOutGood(goodIds.get(i));
+            l = goodMapper.pullOffGood(goodIds.get(i));
+            if(l<=0) return false;
+        }
+        return l>0;
+    }
 
     //添货
     @Override

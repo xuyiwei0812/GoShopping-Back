@@ -16,9 +16,9 @@ public interface DealHistoryMapper {
      * @param deal 历史商品
      * @return 失败返回0
      */
-    @Insert("insert into dealhistory (goodId,name,description,price,dealDate,phone,sellerId) values(#{deal.goodId}," +
-            "#{deal.name},#{deal.description},#{deal.price},#{deal.dealDate},#{deal.phone},#{deal.sellerId})")
-    Boolean raiseDealHsitory(@Param("deal") DealHistory deal);
+    @Insert("insert into dealhistory (goodId,name,description,price,dealDate,phone,sellerId,number) values(#{deal.goodId}," +
+            "#{deal.name},#{deal.description},#{deal.price},#{deal.dealDate},#{deal.phone},#{deal.sellerId},#{deal.number})")
+    Boolean raiseDealHistory(@Param("deal") DealHistory deal);
 
 
     /**

@@ -173,10 +173,6 @@ public class SellerController {
         }
     }
 
-
-
-
-
     /**
      * 通过商品id得到某一商品的历史交易记录
      *
@@ -393,7 +389,17 @@ public class SellerController {
         }
     }
 
-
+    @ResponseBody
+    @PostMapping("/pullOffMultipleGood")
+    public Response<Object> pullOffMultipleGood(@RequestBody List<Integer> goodIds) {
+        try {
+            sellerService.pullOffMultipleGood(goodIds);
+            return Response.createSuc(null);
+        }catch (Exception e){
+            tool.soutErr("pullOffGood" ,e);
+            return  Response.BUG();
+        }
+    }
 
     /**
      * 给一个商品添货,从sold状态解除

@@ -9,7 +9,7 @@ import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
 import com.zjgsu.shopping.interior.Common.service.AccountService;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
-import org.omg.CORBA.OBJ_ADAPTER;
+//import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
