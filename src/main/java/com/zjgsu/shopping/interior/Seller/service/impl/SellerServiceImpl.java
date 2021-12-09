@@ -2,6 +2,8 @@ package com.zjgsu.shopping.interior.Seller.service.impl;
 
 import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
+import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
 import com.zjgsu.shopping.interior.Common.mapper.DealHistoryMapper;
 import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
 import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
@@ -38,7 +40,8 @@ public class SellerServiceImpl implements SellerService {
     IntentionMapper intentionMapper;
     @Resource
     GoodImagineMapper goodImagineMapper;
-
+    @Resource
+    BuyerHistoryService buyerHistoryService;
     @Override
     public Seller sellerRegister(Seller seller){
         sellerMapper.register(seller);
@@ -168,6 +171,7 @@ public class SellerServiceImpl implements SellerService {
         good.setStorage(l);
         goodMapper.updateGoodStorage(good);
         goodMapper.unfreezeGood(deal.getGoodId());
+        buyerHistoryService.raiseBuyerHistory(new BuyerHistory(null,deal.getBuyerId(),deal.getGoodId(),deal.getSellerId(),dealDate));
         dealHistoryMapper.raiseDealHsitory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
                 buyerMapper.getBuyerInfo(deal.getBuyerId()).getBuyerPhone(), dealDate));
         return dealMapper.cancelDeal(dealId) > 0;

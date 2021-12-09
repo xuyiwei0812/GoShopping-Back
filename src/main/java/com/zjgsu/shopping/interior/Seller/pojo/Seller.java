@@ -4,11 +4,13 @@
 
 package com.zjgsu.shopping.interior.Seller.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Seller {
     /**
      * 卖家编号
