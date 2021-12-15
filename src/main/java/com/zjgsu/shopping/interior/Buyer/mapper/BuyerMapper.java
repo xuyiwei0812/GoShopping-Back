@@ -20,7 +20,6 @@ public interface BuyerMapper {
             "#{buyer.buyerAccount},#{buyer.buyerPassword},#{buyer.buyerLocation} , #{buyer.buyerPhone})")
     Boolean register(@Param("buyer") Buyer buyer);
 
-
     /**
      * 登录
      *
@@ -28,7 +27,7 @@ public interface BuyerMapper {
      * @param password 密码
      * @return 用户
      */
-    @Select("select * from buyer where account=#{account} and password=#{password}")
+    @Select("select * from buyer where buyerAccount=#{account} and password=#{password}")
     Buyer login(@Param("account") String account, @Param("password") String password);
 
     @Select("select * from buyer where buyerId=#{buyerId}")
@@ -54,5 +53,12 @@ public interface BuyerMapper {
     @Select("select * from buyer where buyerId=#{buyerId}")
     Buyer getBuyerInfo(@Param("buyerId") Integer buyerId);
 
+    /**
+     * 改买家密码
+     * @param buyerId
+     * @return
+     */
+    @Update("update buyer set buyerPassword=#{password} where buyerId=#{buyerId}")
+    Long updateBuyerPassword(@Param("buyerId") Integer buyerId,@Param("password") String password);
 
 }

@@ -11,6 +11,7 @@ import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Intention;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Long updateBuyerPassword(Integer buyerId, String password, String newPassword) {
-        return null;
+        Buyer buyer = buyerMapper.getBuyerInfo(buyerId);
+        if (!Objects.equals(buyer.getBuyerPassword(), password)) return (long) -2;
+        return buyerMapper.updateBuyerPassword(buyerId,newPassword);
     }
 
     @Override

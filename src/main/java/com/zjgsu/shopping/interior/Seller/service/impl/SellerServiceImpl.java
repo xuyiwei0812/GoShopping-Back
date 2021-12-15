@@ -164,14 +164,16 @@ public class SellerServiceImpl implements SellerService {
     public Boolean finishDeal(Integer dealId) {
         Date dealDate = new Date();
         Deal deal = dealMapper.getDealInfo(dealId);
-        int l = goodMapper.getGoodInfo(deal.getGoodId()).getStorage()  - deal.getNumber();
+        int l = goodMapper.getGoodInfo(deal.getGoodId()).getStorage() - deal.getNumber();
         if(l < 0) return false;
         else if( l == 0) goodMapper.soldOutGood(deal.getGoodId());
         Good good = goodMapper.getGoodInfo(deal.getGoodId());
         good.setStorage(l);
         goodMapper.updateGoodStorage(good);
         goodMapper.unfreezeGood(deal.getGoodId());
-        buyerHistoryService.raiseBuyerHistory(new BuyerHistory(null,deal.getBuyerId(),deal.getGoodId(),deal.getSellerId(),dealDate,deal.getNumber()));
+        Integer buyerId = deal.getBuyerId();
+        String buyerName = buyerMapper.getBuyerInfo(buyerId).getBuyerName();
+        buyerHistoryService.raiseBuyerHistory(new BuyerHistory(null,deal.getBuyerId(),deal.getGoodId(),deal.getSellerId(),dealDate,deal.getNumber(),buyerName));
         dealHistoryMapper.raiseDealHistory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
                 buyerMapper.getBuyerInfo(deal.getBuyerId()).getBuyerPhone(), dealDate, deal.getNumber()));
         return dealMapper.cancelDeal(dealId) > 0;

@@ -4,14 +4,11 @@ import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
-import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
+import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Intention;
-import com.zjgsu.shopping.interior.Common.pojo.vo.GoodList;
-import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
-import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +52,20 @@ public class BuyerController {
         }
     }
 
+    @ResponseBody
+    @PostMapping("/updateBuyerPassword")
+    public Response<Object> updateBuyerPassword(@RequestBody AccountVo accountVo) {
+        try {
+            System.out.println(accountVo.getUserId()+" "+accountVo.getPassword()+" "+accountVo.getNewPassword());
+            Long re = buyerService.updateBuyerPassword(accountVo.getUserId(), accountVo.getPassword(), accountVo.getNewPassword());
+            if (re == -2) return Response.createErr("密码错误");
+            else if (re == 0) return Response.createErr("无此账号");
+            else return Response.createSuc(null);
+        }catch (Exception e){
+            tool.soutErr("updateSellerPassword" ,e);
+            return  Response.BUG();
+        }
+    }
 
     /**
      * 提出一个意向
@@ -206,9 +217,13 @@ public class BuyerController {
 
     @ResponseBody
     @PostMapping("/searchGood")
-    public Response<GoodList> searchGood(@RequestBody String keyword){
+    public Response<GoodList> searchGood(@RequestBody String keyword0){
         try {
             System.out.println("收到了一个搜索的请求");
+            Integer begin=0,end=0;
+            begin=keyword0.indexOf(":");
+            end=keyword0.lastIndexOf(",");
+            String keyword=keyword0.substring(begin+2,end-1);
             System.out.println("keyword:" + keyword);
             Integer len = keyword.length();
             if(keyword.substring(len-1).equals("=")){

@@ -123,7 +123,6 @@ public class SellerController {
     @PostMapping("/updateSellerPassword")
     public Response<Object> updateSellerPassword(@RequestBody AccountVo accountVo) {
         try {
-
             Long re = sellerService.updateSellerPassword(accountVo.getUserId(), accountVo.getPassword(), accountVo.getNewPassword());
             if (re == -2) return Response.createErr("密码错误");
             else if (re == 0) return Response.createErr("无此账号");
@@ -316,7 +315,7 @@ public class SellerController {
                     String picLocalAddress = fi.getAbsolutePath();
                     System.out.println("存入本地文件地址:" + picLocalAddress);
                     goodImagine.setImagine(picLocalAddress);
-                    System.out.println("视频保存本地成功");
+                    System.out.println("保存本地成功");
                     goodImagine.setGoodId(good.getGoodId());
                     System.out.println("goodId"+good.getGoodId());
                     //图片路径存数据库
