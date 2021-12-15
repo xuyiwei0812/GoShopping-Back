@@ -53,6 +53,20 @@ public class BuyerController {
     }
 
     @ResponseBody
+    @PostMapping("/checkBuyerPassword")
+    public Response<Object> checkBuyerPassword(@RequestBody AccountVo accountVo) {
+        try {
+            if(buyerService.checkBuyerPassword(accountVo.getUserId(), accountVo.getPassword()))
+                return Response.createSuc(null);
+            else
+                return Response.createErr("账号不存在或者密码错误");
+        }catch (Exception e){
+            tool.soutErr("checkSellerPassword" ,e);
+            return  Response.BUG();
+        }
+    }
+
+    @ResponseBody
     @PostMapping("/updateBuyerPassword")
     public Response<Object> updateBuyerPassword(@RequestBody AccountVo accountVo) {
         try {

@@ -40,6 +40,7 @@ public class CommonController {
         if(!(tool.checkPasswordLegitimacy(account.getPassword())))
             return Response.createErr("密码不符合规范");
         Account tmp = new Account(account.getAuthority(),account.getAccount());
+        System.out.println("auth"+account.getAuthority());
         accountService.raiseAccount(tmp);
         if(account.getAuthority() == 1){
             Seller seller = new Seller(null,account.getName(),account.getAccount(),account.getPassword(),account.getLocation(),account.getPhone());
@@ -61,8 +62,10 @@ public class CommonController {
         try {
             Integer authority = accountService.getAccountAuthority(accountVo.getAccount());
             Integer response = 0;
+            System.out.println(authority+" "+accountVo.getAccount()+" "+accountVo.getPassword());
             if (authority == 1) {
                 response = sellerService.sellerLogin(accountVo.getAccount(), accountVo.getPassword());
+                System.out.println("responce"+response);
                 if (response != -1)
                     return Response.createSuc(response);
                 else

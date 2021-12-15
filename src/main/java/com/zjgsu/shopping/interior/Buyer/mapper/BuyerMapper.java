@@ -27,7 +27,7 @@ public interface BuyerMapper {
      * @param password 密码
      * @return 用户
      */
-    @Select("select * from buyer where buyerAccount=#{account} and password=#{password}")
+    @Select("select * from buyer where buyerAccount=#{account} and buyerPassword=#{password}")
     Buyer login(@Param("account") String account, @Param("password") String password);
 
     @Select("select * from buyer where buyerId=#{buyerId}")
