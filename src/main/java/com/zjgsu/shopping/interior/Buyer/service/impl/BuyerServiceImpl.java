@@ -60,15 +60,16 @@ public class BuyerServiceImpl implements BuyerService {
         return Objects.equals(buyer.getBuyerPassword(),password);
     }
 
-    @Override
-    public Boolean updateBuyerInfo(Buyer buyer) {
-        Buyer old = buyerMapper.getBuyerInfo(buyer.getBuyerId());
-        if(buyer.getBuyerName() == null)buyer.setBuyerName(old.getBuyerName());
-        if(buyer.getBuyerAccount() == null) buyer.setBuyerAccount(old.getBuyerAccount());
-        if(buyer.getBuyerLocation() == null) buyer.setBuyerLocation(old.getBuyerLocation());
-        if(buyer.getBuyerPhone() == null) buyer.setBuyerPhone(old.getBuyerPhone());
-        return null;
-    }
+//    @Override
+//    public Boolean updateBuyerInfo(Buyer buyer) {
+//        Buyer old = buyerMapper.getBuyerInfo(buyer.getBuyerId());
+//        buyerMapper.updateBuyerInfo(buyer);
+//        if(buyer.getBuyerName() == null) buyer.setBuyerName(old.getBuyerName());
+//        if(buyer.getBuyerAccount() == null) buyer.setBuyerAccount(old.getBuyerAccount());
+//        if(buyer.getBuyerLocation() == null) buyer.setBuyerLocation(old.getBuyerLocation());
+//        if(buyer.getBuyerPhone() == null) buyer.setBuyerPhone(old.getBuyerPhone());
+//        return true;
+//    }
 
     @Override
     public Boolean searchBuyerAccount(String account) {
@@ -140,6 +141,7 @@ public class BuyerServiceImpl implements BuyerService {
      * @param good
      * @return
      */
+    @Override
     public String getVideoByGood(Good good){
         return goodMapper.getVideoByGood(good);
     }
@@ -147,7 +149,13 @@ public class BuyerServiceImpl implements BuyerService {
     /**
      * 模糊搜索
      */
+    @Override
     public List<Good> searchGood(String keyword){
         return goodMapper.searchGood(keyword);
+    }
+
+    @Override
+    public Boolean updateBuyerInfo(Buyer buyer){
+        return buyerMapper.updateBuyerInfo(buyer);
     }
 }

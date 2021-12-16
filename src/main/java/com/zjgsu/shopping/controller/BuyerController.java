@@ -53,6 +53,17 @@ public class BuyerController {
     }
 
     @ResponseBody
+    @PostMapping("/changeBuyerInfo")
+    public Response<Boolean> changeBuyerInfo(@RequestBody Buyer buyer){
+        try {
+            return Response.createSuc(buyerService.updateBuyerInfo(buyer));
+        } catch (Exception e) {
+            tool.soutErr("uploadBuyerInfo", e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
     @PostMapping("/checkBuyerPassword")
     public Response<Object> checkBuyerPassword(@RequestBody AccountVo accountVo) {
         try {

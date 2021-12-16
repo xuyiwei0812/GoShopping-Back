@@ -61,4 +61,6 @@ public interface BuyerMapper {
     @Update("update buyer set buyerPassword=#{password} where buyerId=#{buyerId}")
     Long updateBuyerPassword(@Param("buyerId") Integer buyerId,@Param("password") String password);
 
+    @Update("update buyer set buyerLocation=#{buyer.buyerLocation}, buyerName=#{buyer.buyerName}, buyerPhone=#{buyer.buyerPhone} where buyerId=#{buyer.buyerId}")
+    Boolean updateBuyerInfo(@Param("buyer") Buyer buyer);
 }
