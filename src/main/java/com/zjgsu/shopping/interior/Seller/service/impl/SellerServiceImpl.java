@@ -235,15 +235,15 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-//    public Boolean uploadGoodImg(Integer goodId, List<String> li){
-//        for(String item:li){
-//            goodImagineMapper.addImagine(new GoodImagine(null,goodId,item));
-//        }
-//        return true;
-//    }
-    public Boolean uploadGoodImg(GoodImagine goodImagine){
-        return goodImagineMapper.addImagine(goodImagine);
+    public Boolean uploadGoodImg(Integer goodId, List<String> li){
+        for(String item:li){
+            goodImagineMapper.addImagine(new GoodImagine(null,goodId,item));
+        }
+        return true;
     }
+//    public Boolean uploadGoodImg(GoodImagine goodImagine){
+//        return goodImagineMapper.addImagine(goodImagine);
+//    }
 
     //视频
     public Boolean saveVideoToDatabase(Video video){

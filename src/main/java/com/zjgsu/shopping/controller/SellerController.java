@@ -283,83 +283,82 @@ public class SellerController {
 
     @ResponseBody
     @PostMapping("/raiseGood")
-    public Response<Good> raiseGood(@RequestParam(value = "goodVo",required = false) GoodVo goodVo, @RequestParam(value = "file",required = false) MultipartFile file) throws IllegalStateException, IOException {
+    public Response<Good> raiseGood(@RequestBody GoodVo goodVo) throws IllegalStateException, IOException {
         try {
             System.out.println("goodVo::"+goodVo);
-            System.out.println("file::"+file);
             //List<MultipartFile> tryimg  = new ArrayList<>();
             //tryimg.add(file);
             //GoodVo goodVo = new GoodVo(null,1,10,1,1,1.2,"aaa","description",false,false,false,false, tryimg);
             Good good = new Good(null,goodVo.getSellerId(),goodVo.getStorage(),goodVo.getGoodPrice(),goodVo.getGoodName(),goodVo.getDescription(),null,null,null,null,goodVo.getClass2());
             sellerService.raiseGood(good);
-            //sellerService.uploadGoodImg(good.getGoodId(),goodVo.getImg());
+            sellerService.uploadGoodImg(good.getGoodId(),goodVo.getImg());
 
             //图
-            List<MultipartFile> imgFiles = goodVo.getImg();
-            for(MultipartFile imgFile:imgFiles){
-                GoodImagine goodImagine = new GoodImagine();
-                if (!imgFile.isEmpty()) {
-                    System.out.println("收到传图片的请求");
-                    //存放地址
-                    String imgPath = FILE_ADDRESS;
-                    System.out.println("path" + imgPath);
-                    //如果父文件夹不存在 则创建文件夹 文件夹为path,视频名字file.getOriginalFilename()
-                    File filepath = new File(imgPath, imgFile.getOriginalFilename());
-                    if (!filepath.getParentFile().exists()) {
-                        filepath.getParentFile().mkdirs();
-                    }
-                    File fi = new File(imgPath + File.separator + imgFile.getOriginalFilename());
-                    //下载到本地
-                    imgFile.transferTo(fi);
-                    //获取绝对路径
-                    String picLocalAddress = fi.getAbsolutePath();
-                    System.out.println("存入本地文件地址:" + picLocalAddress);
-                    goodImagine.setImagine(picLocalAddress);
-                    System.out.println("保存本地成功");
-                    goodImagine.setGoodId(good.getGoodId());
-                    System.out.println("goodId"+good.getGoodId());
-                    //图片路径存数据库
-                    sellerService.uploadGoodImg(goodImagine);
-                    System.out.println("图片路径保存数据库成功");
-                }
-                else {
-                    System.out.println("图片为空");
-                }
-            }
-
-            //视频
-            Video video = new Video();
-            if (!file.isEmpty()) {
-                System.out.println("收到传视频的请求");
-                //存放地址
-                String path = FILE_ADDRESS;
-                System.out.println("path" + path);
-                //如果父文件夹不存在 则创建文件夹 文件夹为path,视频名字file.getOriginalFilename()
-                File filepath = new File(path, file.getOriginalFilename());
-                if (!filepath.getParentFile().exists()) {
-                    filepath.getParentFile().mkdirs();
-                }
-                File fi = new File(path + File.separator + file.getOriginalFilename());
-                //下载到本地
-                file.transferTo(fi);
-                //获取绝对路径
-                String localAddress = fi.getAbsolutePath();
-                System.out.println("存入本地文件地址:" + localAddress);
-                video.setLocalAddress(localAddress);
-                //获取后缀名
-                String suffix = localAddress.substring(localAddress.lastIndexOf("."), localAddress.length());
-                System.out.println("后缀名:" + suffix);
-                video.setSuffix(suffix);
-                System.out.println("视频保存本地成功");
-                video.setGoodId(good.getGoodId());
-                System.out.println("goodId"+good.getGoodId());
-                //视频路径存数据库
-                Boolean response1=sellerService.saveVideoToDatabase(video);
-                System.out.println("视频路径保存数据库成功");
-            }
-            else {
-                System.out.println("视频为空");
-            }
+//            List<MultipartFile> imgFiles = goodVo.getImg();
+//            for(MultipartFile imgFile:imgFiles){
+//                GoodImagine goodImagine = new GoodImagine();
+//                if (!imgFile.isEmpty()) {
+//                    System.out.println("收到传图片的请求");
+//                    //存放地址
+//                    String imgPath = FILE_ADDRESS;
+//                    System.out.println("path" + imgPath);
+//                    //如果父文件夹不存在 则创建文件夹 文件夹为path,视频名字file.getOriginalFilename()
+//                    File filepath = new File(imgPath, imgFile.getOriginalFilename());
+//                    if (!filepath.getParentFile().exists()) {
+//                        filepath.getParentFile().mkdirs();
+//                    }
+//                    File fi = new File(imgPath + File.separator + imgFile.getOriginalFilename());
+//                    //下载到本地
+//                    imgFile.transferTo(fi);
+//                    //获取绝对路径
+//                    String picLocalAddress = fi.getAbsolutePath();
+//                    System.out.println("存入本地文件地址:" + picLocalAddress);
+//                    goodImagine.setImagine(picLocalAddress);
+//                    System.out.println("保存本地成功");
+//                    goodImagine.setGoodId(good.getGoodId());
+//                    System.out.println("goodId"+good.getGoodId());
+//                    //图片路径存数据库
+//                    sellerService.uploadGoodImg(goodImagine);
+//                    System.out.println("图片路径保存数据库成功");
+//                }
+//                else {
+//                    System.out.println("图片为空");
+//                }
+//            }
+//
+//            //视频
+//            Video video = new Video();
+//            if (!file.isEmpty()) {
+//                System.out.println("收到传视频的请求");
+//                //存放地址
+//                String path = FILE_ADDRESS;
+//                System.out.println("path" + path);
+//                //如果父文件夹不存在 则创建文件夹 文件夹为path,视频名字file.getOriginalFilename()
+//                File filepath = new File(path, file.getOriginalFilename());
+//                if (!filepath.getParentFile().exists()) {
+//                    filepath.getParentFile().mkdirs();
+//                }
+//                File fi = new File(path + File.separator + file.getOriginalFilename());
+//                //下载到本地
+//                file.transferTo(fi);
+//                //获取绝对路径
+//                String localAddress = fi.getAbsolutePath();
+//                System.out.println("存入本地文件地址:" + localAddress);
+//                video.setLocalAddress(localAddress);
+//                //获取后缀名
+//                String suffix = localAddress.substring(localAddress.lastIndexOf("."), localAddress.length());
+//                System.out.println("后缀名:" + suffix);
+//                video.setSuffix(suffix);
+//                System.out.println("视频保存本地成功");
+//                video.setGoodId(good.getGoodId());
+//                System.out.println("goodId"+good.getGoodId());
+//                //视频路径存数据库
+//                Boolean response1=sellerService.saveVideoToDatabase(video);
+//                System.out.println("视频路径保存数据库成功");
+//            }
+//            else {
+//                System.out.println("视频为空");
+//            }
 
             return Response.createSuc(good);
         }catch (Exception e){
@@ -392,6 +391,8 @@ public class SellerController {
     @PostMapping("/pullOffMultipleGood")
     public Response<Object> pullOffMultipleGood(@RequestBody List<Integer> goodIds) {
         try {
+            System.out.println("multiple");
+            System.out.println(goodIds);
             sellerService.pullOffMultipleGood(goodIds);
             return Response.createSuc(null);
         }catch (Exception e){

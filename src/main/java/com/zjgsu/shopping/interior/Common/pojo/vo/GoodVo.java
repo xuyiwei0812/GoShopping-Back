@@ -23,5 +23,5 @@ public class GoodVo {
     private Boolean sold;
     private Boolean wanted;
     private Boolean removed;
-    private List<MultipartFile> img;
+    private List<String> img;
 }

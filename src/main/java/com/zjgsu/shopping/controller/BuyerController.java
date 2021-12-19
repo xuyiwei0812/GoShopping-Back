@@ -56,6 +56,7 @@ public class BuyerController {
     @PostMapping("/changeBuyerInfo")
     public Response<Boolean> changeBuyerInfo(@RequestBody Buyer buyer){
         try {
+            System.out.println("修改买家信息");
             return Response.createSuc(buyerService.updateBuyerInfo(buyer));
         } catch (Exception e) {
             tool.soutErr("uploadBuyerInfo", e);
