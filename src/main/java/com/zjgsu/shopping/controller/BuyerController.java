@@ -42,6 +42,7 @@ public class BuyerController {
     @PostMapping("/uploadBuyerInfo")
     public Response<Integer> uploadBuyerInfo(@RequestBody Buyer buyer) {
         try {
+            System.out.println("1221"+buyer);
             if (buyerService.buyerRegister(buyer) == null)
                 return Response.createErr("登录买家信息失败");
             else
@@ -205,7 +206,7 @@ public class BuyerController {
     public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer){
         try {
             System.out.println(buyer);
-            System.out.println("1"+buyer.getBuyerId());
+            System.out.println("1 "+buyer.getBuyerId());
             BuyerHistoryList list = tool.toBuyerHistoryList(buyerHistoryService.getBuyerHistory(buyer.getBuyerId()));
             return Response.createSuc(list);
         }catch (Exception e){

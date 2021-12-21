@@ -17,6 +17,8 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -79,8 +81,19 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Boolean raiseIntention(Intention intention) {
+        try {
         goodMapper.WantGood(intention.getGoodId());
-        intention.setDate(new Date());
+        Date nowDate = new Date();
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String nowDateString = format1.format(nowDate);
+        System.out.println("nowdate"+nowDateString);
+        Date nowDate1 = format1.parse(nowDateString);
+        System.out.println("nowdate"+nowDate1);
+        intention.setDate(nowDate1);
+        }
+        catch(ParseException e){
+            e.printStackTrace();
+        }
         return intentionMapper.raiseIntention(intention);
     }
 

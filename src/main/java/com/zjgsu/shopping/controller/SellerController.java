@@ -261,6 +261,7 @@ public class SellerController {
     @PostMapping("/finishDeal")
     public Response<Object> finishDeal(@RequestBody Deal deal) {
         try{
+            System.out.println("deal"+deal);
             sellerService.finishDeal(deal.getDealId());
             return Response.createSuc(null);
         }catch (Exception e){

@@ -35,6 +35,7 @@ public class CommonController {
     @ResponseBody
     @PostMapping("/register")
     public Response<Integer> Register(@RequestBody AccountVo account){
+        System.out.println("accout"+account);
         if(accountService.checkAccount(account.getAccount()))
             return Response.createErr("账号已经存在");
         if(!(tool.checkPasswordLegitimacy(account.getPassword())))
@@ -48,6 +49,7 @@ public class CommonController {
             return Response.createSuc(seller.getSellerId());
         }else if(account.getAuthority() == 2){
             Buyer buyer = new Buyer(null,account.getName(),account.getAccount(),account.getPassword(),account.getLocation(),account.getPhone());
+            System.out.println("buyer12221"+buyer);
             buyerService.buyerRegister(buyer);
             return Response.createSuc(buyer.getBuyerId());
         }
