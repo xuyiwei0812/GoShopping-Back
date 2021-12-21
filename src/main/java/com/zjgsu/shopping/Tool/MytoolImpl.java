@@ -78,7 +78,7 @@ public class MytoolImpl implements Mytool {
     public BuyerHistoryList toBuyerHistoryList(List<BuyerHistory> li) {
       BuyerHistoryList list = new BuyerHistoryList();
       for(BuyerHistory item :li ){
-          list.AddItem(item.getHistoryId(),item.getGoodId(),item.getBuyerId(),item.getSellerId(),goodMapper.getGoodInfo(item.getGoodId()).getGoodName(),item.getDate(),item.getNumber(),item.getBuyerName());
+          list.AddItem(item.getHistoryId(),item.getGoodId(),item.getBuyerId(),item.getSellerId(),goodMapper.getGoodInfo(item.getGoodId()).getGoodName(),item.getDate(),item.getNumber(),item.getBuyerName(),item.getGoodPrice(),item.getImg());
       }
       return list;
     }

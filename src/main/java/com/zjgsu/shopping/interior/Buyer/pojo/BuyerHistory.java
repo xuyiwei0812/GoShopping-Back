@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BuyerHistory {
-
     private Integer historyId;
     private Integer buyerId;
     private Integer goodId;
@@ -18,4 +18,16 @@ public class BuyerHistory {
     private Date date;
     private Integer number;
     private String buyerName;
+    private Double goodPrice;
+    private List<String> img;
+
+    public BuyerHistory(Integer historyId, Integer buyerId, Integer goodId, Integer sellerId, Date date, Integer number, String buyerName) {
+        this.historyId = historyId;
+        this.buyerId = buyerId;
+        this.goodId = goodId;
+        this.sellerId = sellerId;
+        this.date = date;
+        this.number = number;
+        this.buyerName = buyerName;
+    }
 }

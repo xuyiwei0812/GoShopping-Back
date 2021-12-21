@@ -23,6 +23,14 @@ public class BuyerHistoryServiceImpl implements BuyerHistoryService {
 
     @Override
     public List<BuyerHistory> getBuyerHistory(Integer buyerId) {
-        return buyerHistoryMapper.getBuyerHistory(buyerId);
+        List<BuyerHistory> buyerHistoryList = buyerHistoryMapper.getBuyerHistory(buyerId);
+        for(Integer i=0;i<buyerHistoryList.size();i++) {
+            Integer goodId = buyerHistoryList.get(i).getGoodId();
+            Double goodPrice = buyerHistoryMapper.getGoodPriceByGoodId(goodId);
+            List<String> img = buyerHistoryMapper.getGoodImageByGoodId(goodId);
+            buyerHistoryList.get(i).setGoodPrice(goodPrice);
+            buyerHistoryList.get(i).setImg(img);
+        }
+        return buyerHistoryList;
     }
 }

@@ -1,14 +1,12 @@
 package com.zjgsu.shopping.controller;
 
-import com.zjgsu.shopping.interior.Common.pojo.GoodImagine;
-import com.zjgsu.shopping.interior.Common.pojo.Video;
+import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealList;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodVo;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Seller.pojo.Deal;
-import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.Tool.Mytool;
@@ -267,12 +265,41 @@ public class SellerController {
             return Response.createSuc(null);
         }catch (Exception e){
             tool.soutErr("finishDeal",e );
-            return  Response.BUG();
+            return Response.BUG();
         }
     }
 
 
+    @ResponseBody
+    @PostMapping("/getAllClass1")
+    public Response<List<Class1>> getAllClass1(){
+        try{
+            System.out.println("getAllClass1");
+            List<Class1> allClass1 = sellerService.getAllClass1();
+            System.out.println(allClass1);
+            return Response.createSuc(allClass1);
+        }catch (Exception e){
+            tool.soutErr("getAllClass",e );
+            return Response.BUG();
+        }
+    }
 
+    @ResponseBody
+    @PostMapping("/getClass2ByClass1Id")
+    public Response<List<One2Two>> getAllClass2ByClass1Id(@RequestBody Class1 classa){
+        try{
+            System.out.println("getClass2ByClass1Id");
+            System.out.println(classa.getClass1());
+            Integer classaId = classa.getClass1();
+            System.out.println("classaId"+classaId);
+            List<One2Two> allClass2 = sellerService.getAllClass2ByClass1Id(classaId);
+            System.out.println(allClass2);
+            return Response.createSuc(allClass2);
+        }catch (Exception e){
+            tool.soutErr("getAllClass",e );
+            return Response.BUG();
+        }
+    }
 
     /**
      * 上架一个货物
@@ -280,7 +307,6 @@ public class SellerController {
      * @param
      * @return 上架成功返回商品id, 失败返回错误信息
      */
-
     @ResponseBody
     @PostMapping("/raiseGood")
     public Response<Good> raiseGood(@RequestBody GoodVo goodVo) throws IllegalStateException, IOException {
@@ -389,10 +415,10 @@ public class SellerController {
 
     @ResponseBody
     @PostMapping("/pullOffMultipleGood")
-    public Response<Object> pullOffMultipleGood(@RequestBody List<Integer> goodIds) {
+    public Response<Object> pullOffMultipleGood(@RequestBody GoodIds goodIds) {
         try {
             System.out.println("multiple");
-            System.out.println(goodIds);
+            System.out.println("goodIds"+goodIds);
             sellerService.pullOffMultipleGood(goodIds);
             return Response.createSuc(null);
         }catch (Exception e){

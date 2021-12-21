@@ -4,10 +4,8 @@ import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
-import com.zjgsu.shopping.interior.Common.mapper.DealHistoryMapper;
-import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
-import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
-import com.zjgsu.shopping.interior.Common.mapper.IntentionMapper;
+import com.zjgsu.shopping.interior.Common.mapper.*;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodIds;
 import com.zjgsu.shopping.interior.Seller.mapper.DealMapper;
 import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
 import com.zjgsu.shopping.interior.Seller.pojo.Deal;
@@ -42,6 +40,9 @@ public class SellerServiceImpl implements SellerService {
     GoodImagineMapper goodImagineMapper;
     @Resource
     BuyerHistoryService buyerHistoryService;
+    @Resource
+    One2TwoClassMapper one2TwoClassMapper;
+
     @Override
     public Seller sellerRegister(Seller seller){
         sellerMapper.register(seller);
@@ -210,11 +211,11 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Boolean pullOffMultipleGood(List<Integer> goodIds){
+    public Boolean pullOffMultipleGood(GoodIds goodIds){
         Long l= Long.valueOf(0);
-        for(Integer i=0;i<goodIds.size();i++){
-            goodMapper.soldOutGood(goodIds.get(i));
-            l = goodMapper.pullOffGood(goodIds.get(i));
+        for(Integer i=0;i<goodIds.getGoodIds().size();i++){
+            goodMapper.soldOutGood(goodIds.getGoodIds().get(i));
+            l = goodMapper.pullOffGood(goodIds.getGoodIds().get(i));
             if(l<=0) return false;
         }
         return l>0;
@@ -250,4 +251,11 @@ public class SellerServiceImpl implements SellerService {
         return goodMapper.saveVideoToDatabase(video);
     }
 
+    public List<Class1> getAllClass1(){
+        return one2TwoClassMapper.getAllClass1();
+    }
+
+    public List<One2Two> getAllClass2ByClass1Id(Integer class1){
+        return one2TwoClassMapper.getAllClass2ByClass1Id(class1);
+    }
 }

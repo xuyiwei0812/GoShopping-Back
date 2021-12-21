@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class One2Two {
+public class Class1 {
     private Integer class1;
-    private Integer class2;
     private String class1Name;
-    private String Class2Name;
 }

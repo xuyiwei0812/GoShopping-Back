@@ -204,6 +204,8 @@ public class BuyerController {
     @PostMapping("/getBuyerHistoryByBuyerId")
     public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer){
         try {
+            System.out.println(buyer);
+            System.out.println("1"+buyer.getBuyerId());
             BuyerHistoryList list = tool.toBuyerHistoryList(buyerHistoryService.getBuyerHistory(buyer.getBuyerId()));
             return Response.createSuc(list);
         }catch (Exception e){

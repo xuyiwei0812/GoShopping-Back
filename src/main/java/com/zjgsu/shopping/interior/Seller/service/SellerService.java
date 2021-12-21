@@ -1,10 +1,12 @@
 package com.zjgsu.shopping.interior.Seller.service;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Common.pojo.vo.GoodIds;
 import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Common.pojo.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -99,7 +101,7 @@ public interface SellerService {
     Good updateGoodInfo(Good good);
     Boolean putOnGood(Integer goodId);
     Boolean pullOffGood(Integer goodId);
-    Boolean pullOffMultipleGood(List<Integer> goodIds);
+    Boolean pullOffMultipleGood(GoodIds goodIds);
     Boolean exhibitGood(Good good);
     Boolean soldOutGood(Integer goodId);
 
@@ -110,4 +112,8 @@ public interface SellerService {
 
     //视频
     Boolean saveVideoToDatabase(Video video);
+
+    List<Class1> getAllClass1();
+
+    List<One2Two> getAllClass2ByClass1Id(Integer class1);
 }
