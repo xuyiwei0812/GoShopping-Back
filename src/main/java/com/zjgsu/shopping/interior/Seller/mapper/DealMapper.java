@@ -11,7 +11,7 @@ public interface DealMapper {
     /**
      * 添加一个交易
      *
-     * @param deal 交易信息
+     * @param deal  交易信息
      * @return 失败返回-1
      */
     @Options(useGeneratedKeys = true, keyProperty = "deal.dealId", keyColumn = "dealId")
