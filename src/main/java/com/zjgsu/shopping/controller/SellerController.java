@@ -162,6 +162,7 @@ public class SellerController {
     @PostMapping("/startDeal")
     public Response<DealVo> startDeal(@RequestBody DealVo dealVo) {
         try{
+            System.out.println(dealVo);
             sellerService.startDeal(dealVo);
             return Response.createSuc(dealVo);
         }catch (Exception e){

@@ -60,7 +60,7 @@ public class MytoolImpl implements Mytool {
     public IntentionList toIntentionList(List<Intention> li){
         IntentionList  list = new IntentionList();
         for(Intention item :li){
-            list.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId(),item.getDate(),buyerMapper.getBuyerInfo(item.getBuyerId()).getBuyerName());
+            list.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId(),item.getDate(),buyerMapper.getBuyerInfo(item.getBuyerId()).getBuyerName(),item.getNumber());
         }
         return list;
     }

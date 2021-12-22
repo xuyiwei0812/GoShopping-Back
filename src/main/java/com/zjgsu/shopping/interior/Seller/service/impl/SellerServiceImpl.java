@@ -147,6 +147,9 @@ public class SellerServiceImpl implements SellerService {
         intentionMapper.cancelIntention(deal.getIntentionId());
         if(intentionMapper.getIntentionListByGoodId(deal.getGoodId()).isEmpty())
             goodMapper.refuseGood(deal.getGoodId());
+        if(intentionMapper.getIntentionListByGoodId(deal.getGoodId()).isEmpty())
+            goodMapper.refuseGood(deal.getGoodId());
+        System.out.println(deal);
         return dealMapper.startDeal(deal);
     }
 

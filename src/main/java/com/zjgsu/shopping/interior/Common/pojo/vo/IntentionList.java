@@ -17,6 +17,7 @@ class IntentionBrief {
     private Integer goodId;
     private String date;
     private String buyerName;
+    private Integer number;
 }
 
 @Data
@@ -25,9 +26,9 @@ class IntentionBrief {
 public class IntentionList {
     List<IntentionBrief> intentionList = new ArrayList<>();
 
-    public void AddItem(Integer intentionId, Integer buyerId, Integer goodId, Date date, String name) {
+    public void AddItem(Integer intentionId, Integer buyerId, Integer goodId, Date date, String name,Integer number) {
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String dt = ft.format(date);
-        intentionList.add(new IntentionBrief(intentionId, buyerId, goodId, dt, name));
+        intentionList.add(new IntentionBrief(intentionId, buyerId, goodId, dt, name,number));
     }
 }
