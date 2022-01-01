@@ -30,6 +30,7 @@ public class CommonController {
     @Resource
     Mytool tool;
 
+
     @ResponseBody
     @PostMapping("/register")
     public Response<Integer> Register(@RequestBody AccountVo account){
