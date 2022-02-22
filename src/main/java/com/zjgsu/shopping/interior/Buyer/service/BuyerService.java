@@ -2,7 +2,7 @@ package com.zjgsu.shopping.interior.Buyer.service;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.pojo.Good;
-import com.zjgsu.shopping.interior.Common.pojo.Intention;
+import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
 
@@ -29,15 +29,21 @@ public interface BuyerService {
     Boolean searchBuyerAccount(String account);
 
 
-    Boolean raiseIntention(Intention intention);
+    /**
+     * 提交一个订单
+     * @param order 订单信息
+     * @return 失败返回-1
+     */
+
+    Boolean placeAnOrder(Order order);
 
     /**
      * 撤销一个购买意向
      *
-     * @param intentionId 意向编号
+     * @param  orderId 意向编号
      * @return 撤销失败返回-1
      */
-    Boolean cancelIntention(Integer intentionId);
+    Boolean cancelTheOrder(Integer orderId);
 
     List<Good> getAllGoodListForBuyers();
 

@@ -2,7 +2,6 @@ package com.zjgsu.shopping.interior.Common.mapper;
 
 
 import com.zjgsu.shopping.interior.Common.pojo.Account;
-import com.zjgsu.shopping.interior.Common.pojo.DealHistory;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

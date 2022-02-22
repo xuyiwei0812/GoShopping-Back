@@ -4,20 +4,16 @@ import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
 import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
 import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
-import com.zjgsu.shopping.interior.Common.mapper.IntentionMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.mapper.One2TwoClassMapper;
+import com.zjgsu.shopping.interior.Common.mapper.OrderMapper;
 import com.zjgsu.shopping.interior.Common.pojo.Good;
-import com.zjgsu.shopping.interior.Common.pojo.Intention;
+import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
-import com.zjgsu.shopping.interior.Seller.pojo.Seller;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,8 +22,9 @@ import java.util.Objects;
 
 @Service
 public class BuyerServiceImpl implements BuyerService {
+
     @Resource
-    private IntentionMapper intentionMapper;
+    private OrderMapper orderMapper;
     @Resource
     private BuyerMapper buyerMapper;
     @Resource
@@ -62,49 +59,69 @@ public class BuyerServiceImpl implements BuyerService {
         return Objects.equals(buyer.getBuyerPassword(),password);
     }
 
-//    @Override
-//    public Boolean updateBuyerInfo(Buyer buyer) {
-//        Buyer old = buyerMapper.getBuyerInfo(buyer.getBuyerId());
-//        buyerMapper.updateBuyerInfo(buyer);
-//        if(buyer.getBuyerName() == null) buyer.setBuyerName(old.getBuyerName());
-//        if(buyer.getBuyerAccount() == null) buyer.setBuyerAccount(old.getBuyerAccount());
-//        if(buyer.getBuyerLocation() == null) buyer.setBuyerLocation(old.getBuyerLocation());
-//        if(buyer.getBuyerPhone() == null) buyer.setBuyerPhone(old.getBuyerPhone());
-//        return true;
-//    }
+
 
     @Override
     public Boolean searchBuyerAccount(String account) {
         return !buyerMapper.searchAccount(account).isEmpty();
     }
 
-
     @Override
-    public Boolean raiseIntention(Intention intention) {
-        try {
-        goodMapper.WantGood(intention.getGoodId());
-        Date nowDate = new Date();
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String nowDateString = format1.format(nowDate);
-        System.out.println("nowdate"+nowDateString);
-        Date nowDate1 = format1.parse(nowDateString);
-        System.out.println("nowdate"+nowDate1);
-        intention.setDate(nowDate1);
-        }
-        catch(ParseException e){
-            e.printStackTrace();
-        }
-        return intentionMapper.raiseIntention(intention);
+    public Boolean placeAnOrder(Order order) {
+      try {
+          goodMapper.WantGood(order.getGoodId());
+
+          SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+          Date nowDate1 = format1.parse(format1.format(new Date()));
+          System.out.println("nowdate : "+nowDate1);
+          order.setStartDate(nowDate1);
+
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+        return (orderMapper.placeAnOrder(order));
     }
 
     @Override
-    public Boolean cancelIntention(Integer intentionId) {
-        Intention intention = intentionMapper.getIntentionInfo(intentionId);
-        if (!intentionMapper.cancelIntention(intentionId)) return false;
-        if (intentionMapper.getIntentionListByGoodId(intention.getGoodId()).isEmpty())
-            goodMapper.refuseGood(intention.getGoodId());
-        return true;
+    public Boolean cancelTheOrder(Integer orderId) {
+       try {
+           Order order = orderMapper.getOrder(orderId);
+           order.setStatement(6);
+           return (orderMapper.updateOrderStatement(order) > 0 );
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       return false;
     }
+
+
+//    @Override
+//    public Boolean raiseIntention(Intention intention) {
+//        try {
+//        goodMapper.WantGood(intention.getGoodId());
+//        Date nowDate = new Date();
+//        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String nowDateString = format1.format(nowDate);
+//        System.out.println("nowdate"+nowDateString);
+//        Date nowDate1 = format1.parse(nowDateString);
+//        System.out.println("nowdate"+nowDate1);
+//        intention.setDate(nowDate1);
+//        }
+//        catch(ParseException e){
+//            e.printStackTrace();
+//        }
+//        return intentionMapper.raiseIntention(intention);
+//    }
+//
+//    @Override
+//    public Boolean cancelIntention(Integer intentionId) {
+//        Intention intention = intentionMapper.getIntentionInfo(intentionId);
+//        if (!intentionMapper.cancelIntention(intentionId)) return false;
+//        if (intentionMapper.getIntentionListByGoodId(intention.getGoodId()).isEmpty())
+//            goodMapper.refuseGood(intention.getGoodId());
+//        return true;
+//    }
+
 
     @Override
     public List<Good> getAllGoodListForBuyers() {
