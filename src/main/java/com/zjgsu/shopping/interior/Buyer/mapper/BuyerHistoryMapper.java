@@ -1,7 +1,6 @@
 package com.zjgsu.shopping.interior.Buyer.mapper;
 
 
-import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

@@ -56,8 +56,8 @@ public interface SellerService {
      * 1.某一买家的历史交易信息
      * 2.某一商品的历史交易信息
      */
-    List<DealHistory> getDealHistoryListBySellerId(Integer sellerId);
-    List<DealHistory> getDealHistoryListByGoodId(Integer goodId);
+    List<Order> getDealHistoryListBySellerId(Integer sellerId);
+    List<Order> getDealHistoryListByGoodId(Integer goodId);
 
 
     /**

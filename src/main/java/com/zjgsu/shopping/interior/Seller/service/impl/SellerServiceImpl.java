@@ -2,13 +2,10 @@ package com.zjgsu.shopping.interior.Seller.service.impl;
 
 import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.interior.Buyer.pojo.BuyerHistory;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
 import com.zjgsu.shopping.interior.Common.mapper.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodIds;
-import com.zjgsu.shopping.interior.Seller.mapper.DealMapper;
 import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
-import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Common.pojo.*;
@@ -30,12 +27,6 @@ public class SellerServiceImpl implements SellerService {
     BuyerMapper buyerMapper;
     @Resource
     GoodMapper goodMapper;
-    @Resource
-    DealMapper dealMapper;
-    @Resource
-    DealHistoryMapper dealHistoryMapper;
-    @Resource
-    IntentionMapper intentionMapper;
     @Resource
     GoodImagineMapper goodImagineMapper;
     @Resource
@@ -102,7 +93,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public List<DealHistory> getDealHistoryListBySellerId(Integer sellerId) {
+    public List<> getDealHistoryListBySellerId(Integer sellerId) {
         return dealHistoryMapper.getDealHistoryListBySellerId(sellerId);
     }
 

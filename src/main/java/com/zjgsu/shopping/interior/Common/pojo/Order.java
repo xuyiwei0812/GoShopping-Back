@@ -36,4 +36,13 @@ public class Order {
     private Date startDate;
     private Date dealDate;
 
+    /**
+     * 用于更改订单状态的简单声明
+     */
+    public  Order(Integer orderId,Integer orderStatement){
+        this.orderId = orderId;
+        this.statement = orderStatement;
+    }
+
+
 }
