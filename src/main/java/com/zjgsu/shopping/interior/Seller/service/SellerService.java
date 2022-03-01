@@ -2,12 +2,9 @@ package com.zjgsu.shopping.interior.Seller.service;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodIds;
-import com.zjgsu.shopping.interior.Seller.pojo.Deal;
+import com.zjgsu.shopping.interior.Common.pojo.vo.OrderVo;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
-import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Common.pojo.*;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -56,9 +53,8 @@ public interface SellerService {
      * 1.某一买家的历史交易信息
      * 2.某一商品的历史交易信息
      */
-    List<Order> getDealHistoryListBySellerId(Integer sellerId);
-    List<Order> getDealHistoryListByGoodId(Integer goodId);
-
+    List<Order> getHistoryOrderListBySellerId(Integer sellerId);
+    List<Order> getHistoryOrderByGoodId(Integer goodId);
 
     /**
      * 取得某一商品的意向购买人列表
@@ -66,7 +62,7 @@ public interface SellerService {
      * @param goodId 商品编号
      * @return 某一商品的意向购买人列表
      */
-    List<Intention> getIntentionListByGoodId(Integer goodId);
+    List<Order> getWillingOrderListByGoodId(Integer goodId);
 
 
     /**
@@ -85,9 +81,9 @@ public interface SellerService {
      * @return 操作成功返回1,失败返回0
      */
 
-    Boolean startDeal(DealVo deal);
-    Boolean cancelDeal(Integer dealId);
-    Boolean finishDeal(Integer dealId);
+    Boolean placeAnOrder(OrderVo order);
+    Boolean cancelTheOrderBySeller(Integer dealId);
+    Boolean finishTheOrder(Integer orderId);
 
     /**
      * 对于商品的操作:
@@ -106,7 +102,8 @@ public interface SellerService {
     Boolean soldOutGood(Integer goodId);
 
 
-    List<Deal> getDealListByGoodId(Integer goodId);
+    List<Order> getOrderListByGoodId(Integer goodId);
+
     Boolean uploadGoodImg(Integer goodId ,List<String> li);
     //Boolean uploadGoodImg(GoodImagine goodImagine);
 

@@ -5,6 +5,7 @@ import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
 import com.zjgsu.shopping.interior.Common.mapper.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodIds;
+import com.zjgsu.shopping.interior.Common.pojo.vo.OrderVo;
 import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
@@ -30,7 +31,7 @@ public class SellerServiceImpl implements SellerService {
     @Resource
     GoodImagineMapper goodImagineMapper;
     @Resource
-    BuyerHistoryService buyerHistoryService;
+    OrderMapper orderMapper;
     @Resource
     One2TwoClassMapper one2TwoClassMapper;
 
@@ -93,24 +94,25 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public List<> getDealHistoryListBySellerId(Integer sellerId) {
-        return dealHistoryMapper.getDealHistoryListBySellerId(sellerId);
+    public List<Order> getHistoryOrderListBySellerId(Integer sellerId) {
+        return sellerMapper.getHistoryOrderListBySellerId(sellerId);
     }
 
     @Override
-    public List<DealHistory> getDealHistoryListByGoodId(Integer goodId) {
-        return dealHistoryMapper.getDealHistoryListByGoodId(goodId);
+    public List<Order> getHistoryOrderByGoodId(Integer goodId) {
+       return  sellerMapper.getHistoryOrderByGoodId(goodId);
     }
 
     @Override
-    public List<Deal> getDealListByGoodId(Integer goodId) {
-        return dealMapper.getDealList(goodId);
+    public List<Order> getWillingOrderListByGoodId(Integer goodId) {
+        return sellerMapper.getWillingOrderListByGoodId(goodId);
     }
 
-    @Override
-    public List<Intention> getIntentionListByGoodId(Integer goodId) {
-        return intentionMapper.getIntentionListByGoodId(goodId);
-    }
+
+
+
+
+
 
     @Override
     public Boolean updateSellerInfo(Seller seller) {
@@ -131,47 +133,54 @@ public class SellerServiceImpl implements SellerService {
 
 
     @Override
-    public Boolean startDeal(DealVo deal) {
-        deal.setDate(new Date());
-        if(Objects.equals(goodMapper.getGoodInfo(deal.getGoodId()).getStorage(), deal.getNumber()))
-            goodMapper.freezeGood(deal.getGoodId());
-        intentionMapper.cancelIntention(deal.getIntentionId());
-        if(intentionMapper.getIntentionListByGoodId(deal.getGoodId()).isEmpty())
-            goodMapper.refuseGood(deal.getGoodId());
-        if(intentionMapper.getIntentionListByGoodId(deal.getGoodId()).isEmpty())
-            goodMapper.refuseGood(deal.getGoodId());
-        System.out.println(deal);
-        return dealMapper.startDeal(deal);
+    public Boolean cancelTheOrderBySeller(Integer orderId) {
+        try {
+            Order order = orderMapper.getOrder(orderId);
+            if(order.getStatement() >= 5)return false;
+            order.setStatement(6);
+            return (orderMapper.updateOrderStatement(order) > 0 );
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
+
+
 
 
     @Override
-    public Boolean cancelDeal(Integer dealId) {
-        goodMapper.unfreezeGood(dealMapper.getDealInfo(dealId).getGoodId());
-        return dealMapper.cancelDeal(dealId) > 0;
+    public Boolean placeAnOrder(OrderVo order) {
+        order.setStartDate(new Date());
+        if(Objects.equals(goodMapper.getGoodInfo(order.getGoodId()).getStorage(), order.getNumber()))
+            goodMapper.freezeGood(order.getGoodId());
+        if(sellerMapper.updateOrderToStatementTwo(order.getOrderId()) == 0) return false;
+        if(sellerMapper.getWillingOrderListByGoodId(order.getGoodId()).isEmpty())
+            goodMapper.refuseGood(order.getGoodId());
+        System.out.println(order);
+        return orderMapper.placeAnOrder(order);
     }
+
+
 
     /**
      * 卖空
      */
 
     @Override
-    public Boolean finishDeal(Integer dealId) {
+    public Boolean finishTheOrder(Integer orderId){
         Date dealDate = new Date();
-        Deal deal = dealMapper.getDealInfo(dealId);
-        int l = goodMapper.getGoodInfo(deal.getGoodId()).getStorage() - deal.getNumber();
+        Order order = orderMapper.getOrder(orderId);
+        order.setDealDate(dealDate);
+        int l = goodMapper.getGoodInfo(order.getGoodId()).getStorage() - order.getNumber();
         if(l < 0) return false;
-        else if( l == 0) goodMapper.soldOutGood(deal.getGoodId());
-        Good good = goodMapper.getGoodInfo(deal.getGoodId());
+        else if( l == 0) goodMapper.soldOutGood(order.getGoodId());
+        Good good = goodMapper.getGoodInfo(order.getGoodId());
         good.setStorage(l);
         goodMapper.updateGoodStorage(good);
-        goodMapper.unfreezeGood(deal.getGoodId());
-        Integer buyerId = deal.getBuyerId();
+        goodMapper.unfreezeGood(order.getGoodId());
+        Integer buyerId = order.getBuyerId();
         String buyerName = buyerMapper.getBuyerInfo(buyerId).getBuyerName();
-        buyerHistoryService.raiseBuyerHistory(new BuyerHistory(null,deal.getBuyerId(),deal.getGoodId(),deal.getSellerId(),dealDate,deal.getNumber(),buyerName));
-        dealHistoryMapper.raiseDealHistory(new DealHistory(goodMapper.getGoodInfo(deal.getGoodId()),
-                buyerMapper.getBuyerInfo(deal.getBuyerId()).getBuyerPhone(), dealDate, deal.getNumber()));
-        return dealMapper.cancelDeal(dealId) > 0;
+        return sellerMapper.finishTheOrder(orderId) > 0;
     }
 
     @Override
@@ -227,6 +236,11 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean soldOutGood(Integer goodId) {
         return goodMapper.soldOutGood(goodId) > 0;
+    }
+
+    @Override
+    public List<Order> getOrderListByGoodId(Integer goodId) {
+        return sellerMapper.getOrderListByGoodId(goodId);
     }
 
     @Override

@@ -83,9 +83,10 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Boolean cancelTheOrder(Integer orderId) {
+    public Boolean cancelTheOrderByBuyer(Integer orderId) {
        try {
            Order order = orderMapper.getOrder(orderId);
+           if(order.getStatement() >= 4)return false;
            order.setStatement(6);
            return (orderMapper.updateOrderStatement(order) > 0 );
        }catch (Exception e){
@@ -95,32 +96,6 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
 
-//    @Override
-//    public Boolean raiseIntention(Intention intention) {
-//        try {
-//        goodMapper.WantGood(intention.getGoodId());
-//        Date nowDate = new Date();
-//        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String nowDateString = format1.format(nowDate);
-//        System.out.println("nowdate"+nowDateString);
-//        Date nowDate1 = format1.parse(nowDateString);
-//        System.out.println("nowdate"+nowDate1);
-//        intention.setDate(nowDate1);
-//        }
-//        catch(ParseException e){
-//            e.printStackTrace();
-//        }
-//        return intentionMapper.raiseIntention(intention);
-//    }
-//
-//    @Override
-//    public Boolean cancelIntention(Integer intentionId) {
-//        Intention intention = intentionMapper.getIntentionInfo(intentionId);
-//        if (!intentionMapper.cancelIntention(intentionId)) return false;
-//        if (intentionMapper.getIntentionListByGoodId(intention.getGoodId()).isEmpty())
-//            goodMapper.refuseGood(intention.getGoodId());
-//        return true;
-//    }
 
 
     @Override
@@ -188,4 +163,21 @@ public class BuyerServiceImpl implements BuyerService {
     public Boolean updateBuyerInfo(Buyer buyer){
         return buyerMapper.updateBuyerInfo(buyer);
     }
+
+
+//    @Override
+//    public List<Order> getBuyerHistory(Integer buyerId) {
+//        List<Order> li = buyerMapper.getHistoryOrderListByBuyerId(buyerId);
+//        System.out.println("buyerHistoryList"+buyerHistoryList);
+//        for(Integer i=0;i<li.size();i++) {
+//            Integer goodId = li.get(i).getGoodId();
+//            System.out.println("goodId:"+goodId);
+//            Double goodPrice = buyerHistoryMapper.getGoodPriceByGoodId(goodId);
+//            System.out.println("goodPrice"+goodPrice);
+//            List<String> img = buyerHistoryMapper.getGoodImageByGoodId(goodId);
+//            buyerHistoryList.get(i).setGoodPrice(goodPrice);
+//            buyerHistoryList.get(i).setImg(img);
+//        }
+//        return buyerHistoryList;
+//    }
 }

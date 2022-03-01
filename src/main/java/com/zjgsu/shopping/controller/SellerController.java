@@ -6,7 +6,6 @@ import com.zjgsu.shopping.interior.Seller.pojo.vo.DealVo;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodVo;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.interior.Seller.pojo.Deal;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.Tool.Mytool;

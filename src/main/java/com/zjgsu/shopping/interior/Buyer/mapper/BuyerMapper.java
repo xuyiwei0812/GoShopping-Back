@@ -1,6 +1,7 @@
 package com.zjgsu.shopping.interior.Buyer.mapper;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import org.apache.ibatis.annotations.*;
 
@@ -63,4 +64,7 @@ public interface BuyerMapper {
 
     @Update("update buyer set buyerLocation=#{buyer.buyerLocation}, buyerName=#{buyer.buyerName}, buyerPhone=#{buyer.buyerPhone} where buyerId=#{buyer.buyerId}")
     Boolean updateBuyerInfo(@Param("buyer") Buyer buyer);
+
+    @Select("select * from order where buyerId=#{buyerId} and statement = 5")
+    List<Order> getHistoryOrderListByBuyerId(@Param("buyerId")Integer buyerId);
 }

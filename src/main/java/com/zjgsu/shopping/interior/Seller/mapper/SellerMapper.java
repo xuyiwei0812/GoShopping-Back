@@ -1,6 +1,8 @@
 package com.zjgsu.shopping.interior.Seller.mapper;
 
 
+import com.sun.org.apache.xpath.internal.operations.Or;
+import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import org.apache.ibatis.annotations.*;
 
@@ -58,4 +60,29 @@ public interface SellerMapper {
     @Select("select * from seller where sellerId=#{sellerId}")
     Seller getInfo(@Param("sellerId") Integer sellerId);
 
+
+    @Select("select * from order where sellerId=#{sellerId} and statement = 5")
+    List<Order> getHistoryOrderListBySellerId(@Param("sellerId")Integer sellerId);
+
+    @Select("select * from order where goodId=#{goodId} and statement = 5")
+    List<Order> getHistoryOrderByGoodId(@Param("goodId") Integer goodId);
+
+
+    @Select("select * from order where goodId=#{goodId} and statement <> 5 and statement<> 6 and statement <> 1")
+    List<Order> getOrderListByGoodId(@Param("goodId") Integer goodId);
+
+
+
+    @Select("select * from order where goodId=#{goodId} and statement = 1")
+    List<Order> getWillingOrderListByGoodId(@Param("goodId") Integer goodId);
+
+
+
+
+    @Update("update order set statement = 2 where orderId=#{orderId} and statement = 1")
+    Long updateOrderToStatementTwo(@Param("orderId")Integer orderId);
+
+
+    @Update("update order set statement = 5 where orderId=#{orderId} and statement = 4")
+    Long finishTheOrder(@Param("orderId") Integer orderId);
 }

@@ -43,7 +43,7 @@ public interface BuyerService {
      * @param  orderId 意向编号
      * @return 撤销失败返回-1
      */
-    Boolean cancelTheOrder(Integer orderId);
+    Boolean cancelTheOrderByBuyer(Integer orderId);
 
     List<Good> getAllGoodListForBuyers();
 
@@ -69,4 +69,6 @@ public interface BuyerService {
     public String getVideoByGood(Good good);
 
     public List<Good> searchGood(String keyword);
+
+    //public List<Order> getBuyerHistory(Integer buyerId) ;
 }
