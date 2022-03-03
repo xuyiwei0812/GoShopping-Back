@@ -67,7 +67,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Boolean placeAnOrder(Order order) {
+    public Boolean placeAnOrder(Order order) { //下订单
       try {
           goodMapper.WantGood(order.getGoodId());
 

@@ -2,7 +2,7 @@ package com.zjgsu.shopping.interior.Seller.service.impl;
 
 import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
+//import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
 import com.zjgsu.shopping.interior.Common.mapper.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodIds;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderVo;
