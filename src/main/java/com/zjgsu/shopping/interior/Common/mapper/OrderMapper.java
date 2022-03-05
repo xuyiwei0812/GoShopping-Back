@@ -32,6 +32,8 @@ public interface OrderMapper {
     @Update("update order set statement = #{order.statement} where orderId = #{order.orderId}")
     Long updateOrderStatement(@Param("order")Order order);
 
+
+
     @Select("select * from order where sellerId = #{sellerId}")
     List<Order> getOrderListBySellerId(@Param("sellerId") Integer sellerId);
 

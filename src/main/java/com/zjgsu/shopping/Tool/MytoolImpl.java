@@ -3,11 +3,13 @@ package com.zjgsu.shopping.Tool;
 import com.zjgsu.shopping.interior.Buyer.mapper.BuyerMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.mapper.One2TwoClassMapper;
+import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
 import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
 import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
 import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodList;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -77,6 +79,7 @@ public class MytoolImpl implements Mytool {
 //      return list;
 //    }
 
+
     @Override
     public BuyerList toBuyerList(List<Buyer> li) {
         BuyerList list = new BuyerList();
@@ -94,6 +97,15 @@ public class MytoolImpl implements Mytool {
         if(s == null) return false;
         int len = s.length();
         return len >= 6 && len <= 12;
+    }
+
+    @Override
+    public OrderList toOrderList(List<Order> li){
+        OrderList list = new OrderList();
+        for(Order item : li) {
+            list.AddItem(item);
+        }
+        return list;
     }
 
 }

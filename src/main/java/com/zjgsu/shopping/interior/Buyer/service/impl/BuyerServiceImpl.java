@@ -165,19 +165,10 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
 
-//    @Override
-//    public List<Order> getBuyerHistory(Integer buyerId) {
-//        List<Order> li = buyerMapper.getHistoryOrderListByBuyerId(buyerId);
-//        System.out.println("buyerHistoryList"+buyerHistoryList);
-//        for(Integer i=0;i<li.size();i++) {
-//            Integer goodId = li.get(i).getGoodId();
-//            System.out.println("goodId:"+goodId);
-//            Double goodPrice = buyerHistoryMapper.getGoodPriceByGoodId(goodId);
-//            System.out.println("goodPrice"+goodPrice);
-//            List<String> img = buyerHistoryMapper.getGoodImageByGoodId(goodId);
-//            buyerHistoryList.get(i).setGoodPrice(goodPrice);
-//            buyerHistoryList.get(i).setImg(img);
-//        }
-//        return buyerHistoryList;
-//    }
+    @Override
+    public List<Order> getBuyerHistory(Integer buyerId) {
+        List<Order> li = buyerMapper.getHistoryOrderListByBuyerId(buyerId);
+        System.out.println("buyerHistoryList : "+li);
+        return li;
+    }
 }

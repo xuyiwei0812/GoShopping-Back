@@ -70,5 +70,5 @@ public interface BuyerService {
 
     public List<Good> searchGood(String keyword);
 
-    //public List<Order> getBuyerHistory(Integer buyerId) ;
+    public List<Order> getBuyerHistory(Integer buyerId) ;
 }

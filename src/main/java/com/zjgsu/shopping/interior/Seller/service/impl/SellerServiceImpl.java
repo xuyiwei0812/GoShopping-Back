@@ -149,7 +149,7 @@ public class SellerServiceImpl implements SellerService {
 
 
     @Override
-    public Boolean placeAnOrder(OrderVo order) {
+    public Boolean acceptTheOrder(OrderVo order) {
         order.setStartDate(new Date());
         if(Objects.equals(goodMapper.getGoodInfo(order.getGoodId()).getStorage(), order.getNumber()))
             goodMapper.freezeGood(order.getGoodId());

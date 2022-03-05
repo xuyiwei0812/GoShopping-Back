@@ -1,19 +1,14 @@
 package com.zjgsu.shopping.controller;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
-import com.zjgsu.shopping.interior.Buyer.service.BuyerHistoryService;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Common.pojo.Good;
-import com.zjgsu.shopping.interior.Common.pojo.Intention;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import java.nio.file.attribute.AclEntryPermission;
 import java.util.List;
 
 @Controller
@@ -25,8 +20,7 @@ public class BuyerController {
     private BuyerService buyerService;
     @Resource
     private Mytool tool;
-    @Resource
-    private BuyerHistoryService buyerHistoryService;
+
 
     /**
      * 登录买家信息
@@ -95,20 +89,20 @@ public class BuyerController {
     }
 
     /**
-     * 提出一个意向
+     * 提出一个订单
      *
-     * @param intention xx
-     *                  intention.goodId 商品id
-     *                  intention.buyerId 卖家id
+     * 改自raiseIntention
+     *
+
      * @return 成功返回意向编号, 失败....
      * 注:在登录一个意向的时候需要调用两个接口,后调用这个,然后拿着上面那个返回的id来调用这个
      */
     @ResponseBody
-    @PostMapping("/raiseIntention")
-    public Response<Integer> raiseIntention(@RequestBody Intention intention) {
+    @PostMapping("/placeAnOrder")
+    public Response<Integer> placeAnOrder(@RequestBody OrderVo order) {
         try {
-            if (buyerService.raiseIntention(intention))
-                return Response.createSuc(intention.getIntentionId());
+            if (buyerService.placeAnOrder(order))
+                return Response.createSuc(order.getOrderId());
             else return Response.createErr("意向添加失败");
         } catch (Exception e) {
             tool.soutErr("raiseIntention", e);
@@ -117,6 +111,7 @@ public class BuyerController {
     }
 
 
+    //FB : for buyer
     @ResponseBody
     @PostMapping("/getAllGoodListFB")
     public Response<GoodList> getAllGoodListFB() {
@@ -203,11 +198,11 @@ public class BuyerController {
 
     @ResponseBody
     @PostMapping("/getBuyerHistoryByBuyerId")
-    public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer){
+    public Response< OrderList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer){
         try {
             System.out.println(buyer);
             System.out.println("1 "+buyer.getBuyerId());
-            BuyerHistoryList list = tool.toBuyerHistoryList(buyerHistoryService.getBuyerHistory(buyer.getBuyerId()));
+            OrderList list = tool.toOrderList(buyerService.getBuyerHistory(buyer.getBuyerId()));
             return Response.createSuc(list);
         }catch (Exception e){
             tool.soutErr("getBuyerHistoryByBuyerId" ,e);

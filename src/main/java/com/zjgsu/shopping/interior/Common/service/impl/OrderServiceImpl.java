@@ -6,6 +6,7 @@ import com.zjgsu.shopping.interior.Common.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -17,6 +18,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Boolean updateOrderStatement(Integer orderId, Integer orderStatement) {
        return orderMapper.updateOrderStatement(new Order(orderId,orderStatement)) > 0;
+    }
+
+    @Override
+    public List<Object> getDealHistfoyListByGoodId(Integer goodId) {
+        return null;
     }
 
 }

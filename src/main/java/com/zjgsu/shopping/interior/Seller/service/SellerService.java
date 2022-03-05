@@ -81,7 +81,7 @@ public interface SellerService {
      * @return 操作成功返回1,失败返回0
      */
 
-    Boolean placeAnOrder(OrderVo order);
+    Boolean acceptTheOrder(OrderVo order);
     Boolean cancelTheOrderBySeller(Integer dealId);
     Boolean finishTheOrder(Integer orderId);
 

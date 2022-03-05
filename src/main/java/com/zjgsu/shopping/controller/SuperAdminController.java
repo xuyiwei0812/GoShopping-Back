@@ -37,28 +37,6 @@ public class SuperAdminController {
         }
     }
 
-    @ResponseBody
-    @PostMapping("/getAllBuyerHistory")
-    public Response<BuyerHistoryList> getAllBuyerHistory() {
-        try {
-            BuyerHistoryList list = tool.toBuyerHistoryList(superAdminService.getAllBuyerHistory());
-            return Response.createSuc(list);
-        } catch (Exception e) {
-            tool.soutErr("getAllBuyerHistory", e);
-            return Response.BUG();
-        }
-    }
 
-    @ResponseBody
-    @PostMapping("/getBuyerHistoryByBuyerId")
-    public Response<BuyerHistoryList> getBuyerHistoryByBuyerId(@RequestBody Buyer buyer) {
-        try {
-            BuyerHistoryList list = tool.toBuyerHistoryList(superAdminService.getBuyerHistoryByBuyerId(buyer.getBuyerId()));
-            return Response.createSuc(list);
-        } catch (Exception e) {
-            tool.soutErr("getAllBuyerHistory", e);
-            return Response.BUG();
-        }
-    }
 
 }

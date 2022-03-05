@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -149,61 +146,55 @@ public class SellerController {
 
     /**
      * 开始一个交易
-     *
-     * @param dealVo dealVo.intentionId 意向id
-     *               dealVo.buyerId  买家id
-     *               dealVo.sellerId 卖家id
-     *               dealVo.goodId   商品id
+     * startDeal
+//     * @param dealVo dealVo.intentionId 意向id
+//     *               dealVo.buyerId  买家id
+//     *               dealVo.sellerId 卖家id
+//     *               dealVo.goodId   商品id
      * @return 成功code0, 失败返回信息
      * 注:交易开始后商品自动冻结,相应购买意向删除
      */
     @ResponseBody
-    @PostMapping("/startDeal")
-    public Response<DealVo> startDeal(@RequestBody DealVo dealVo) {
+    @PostMapping("/acceptTheOrder")
+    public Response<OrderVo> acceptTheOrder(@RequestBody OrderVo order) {
         try{
-            System.out.println(dealVo);
-            sellerService.startDeal(dealVo);
-            return Response.createSuc(dealVo);
+
+            sellerService.acceptTheOrder(order);
+            return Response.createSuc(order);
         }catch (Exception e){
             tool.soutErr("startDeal" ,e) ;
             return Response.BUG();
         }
     }
 
-    /**
-     * 通过商品id得到某一商品的历史交易记录
-     *
-     * @param good xx
-     *             good.goodId 商品id
-     * @return 成功返回信息列表, 失败返回错误信息
-     */
+//    /**
+//     * 通过商品id得到某一商品的历史交易记录
+//     *
+//     * @param good xx
+//     *             good.goodId 商品id
+//     * @return 成功返回信息列表, 失败返回错误信息
+//     */
+//    @ResponseBody
+//    @PostMapping("/getDealHistfoyListByGoodId")
+//    public Response<OrderList> getDealHistoryByGoodId(@RequestBody Good good) {
+//        try {
+//            return Response.createSuc(tool.toOrderList());
+//        }catch (Exception e){
+//            tool.soutErr("getDealHistfoyListByGoodId" ,e);
+//            return  Response.BUG();
+//        }
+//    }
+
+
     @ResponseBody
-    @PostMapping("/getDealHistfoyListByGoodId")
-    public Response<DealHistoryList> getDealHistoryByGoodId(@RequestBody Good good) {
+    @PostMapping("/getSellerHistoryBySellerId")
+    public Response< OrderList> getSellerHistoryBySellerId(@RequestBody Seller seller){
         try {
-            return Response.createSuc(tool.toDealHistoryList(sellerService.getDealHistoryListByGoodId(good.getGoodId())));
+            OrderList list = tool.toOrderList(sellerService.getHistoryOrderListBySellerId(seller.getSellerId()));
+            return Response.createSuc(list);
         }catch (Exception e){
-            tool.soutErr("getDealHistfoyListByGoodId" ,e);
-            return  Response.BUG();
-        }
-    }
-
-
-    /**
-     * 通过卖家id取得卖家的全部交易记录
-     *
-     * @param seller xx
-     *               seller.sellerId 卖家id
-     * @return 成功返回交易记录列表, 失败....
-     */
-    @ResponseBody
-    @PostMapping("/getDealHistoryBySellerId")
-    public Response<DealHistoryList> getDealHistoryBySellerId(@RequestBody Seller seller) {
-        try{
-            return Response.createSuc(tool.toDealHistoryList(sellerService.getDealHistoryListBySellerId(seller.getSellerId())));
-        }catch (Exception e){
-            tool.soutErr("getDealHistoryBySellerId" ,e);
-            return  Response.BUG();
+            tool.soutErr("getSellerHistoryBySellerId" ,e);
+            return Response.BUG();
         }
     }
 
@@ -212,16 +203,17 @@ public class SellerController {
     /**
      * 通过商品id拿商品意向列表
      *
+     * getIntentionListByGoodId
      * @param good xx
      *             good.goodId 商品id
      * @return 成功返回意向列表, 失败....
      */
     @ResponseBody
-    @PostMapping("/getIntentionListByGoodId")
-    public Response<IntentionList> getIntentionListByGoodId(@RequestBody Good good) {
+    @PostMapping("/getWillingOrderByGood")
+    public Response<OrderList> getIntentionListByGoodId(@RequestBody Good good) {
         System.out.println(good.getGoodId());
         try {
-            return Response.createSuc(tool.toIntentionList(sellerService.getIntentionListByGoodId(good.getGoodId())));
+            return Response.createSuc(tool.toOrderList(sellerService.getWillingOrderListByGoodId(good.getGoodId())));
         }catch (Exception e){
             tool.soutErr("getIntentionListByGoodId",e );
             return  Response.BUG();
@@ -230,17 +222,17 @@ public class SellerController {
 
     /**
      * 取消一场交易
-     *
-     * @param deal xx
-     *             deal.dealId 交易编号
-     * @return 成功code0, 失败....
+     * cancelDeal
+//     * @param deal xx
+//     *             deal.dealId 交易编号
+//     * @return 成功code0, 失败....
      * 注:取消交易后商品自动解冻
      */
     @ResponseBody
-    @PostMapping("/cancelDeal")
-    public Response<Object> cancelDeal(@RequestBody Deal deal) {
+    @PostMapping("/cancelTheOrder")
+    public Response<Object> cancelTheOrder(@RequestBody Order order) {
         try{
-            sellerService.cancelDeal(deal.getDealId());
+            sellerService.cancelTheOrderBySeller(order.getOrderId());
             return Response.createSuc(null);
         }catch (Exception e){
             tool.soutErr("cancelDeal",e );
@@ -248,21 +240,13 @@ public class SellerController {
         }
     }
 
-    /**
-     * 达成一个交易
-     *
-     * @param deal xx
-     *             deal.dealId 交易编号
-     * @return 成功code0, 失败....
-     * 注:交易达成后商品变为出售状态,同时自动解冻
-     */
+
 
     @ResponseBody
-    @PostMapping("/finishDeal")
-    public Response<Object> finishDeal(@RequestBody Deal deal) {
+    @PostMapping("/finishTheOrder")
+    public Response<Object> finishTheOrder(@RequestBody Order order) {
         try{
-            System.out.println("deal"+deal);
-            sellerService.finishDeal(deal.getDealId());
+            sellerService.finishTheOrder(order.getOrderId());
             return Response.createSuc(null);
         }catch (Exception e){
             tool.soutErr("finishDeal",e );
@@ -561,10 +545,10 @@ public class SellerController {
 
     @ResponseBody
     @PostMapping("/getDealListByGoodId")
-    public Response<DealList> getDealListByGoodId(@RequestBody Good good){
+    public Response<OrderList> getDealListByGoodId(@RequestBody Good good){
         try{
 
-            return Response.createSuc(tool.toDealList(sellerService.getDealListByGoodId(good.getGoodId())));
+            return Response.createSuc(tool.toOrderList(sellerService.getOrderListByGoodId(good.getGoodId())));
         }catch (Exception e){
             tool.soutErr("getDealListByGoodId",e);
             return Response.BUG();
