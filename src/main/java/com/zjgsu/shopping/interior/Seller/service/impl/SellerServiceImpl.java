@@ -137,7 +137,7 @@ public class SellerServiceImpl implements SellerService {
         try {
             Order order = orderMapper.getOrder(orderId);
             if(order.getStatement() >= 5)return false;
-            order.setStatement(6);
+            order.setStatement(-2);
             return (orderMapper.updateOrderStatement(order) > 0 );
         }catch (Exception e){
             e.printStackTrace();
@@ -265,5 +265,46 @@ public class SellerServiceImpl implements SellerService {
 
     public List<One2Two> getAllClass2ByClass1Id(Integer class1){
         return one2TwoClassMapper.getAllClass2ByClass1Id(class1);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement1(Integer sellerId) {
+        return sellerMapper.getOrderListOfStatement1(sellerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement2(Integer sellerId) {
+        return sellerMapper.getOrderListOfStatement2(sellerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement5(Integer sellerId) {
+        return sellerMapper.getOrderListOfStatement5(sellerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement6(Integer sellerId) {
+        return sellerMapper.getOrderListOfStatement6(sellerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement_1(Integer sellerId) {
+        return sellerMapper.getOrderListOfStatement_1(sellerId);
+    }
+
+    @Override
+    public Boolean cancelTheOrder(Integer orderId) {
+        return null;
+    }
+
+    @Override
+    public Boolean deliverTheGoods(Order order) {
+       if(orderMapper.getOrderStatement(order.getOrderId()) != 4) return false;
+       return orderMapper.setTrackingNumber(order) > 0 ;
+    }
+
+    @Override
+    public String getTrackingNumber(Integer orderId) {
+        return orderMapper.getTrackingNumber(orderId);
     }
 }

@@ -85,4 +85,20 @@ public interface SellerMapper {
 
     @Update("update order set statement = 5 where orderId=#{orderId} and statement = 4")
     Long finishTheOrder(@Param("orderId") Integer orderId);
+
+    @Select("select * from order where sellerId=#{sellerId} and statement = 1")
+    List<Order> getOrderListOfStatement1(@Param("sellerId")Integer sellerId);
+
+    @Select("select * from order where sellerId=#{sellerId} and (statement = 2 or statement = 3 or statement = 4)")
+    List<Order> getOrderListOfStatement2(@Param("sellerId")Integer sellerId);
+
+    @Select("select * from order where sellerId=#{sellerId} and statement = 5")
+    List<Order> getOrderListOfStatement5(@Param("sellerId")Integer sellerId);
+
+    @Select("select * from order where sellerId=#{sellerId} and statement = 6")
+    List<Order> getOrderListOfStatement6(@Param("sellerId")Integer sellerId);
+
+    @Select("select * from order where sellerId=#{sellerId} and (statement = -1 or statement = -2)")
+    List<Order> getOrderListOfStatement_1(@Param("sellerId")Integer sellerId);
+
 }

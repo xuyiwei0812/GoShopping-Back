@@ -2,6 +2,7 @@ package com.zjgsu.shopping.interior.Buyer.mapper;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
+import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import org.apache.ibatis.annotations.*;
 
@@ -67,4 +68,20 @@ public interface BuyerMapper {
 
     @Select("select * from order where buyerId=#{buyerId} and statement = 5")
     List<Order> getHistoryOrderListByBuyerId(@Param("buyerId")Integer buyerId);
+
+
+    @Select("select * from order where buyerId=#{buyerId} and statement = 1")
+    List<Order> getOrderListOfStatement1(@Param("buyerId")Integer buyerId);
+
+    @Select("select * from order where buyerId=#{buyerId} and statement = 5")
+    List<Order> getOrderListOfStatement5(@Param("buyerId")Integer buyerId);
+
+    @Select("select * from order where buyerId=#{buyerId} and statement = 6")
+    List<Order> getOrderListOfStatement6(@Param("buyerId")Integer buyerId);
+
+    @Select("select * from order where buyerId=#{buyerId} and (statement = 2 or statement = 3 or statement = 4)")
+    List<Order> getOrderListOfStatement2(@Param("buyerId")Integer buyerId);
+
+    @Select("select * from order where buyerId=#{buyerId} and (statement = -1 or statement = -2)")
+    List<Order> getOrderListOfStatement_1(@Param("buyerId")Integer buyerId);
 }

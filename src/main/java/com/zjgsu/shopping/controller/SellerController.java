@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -562,6 +563,64 @@ public class SellerController {
             return Response.createSuc(sellerService.updateGoodInfo(good));
         }catch (Exception e){
             tool.soutErr("updateGoodInfo",e);
+            return Response.BUG();
+        }
+    }
+
+
+    @ResponseBody
+    @PostMapping("/getOrderListOfStatement")
+    public Response<OrderList> getOrderListOfStatement(@RequestBody Statement st){
+        try{
+            Integer code = st.getStatement();Integer sellerId = st.getSellerId();
+            List<Order> li = new ArrayList<>();
+            if(code == 1)        li = sellerService.getOrderListOfStatement1(sellerId);
+            else if (code == 2)  li = sellerService.getOrderListOfStatement2(sellerId);
+            else if (code == 5)  li = sellerService.getOrderListOfStatement5(sellerId);
+            else if (code == 6)  li = sellerService.getOrderListOfStatement6(sellerId);
+            else if (code == -1) li = sellerService.getOrderListOfStatement_1(sellerId);
+            return Response.createSuc(tool.toOrderList(li));
+        }catch (Exception e){
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/cancelTheOrder")
+    public Response<Boolean> cancelTheOrder(@RequestBody Integer orderId){
+        try{
+            return Response.createSuc(sellerService.cancelTheOrderBySeller(orderId));
+        }catch (Exception e){
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/finishTheOrder")
+    public Response<Boolean> finishTheOrder(@RequestBody Integer orderId){
+        try{
+            return Response.createSuc(sellerService.finishTheOrder(orderId));
+        }catch (Exception e){
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/deliverTheGoods")
+    public Response<Boolean> deliverTheGoods(@RequestBody  Order order){
+        try{
+            return Response.createSuc(sellerService.deliverTheGoods(order));
+        }catch (Exception e){
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getTrackingNumber")
+    public Response<String> getTrackingNumber(@RequestBody  Integer orderId){
+        try{
+            return Response.createSuc(sellerService.getTrackingNumber(orderId));
+        }catch (Exception e){
             return Response.BUG();
         }
     }

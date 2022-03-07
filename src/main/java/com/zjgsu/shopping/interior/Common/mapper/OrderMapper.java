@@ -54,4 +54,12 @@ public interface OrderMapper {
     @Select("select * from order where goodId = #{goodId}  and statement = 1")
     List<Order> getWillingOrderListByGoodId(@Param("goodId") Integer goodId);
 
+
+    @Update("update order set trackingNumber = #{order.trackingNumber} where orderId = #{order.orderId}")
+    Long setTrackingNumber(@Param("order") Order order);
+
+
+    @Select("select trackingNumber from order where orderId = #{orderId}")
+    String getTrackingNumber(@Param("orderId") Integer orderId);
+
 }

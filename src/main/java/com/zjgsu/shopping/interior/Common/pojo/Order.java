@@ -21,9 +21,10 @@ public class Order {
      * 下单时间
      * 订单状态
         买家提出 --> 买家完成支付 -- >商家确认 --> 备货完成 --> 开始发货 --> 交易完成
-                1           2          3          4          5          6
-                                                        |在此之前客户、商家可以取消
-        特殊状态: 交易取消 7
+                1             2            3          4          5          6
+                                                      |在此之前客户
+                                                                    |商家可以取消
+        特殊状态: 买家取消 -1 卖家取消 -2
      * 交易达成时间
      */
 
@@ -36,7 +37,7 @@ public class Order {
     private String phone;
     private Date startDate;
     private Date dealDate;
-
+    private String trackingNumber;
     /**
      * 用于更改订单状态的简单声明
      */

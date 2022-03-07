@@ -11,6 +11,7 @@ import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
+import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -171,4 +172,31 @@ public class BuyerServiceImpl implements BuyerService {
         System.out.println("buyerHistoryList : "+li);
         return li;
     }
+
+    @Override
+    public List<Order> getOrderListOfStatement1(Integer buyerId) {
+        return buyerMapper.getOrderListOfStatement1(buyerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement2(Integer buyerId) {
+        return buyerMapper.getOrderListOfStatement2(buyerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement5(Integer buyerId) {
+        return buyerMapper.getOrderListOfStatement5(buyerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement6(Integer buyerId) {
+        return buyerMapper.getOrderListOfStatement6(buyerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement_1(Integer buyerId) {
+        return buyerMapper.getOrderListOfStatement_1(buyerId);
+    }
+
+
 }

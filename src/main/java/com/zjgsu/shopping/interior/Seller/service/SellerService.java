@@ -113,4 +113,20 @@ public interface SellerService {
     List<Class1> getAllClass1();
 
     List<One2Two> getAllClass2ByClass1Id(Integer class1);
+
+    List<Order> getOrderListOfStatement1(Integer sellerId);
+
+    List<Order> getOrderListOfStatement2(Integer sellerId);
+
+    List<Order> getOrderListOfStatement5(Integer sellerId);
+
+    List<Order> getOrderListOfStatement6(Integer sellerId);
+
+    List<Order> getOrderListOfStatement_1(Integer sellerId);
+
+    Boolean cancelTheOrder(Integer orderId);
+
+    Boolean deliverTheGoods(Order order);
+
+    String getTrackingNumber(Integer orderId);
 }

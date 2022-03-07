@@ -2,6 +2,7 @@ package com.zjgsu.shopping.controller;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
+import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.Tool.Mytool;
@@ -9,6 +10,7 @@ import com.zjgsu.shopping.interior.Common.pojo.Good;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -261,6 +263,22 @@ public class BuyerController {
         }
         catch (Exception e){
             tool.soutErr("searchGood" ,e);
+            return Response.BUG();
+        }
+    }
+    @ResponseBody
+    @PostMapping("/getOrderListOfStatement")
+    public Response<OrderList> getOrderListOfStatement(@RequestBody Statement st){
+        try{
+            Integer code = st.getStatement();Integer buyerId = st.getBuyerId();
+            List<Order> li = new ArrayList<>();
+            if(code == 1)li = buyerService.getOrderListOfStatement1(buyerId);
+            else if (code == 2) li = buyerService.getOrderListOfStatement2(buyerId);
+            else if (code == 5) li = buyerService.getOrderListOfStatement5(buyerId);
+            else if (code == 6) li = buyerService.getOrderListOfStatement6(buyerId);
+            else if (code == -1) li = buyerService.getOrderListOfStatement_1(buyerId);
+            return Response.createSuc(tool.toOrderList(li));
+        }catch (Exception e){
             return Response.BUG();
         }
     }

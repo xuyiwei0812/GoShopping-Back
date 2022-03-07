@@ -5,6 +5,7 @@ import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
+import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 
 import java.util.List;
 
@@ -66,9 +67,19 @@ public interface BuyerService {
      */
     GoodwithImg getGoodInfo(Integer goodId);
 
-    public String getVideoByGood(Good good);
+    String getVideoByGood(Good good);
 
-    public List<Good> searchGood(String keyword);
+    List<Good> searchGood(String keyword);
 
-    public List<Order> getBuyerHistory(Integer buyerId) ;
+    List<Order> getBuyerHistory(Integer buyerId) ;
+
+    List<Order> getOrderListOfStatement1(Integer buyerId);
+
+    List<Order> getOrderListOfStatement2(Integer buyerId);
+
+    List<Order> getOrderListOfStatement5(Integer buyerId);
+
+    List<Order> getOrderListOfStatement6(Integer buyerId);
+
+    List<Order> getOrderListOfStatement_1(Integer buyerId);
 }
