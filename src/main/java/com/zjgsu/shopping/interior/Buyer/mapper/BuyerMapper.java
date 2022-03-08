@@ -28,7 +28,7 @@ public interface BuyerMapper {
     /**
      * 把默认地址放入address表里
      */
-    //Boolean addDefaultAddress
+    //Boolean addDefaultAddres
 
     /**
      * 登录
