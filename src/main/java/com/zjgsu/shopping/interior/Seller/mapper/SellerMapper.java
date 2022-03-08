@@ -101,4 +101,6 @@ public interface SellerMapper {
     @Select("select * from order where sellerId=#{sellerId} and (statement = -1 or statement = -2)")
     List<Order> getOrderListOfStatement_1(@Param("sellerId")Integer sellerId);
 
+    @Select("select sellerId from order where goodId = #{goodId}")
+    Integer getSellerIdByGoodId(@Param("goodId")Integer goodId);
 }

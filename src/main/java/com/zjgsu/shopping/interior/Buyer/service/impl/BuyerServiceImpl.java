@@ -9,6 +9,8 @@ import com.zjgsu.shopping.interior.Common.mapper.One2TwoClassMapper;
 import com.zjgsu.shopping.interior.Common.mapper.OrderMapper;
 import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
+import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
+import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,6 +33,8 @@ public class BuyerServiceImpl implements BuyerService {
     private GoodImagineMapper goodImagineMapper;
     @Resource
     private One2TwoClassMapper one2TwoClassMapper;
+    @Resource
+    private SellerMapper sellerMapper;
 
 
     @Override
@@ -73,7 +77,7 @@ public class BuyerServiceImpl implements BuyerService {
           Date nowDate1 = format1.parse(format1.format(new Date()));
           System.out.println("nowdate : "+nowDate1);
           order.setStartDate(nowDate1);
-
+          order.setSellerId(sellerMapper.getSellerIdByGoodId(order.getGoodId()));
       } catch (Exception e) {
           e.printStackTrace();
       }
