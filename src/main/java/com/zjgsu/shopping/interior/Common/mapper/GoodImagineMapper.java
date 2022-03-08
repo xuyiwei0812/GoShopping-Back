@@ -35,4 +35,7 @@ public interface GoodImagineMapper {
      */
     @Select("select * from goodimagine where goodId =#{goodId}")
     List<GoodImagine> getImagine(@Param("goodId") Integer goodId);
+
+    @Select("select * from goodimagine where goodId=#{goodId} limit 1")
+    GoodImagine getFirstGoodImg(@Param("goodId") Integer goodId);
 }

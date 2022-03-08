@@ -1,11 +1,10 @@
 package com.zjgsu.shopping.interior.Buyer.service;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Common.pojo.Cart;
 import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
-import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
-import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
-import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
+import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 
 import java.util.List;
 
@@ -82,4 +81,14 @@ public interface BuyerService {
     List<Order> getOrderListOfStatement6(Integer buyerId);
 
     List<Order> getOrderListOfStatement_1(Integer buyerId);
+
+    public Boolean favoriteGood(Integer goodId,Integer buyerId);
+
+    public List<FavoriteGoodWithImg> getFavoriteByBuyer(Buyer buyer);
+
+    public Boolean getGoodIntoCart(Integer goodId, Integer buyerId, Integer number);
+
+    public List<CartWithImg> getCartByBuyer(Buyer buyer);
+
+    public Boolean getFavoriteGoodsIntoCart(List<Cart> cartList);
 }

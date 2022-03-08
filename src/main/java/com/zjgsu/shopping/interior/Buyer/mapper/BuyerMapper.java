@@ -1,6 +1,9 @@
 package com.zjgsu.shopping.interior.Buyer.mapper;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Common.pojo.Cart;
+import com.zjgsu.shopping.interior.Common.pojo.FavoriteGood;
+import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
@@ -18,9 +21,14 @@ public interface BuyerMapper {
      * @return 提出失败返回-1
      */
     @Options(useGeneratedKeys = true, keyProperty = "buyer.buyerId", keyColumn = "buyerId")
-    @Insert("insert into buyer (buyerName,buyerAccount ,buyerPassword,buyerLocation,buyerPhone) values (#{buyer.buyerName}," +
+    @Insert("insert into buyer (buyerName,buyerAccount,buyerPassword,buyerLocation,buyerPhone) values (#{buyer.buyerName}," +
             "#{buyer.buyerAccount},#{buyer.buyerPassword},#{buyer.buyerLocation} , #{buyer.buyerPhone})")
     Boolean register(@Param("buyer") Buyer buyer);
+
+    /**
+     * 把默认地址放入address表里
+     */
+    //Boolean addDefaultAddress
 
     /**
      * 登录
@@ -84,4 +92,31 @@ public interface BuyerMapper {
 
     @Select("select * from order where buyerId=#{buyerId} and (statement = -1 or statement = -2)")
     List<Order> getOrderListOfStatement_1(@Param("buyerId")Integer buyerId);
+
+    /**
+     *收藏商品
+     */
+    @Options(useGeneratedKeys = true, keyProperty = "favorite.favoriteId", keyColumn = "favoriteId")
+    @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description) values(#{buyerId},#{good.goodId},#{good.goodName},#{good.goodPrice},#{good.description})")
+    Boolean favoriteGood(@Param("good") Good good, @Param("buyerId")Integer buyerId);
+
+    @Select("select * from favorite where buyerId=#{buyer.buyerId}")
+    List<FavoriteGood> getFavoriteByBuyer(@Param("buyer")Buyer buyer);
+
+    @Select("select * from favorite where goodId=#{goodId} limit 1")
+    FavoriteGood getFavoriteGoodInfo(@Param("goodId") Integer goodId);
+
+    /**
+     * 购物车
+     */
+    @Options(useGeneratedKeys = true, keyProperty = "cart.cartId", keyColumn = "cartId")
+    @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description,number) values(#{buyerId},#{good.goodId},#{good.goodName},#{good.goodPrice},#{good.description},#{number})")
+    Boolean getGoodIntoCart(@Param("good")Good good,@Param("buyerId")Integer buyerId,@Param("number")Integer number);
+
+    @Select("select * from cart where buyerId=#{buyer.buyerId}")
+    List<Cart> getCartByBuyer(@Param("buyer")Buyer buyer);
+
+    @Options(useGeneratedKeys = true, keyProperty = "cart.cartId", keyColumn = "cartId")
+    @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description,number) values(#{cart.buyerId},#{cart.goodId},#{good.goodName},#{cart.goodPrice},#{cart.description},#{cart.number})")
+    Boolean getFavoriteGoodIntoCart(@Param("cart")Cart cart);
 }

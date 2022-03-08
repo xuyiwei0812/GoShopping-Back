@@ -7,11 +7,8 @@ import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.mapper.One2TwoClassMapper;
 import com.zjgsu.shopping.interior.Common.mapper.OrderMapper;
-import com.zjgsu.shopping.interior.Common.pojo.Good;
-import com.zjgsu.shopping.interior.Common.pojo.Order;
-import com.zjgsu.shopping.interior.Common.pojo.vo.GoodwithImg;
-import com.zjgsu.shopping.interior.Common.pojo.vo.Mode;
-import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
+import com.zjgsu.shopping.interior.Common.pojo.*;
+import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -198,5 +195,51 @@ public class BuyerServiceImpl implements BuyerService {
         return buyerMapper.getOrderListOfStatement_1(buyerId);
     }
 
+    @Override
+    public Boolean favoriteGood(Integer goodId,Integer buyerId){
+        Good good = goodMapper.getGoodInfo(goodId);
+        return buyerMapper.favoriteGood(good,buyerId);
+    }
 
+    @Override
+    public List<FavoriteGoodWithImg> getFavoriteByBuyer(Buyer buyer){
+        List<FavoriteGood> favoriteGoodList = buyerMapper.getFavoriteByBuyer(buyer);
+        List<FavoriteGoodWithImg> favoriteGoodWithImgList = new ArrayList<>();
+        for(FavoriteGood item:favoriteGoodList){
+            Integer goodId = item.getGoodId();
+            GoodImagine goodImagine = goodImagineMapper.getFirstGoodImg(goodId);
+            FavoriteGoodWithImg favoriteGoodWithImg = new FavoriteGoodWithImg(item,goodImagine);
+            favoriteGoodWithImgList.add(favoriteGoodWithImg);
+        }
+        System.out.println("favoriteGoodWithImgList"+favoriteGoodWithImgList);
+        System.out.println("第一个商品图"+favoriteGoodWithImgList.get(0).getGoodImagine());
+        return favoriteGoodWithImgList;
+    }
+
+    @Override
+    public Boolean getGoodIntoCart(Integer goodId, Integer buyerId, Integer number){
+        Good good = goodMapper.getGoodInfo(goodId);
+        return buyerMapper.getGoodIntoCart(good,buyerId,number);
+    }
+
+    @Override
+    public List<CartWithImg> getCartByBuyer(Buyer buyer){
+        List<Cart> cartList = buyerMapper.getCartByBuyer(buyer);
+        List<CartWithImg> cartWithImgList = new ArrayList<>();
+        for(Cart item:cartList){
+            Integer goodId = item.getGoodId();
+            GoodImagine goodImagine = goodImagineMapper.getFirstGoodImg(goodId);
+            CartWithImg cartWithImg = new CartWithImg(item,goodImagine);
+            cartWithImgList.add(cartWithImg);
+        }
+        return cartWithImgList;
+    }
+
+    @Override
+    public Boolean getFavoriteGoodsIntoCart(List<Cart> cartList){
+        for(Cart item:cartList){
+            buyerMapper.getFavoriteGoodIntoCart(item);
+        }
+        return true;
+    }
 }

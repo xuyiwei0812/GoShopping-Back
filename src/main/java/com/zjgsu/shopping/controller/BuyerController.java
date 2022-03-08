@@ -2,6 +2,8 @@ package com.zjgsu.shopping.controller;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
+import com.zjgsu.shopping.interior.Common.pojo.BuyerWithGood;
+import com.zjgsu.shopping.interior.Common.pojo.Cart;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
@@ -96,7 +98,7 @@ public class BuyerController {
      * 改自raiseIntention
      *
 
-     * @return 成功返回意向编号, 失败....
+     * @return 成功返回订单编号, 失败....
      * 注:在登录一个意向的时候需要调用两个接口,后调用这个,然后拿着上面那个返回的id来调用这个
      */
     @ResponseBody
@@ -105,7 +107,7 @@ public class BuyerController {
         try {
             if (buyerService.placeAnOrder(order))
                 return Response.createSuc(order.getOrderId());
-            else return Response.createErr("意向添加失败");
+            else return Response.createErr("提出订单失败");
         } catch (Exception e) {
             tool.soutErr("raiseIntention", e);
             return Response.BUG();
@@ -282,5 +284,91 @@ public class BuyerController {
             return Response.BUG();
         }
     }
+
+    /**
+     * 收藏商品
+     * @param buyerWithGood
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/favoriteGood")
+    public Response<Boolean> favoriteGood(@RequestBody BuyerWithGood buyerWithGood) {
+        try{
+            System.out.println("收藏商品");
+            System.out.println("goodId" + buyerWithGood.getGoodId());
+            System.out.println("buyerId" + buyerWithGood.getBuyerId());
+            Boolean bo = buyerService.favoriteGood(buyerWithGood.getGoodId(),buyerWithGood.getBuyerId());
+            return Response.createSuc(bo);
+        }
+        catch (Exception e){
+            tool.soutErr("favoriteGood" ,e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getFavoriteByBuyer")
+    public Response<List<FavoriteGoodWithImg>> getFavoriteByBuyer(@RequestBody Buyer buyer) {
+        try{
+            System.out.println("查看收藏商品");
+            return Response.createSuc(buyerService.getFavoriteByBuyer(buyer));
+        }
+        catch (Exception e){
+            tool.soutErr("getFavoriteByBuyer" ,e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 购物车
+     * @param buyerWithGoodAndNumber
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getGoodIntoCart")
+    public Response<Boolean> getGoodIntoCart(@RequestBody BuyerWithGoodAndNumber buyerWithGoodAndNumber) {
+        try {
+            System.out.println("商品加购物车");
+            System.out.println("goodId" + buyerWithGoodAndNumber.getGoodId());
+            System.out.println("buyerId" + buyerWithGoodAndNumber.getBuyerId());
+            return Response.createSuc(buyerService.getGoodIntoCart(buyerWithGoodAndNumber.getGoodId(),buyerWithGoodAndNumber.getGoodId(),buyerWithGoodAndNumber.getNumber()));
+        }
+        catch (Exception e){
+            tool.soutErr("getGoodIntoCart" ,e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getCartByBuyer")
+    public Response<List<CartWithImg>> getCartByBuyer(@RequestBody Buyer buyer) {
+        try{
+            System.out.println("查看购物车");
+            return Response.createSuc(buyerService.getCartByBuyer(buyer));
+        }
+        catch (Exception e){
+            tool.soutErr("getCartByBuyer" ,e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 收藏加购物车
+     * @param cartList
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getFavoriteGoodIntoCart")
+    public Response<Boolean> getFavoriteGoodsIntoCart(@RequestBody List<Cart> cartList) {
+        try{
+            System.out.println("收藏加购物车");
+            return Response.createSuc(buyerService.getFavoriteGoodsIntoCart(cartList));
+        }
+        catch (Exception e){
+            tool.soutErr("getFavoriteGoodIntoCart" ,e);
+            return Response.BUG();
+        }
+    }
+
 
 }
