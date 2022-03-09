@@ -19,8 +19,8 @@ public interface OrderMapper {
      */
 
     @Options(useGeneratedKeys = true, keyProperty = "order.orderId", keyColumn = "orderId")
-    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startDate,dealDate) values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},1,#{goodorder.phone},#{goodorder.startDate},null})")
-    Boolean placeAnOrder(@Param("goodorder") Order goodorder);
+    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) values(#{goodOrder.buyerId},#{goodOrder.sellerId},#{goodOrder.goodId},#{goodOrder.number},1,#{goodOrder.phone},#{goodOrder.startDate},null)")
+    Boolean placeAnOrder(@Param("goodOrder") Order goodOrder);
 
     @Select("select * from goodorder where orderId = #{orderId}")
     Order getOrder(@Param("orderId") Integer orderId);
