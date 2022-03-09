@@ -17,7 +17,6 @@ public interface OrderMapper {
      1           2          3          4          5
      特殊状态: 交易取消 6
      */
-
     @Options(useGeneratedKeys = true, keyProperty = "order.orderId", keyColumn = "orderId")
     @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) values(#{goodOrder.buyerId},#{goodOrder.sellerId},#{goodOrder.goodId},#{goodOrder.number},1,#{goodOrder.phone},#{goodOrder.startDate},null)")
     Boolean placeAnOrder(@Param("goodOrder") Order goodOrder);
