@@ -5,7 +5,7 @@ import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.pojo.vo.BuyerHistoryList;
 import com.zjgsu.shopping.interior.SuperAdmin.pojo.vo.BuyerList;
-import com.zjgsu.shopping.interior.SuperAdmin.service.SuperAdminService;
+//import com.zjgsu.shopping.interior.SuperAdmin.service.SuperAdminService;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +20,22 @@ import javax.annotation.Resource;
 public class SuperAdminController {
     @Resource
     private Mytool tool;
-    @Resource
-    private SuperAdminService superAdminService;
+//    @Resource
+//    private SuperAdminService superAdminService;
 
 
 
     @ResponseBody
     @PostMapping("/getAllBuyerInfo")
     public Response<BuyerList> getAllBuyerInfo(){
-        try{
-            BuyerList list = tool.toBuyerList(superAdminService.getAllBuyerInfo());
-            return Response.createSuc(list);
-        }catch (Exception e){
-            tool.soutErr("getAllBuyerInfo" ,e);
-            return Response.BUG();
-        }
+//        try{
+//            BuyerList list = tool.toBuyerList(superAdminService.getAllBuyerInfo());
+//            return Response.createSuc(list);
+//        }catch (Exception e){
+//            tool.soutErr("getAllBuyerInfo" ,e);
+//            return Response.BUG();
+//        }
+        return null;
     }
 
 

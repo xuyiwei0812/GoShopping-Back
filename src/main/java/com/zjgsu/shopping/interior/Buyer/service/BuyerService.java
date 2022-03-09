@@ -1,6 +1,7 @@
 package com.zjgsu.shopping.interior.Buyer.service;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
+import com.zjgsu.shopping.interior.Common.pojo.Address;
 import com.zjgsu.shopping.interior.Common.pojo.Cart;
 import com.zjgsu.shopping.interior.Common.pojo.Good;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
@@ -90,5 +91,11 @@ public interface BuyerService {
 
     public List<CartWithImg> getCartByBuyer(Buyer buyer);
 
-    public Boolean getFavoriteGoodsIntoCart(List<Cart> cartList);
+    public Boolean getCartGoodIntoFavorite(List<Cart> cartList);
+
+    public List<Address> getAddressByBuyer(Integer buyerId);
+
+    public Long buyerCancelOrder(Integer orderId);
+
+    public Boolean buyerConformReceipt(Integer orderId);
 }

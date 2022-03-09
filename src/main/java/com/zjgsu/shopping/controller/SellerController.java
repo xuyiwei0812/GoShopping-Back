@@ -585,25 +585,25 @@ public class SellerController {
         }
     }
 
-    @ResponseBody
-    @PostMapping("/cancelTheOrder")
-    public Response<Boolean> cancelTheOrder(@RequestBody Integer orderId){
-        try{
-            return Response.createSuc(sellerService.cancelTheOrderBySeller(orderId));
-        }catch (Exception e){
-            return Response.BUG();
-        }
-    }
+//    @ResponseBody
+//    @PostMapping("/cancelTheOrder")
+//    public Response<Boolean> cancelTheOrder(@RequestBody Integer orderId){
+//        try{
+//            return Response.createSuc(sellerService.cancelTheOrderBySeller(orderId));
+//        }catch (Exception e){
+//            return Response.BUG();
+//        }
+//    }
 
-    @ResponseBody
-    @PostMapping("/finishTheOrder")
-    public Response<Boolean> finishTheOrder(@RequestBody Integer orderId){
-        try{
-            return Response.createSuc(sellerService.finishTheOrder(orderId));
-        }catch (Exception e){
-            return Response.BUG();
-        }
-    }
+//    @ResponseBody
+//    @PostMapping("/finishTheOrder")
+//    public Response<Boolean> finishTheOrder(@RequestBody Integer orderId){
+//        try{
+//            return Response.createSuc(sellerService.finishTheOrder(orderId));
+//        }catch (Exception e){
+//            return Response.BUG();
+//        }
+//    }
 
     @ResponseBody
     @PostMapping("/deliverTheGoods")

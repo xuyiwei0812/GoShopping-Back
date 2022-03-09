@@ -17,14 +17,14 @@ class OrderBrief{
     private Integer sellerId;
     private Integer goodId;
     private Integer number;
-    private Integer statement;
+    private Integer stmt;
     private String phone;
     private Date startDate;
     private Date dealDate;
 
     public OrderBrief(Order order){
         this.orderId = order.getOrderId();
-        this.statement = order.getStatement();
+        this.stmt = order.getStmt();
         this.dealDate = order.getDealDate();
         this.goodId = order.getGoodId();
         this.buyerId = order.getBuyerId();

@@ -35,7 +35,9 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Buyer buyerRegister(Buyer buyer) {
-        return (buyerMapper.register(buyer) ? buyer : null);
+        buyerMapper.register(buyer);
+        buyerMapper.addDefaultAddress(buyer);//加默认地址
+        return buyer;
     }
 
     @Override
@@ -84,8 +86,8 @@ public class BuyerServiceImpl implements BuyerService {
     public Boolean cancelTheOrderByBuyer(Integer orderId) {
        try {
            Order order = orderMapper.getOrder(orderId);
-           if(order.getStatement() >= 4)return false;
-           order.setStatement(6);
+           if(order.getStmt() >= 4)return false;
+           order.setStmt(6);
            return (orderMapper.updateOrderStatement(order) > 0 );
        }catch (Exception e){
            e.printStackTrace();
@@ -218,6 +220,7 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Boolean getGoodIntoCart(Integer goodId, Integer buyerId, Integer number){
+        //System.out.println("buyerIdId::"+buyerId);
         Good good = goodMapper.getGoodInfo(goodId);
         return buyerMapper.getGoodIntoCart(good,buyerId,number);
     }
@@ -236,10 +239,31 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Boolean getFavoriteGoodsIntoCart(List<Cart> cartList){
+    public Boolean getCartGoodIntoFavorite(List<Cart> cartList){
         for(Cart item:cartList){
-            buyerMapper.getFavoriteGoodIntoCart(item);
+            Integer goodId = item.getGoodId();
+            //System.out.println("goodId"+goodId);
+            Good good = goodMapper.getGoodInfo(goodId);
+            //System.out.println("good"+good);
+            item.setGoodName(good.getGoodName());
+            item.setGoodPrice(good.getGoodPrice());
+            item.setDescription(good.getDescription());
+            buyerMapper.getCartGoodIntoFavorite(item);
         }
         return true;
+    }
+
+    @Override
+    public List<Address> getAddressByBuyer(Integer buyerId){
+        return buyerMapper.getAddressByBuyer(buyerId);
+    }
+
+    @Override
+    public Long buyerCancelOrder(Integer orderId){
+        return buyerMapper.buyerCancelOrder(orderId);
+    }
+
+    public Boolean buyerConformReceipt(Integer orderId){
+        return buyerMapper.buyerConformReceipt(orderId);
     }
 }

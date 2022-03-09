@@ -55,8 +55,6 @@ public class CommonController {
         return Response.createErr("注册失败");
     }
 
-
-
     @ResponseBody
     @PostMapping("/login")
     public Response<Integer> Login(@RequestBody AccountVo accountVo) {
