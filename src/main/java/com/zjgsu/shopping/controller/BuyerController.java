@@ -305,7 +305,7 @@ public class BuyerController {
             return Response.createSuc("successful");
         }
         catch (Exception e){
-            tool.soutErr("favoriteGood" ,e);
+            tool.soutErr("favoriteGood",e);
             return Response.BUG();
         }
     }
