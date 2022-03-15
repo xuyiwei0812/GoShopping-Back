@@ -1,10 +1,7 @@
 package com.zjgsu.shopping.interior.Buyer.mapper;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
-import com.zjgsu.shopping.interior.Common.pojo.Cart;
-import com.zjgsu.shopping.interior.Common.pojo.FavoriteGood;
-import com.zjgsu.shopping.interior.Common.pojo.Good;
-import com.zjgsu.shopping.interior.Common.pojo.Order;
+import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import org.apache.ibatis.annotations.*;
@@ -28,7 +25,9 @@ public interface BuyerMapper {
     /**
      * 把默认地址放入address表里
      */
-    //Boolean addDefaultAddre
+    @Options(useGeneratedKeys = true, keyProperty = "address.addressId", keyColumn = "addressId")
+    @Insert("insert into address (buyerId,buyerName,buyerAddress,buyerPhone,isDefault) values(#{buyer.buyerId},#{buyer.buyerName},#{buyer.buyerLocation},#{buyer.buyerPhone},1)")
+    Boolean addDefaultAddress(@Param("buyer")Buyer buyer);
 
     /**
      * 登录
@@ -106,17 +105,57 @@ public interface BuyerMapper {
     @Select("select * from favorite where goodId=#{goodId} limit 1")
     FavoriteGood getFavoriteGoodInfo(@Param("goodId") Integer goodId);
 
+    //查有没有收藏过
+    @Select("select * from favorite where buyerId=#{buyerId} and goodId=#{goodId}")
+    FavoriteGood checkFavorite(@Param("buyerId")Integer buyerId,@Param("goodId")Integer goodId);
+
     /**
      * 购物车
      */
     @Options(useGeneratedKeys = true, keyProperty = "cart.cartId", keyColumn = "cartId")
-    @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description,number) values(#{buyerId},#{good.goodId},#{good.goodName},#{good.goodPrice},#{good.description},#{number})")
+    @Insert("insert into cart(buyerId,goodId,goodName,goodPrice,description,number) values(#{buyerId},#{good.goodId},#{good.goodName},#{good.goodPrice},#{good.description},#{number})")
     Boolean getGoodIntoCart(@Param("good")Good good,@Param("buyerId")Integer buyerId,@Param("number")Integer number);
 
     @Select("select * from cart where buyerId=#{buyer.buyerId}")
     List<Cart> getCartByBuyer(@Param("buyer")Buyer buyer);
 
-    @Options(useGeneratedKeys = true, keyProperty = "cart.cartId", keyColumn = "cartId")
-    @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description,number) values(#{cart.buyerId},#{cart.goodId},#{good.goodName},#{cart.goodPrice},#{cart.description},#{cart.number})")
-    Boolean getFavoriteGoodIntoCart(@Param("cart")Cart cart);
+    @Options(useGeneratedKeys = true, keyProperty = "favorite.favoriteId", keyColumn = "favoriteId")
+    @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description) values(#{cart.buyerId},#{cart.goodId},#{cart.goodName},#{cart.goodPrice},#{cart.description})")
+    Boolean getCartGoodIntoFavorite(@Param("cart")Cart cart);
+
+    //查有没有加过购物车
+    @Select("select * from cart where buyerId=#{buyerId} and goodId=#{goodId}")
+    Cart checkCart(@Param("buyerId")Integer buyerId,@Param("goodId")Integer goodId);
+
+    @Select("select number from cart where buyerId=#{buyerId} and goodId=#{goodId} limit 1")
+    Integer getCartNumber(@Param("buyerId")Integer buyerId,@Param("goodId")Integer goodId);
+
+    @Update("update cart set number=#{nowNumber} where buyerId=#{buyerId} and goodId=#{goodId}")
+    Boolean addCartNumber(@Param("goodId")Integer goodId,@Param("buyerId")Integer buyerId,@Param("nowNumber")Integer nowNumber);
+
+    //删
+    @Delete("delete from cart where cartId=#{cartId}")
+    Boolean deleteCartGood(@Param("cartId")Integer cartId);
+
+    @Delete("delete from favorite where favoriteId=#{favoriteId}")
+    Boolean deleteFavoriteGood(@Param("favoriteId")Integer favoriteId);
+
+    /**
+     * 拿某个人的地址
+     */
+    @Select("select * from address where buyerId=#{buyerId}")
+    List<Address> getAddressByBuyer(@Param("buyerId")Integer buyerId);
+
+    /**
+     * 买家取消订单
+     */
+    @Update("update goodorder set stmt=-1 where orderId=#{orderId}")
+    Long buyerCancelOrder(@Param("orderId")Integer orderId);
+
+    /**
+     * 买家确认收货
+     */
+    @Update("update goodorder set stmt=6 where orderId=#{orderId}")
+    Boolean buyerConformReceipt(@Param("orderId")Integer orderId);
+
 }

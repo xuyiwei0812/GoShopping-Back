@@ -20,7 +20,7 @@ public interface OrderMapper {
 
     @Options(useGeneratedKeys = true, keyProperty = "order.orderId", keyColumn = "orderId")
     @Insert("insert into order (buyerId,sellerId,goodId,number,statement,phone,startDate,dealDate) " +
-                        "values(#{order.buyerId},#{order.sellerId},#{order.goodId},#{order.number},1,null,#{order.startDate},null})")
+                        "values(#{order.buyerId},#{order.sellerId},#{order.goodId},#{order.number},1,#{order.phone},#{order.startDate},null})")
     Boolean placeAnOrder(@Param("order") Order order);
 
     @Select("select * from order where orderId = #{orderId}")

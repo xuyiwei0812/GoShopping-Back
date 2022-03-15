@@ -243,6 +243,18 @@ public class SellerController {
 
 
 
+    @ResponseBody
+    @PostMapping("/finishTheOrder")
+    public Response<Object> finishTheOrder(@RequestBody Order order) {
+        try{
+            sellerService.finishTheOrder(order.getOrderId());
+            return Response.createSuc(null);
+        }catch (Exception e){
+            tool.soutErr("finishDeal",e );
+            return Response.BUG();
+        }
+    }
+
 
     @ResponseBody
     @PostMapping("/getAllClass1")
@@ -573,6 +585,15 @@ public class SellerController {
         }
     }
 
+    @ResponseBody
+    @PostMapping("/cancelTheOrder")
+    public Response<Boolean> cancelTheOrder(@RequestBody Integer orderId){
+        try{
+            return Response.createSuc(sellerService.cancelTheOrderBySeller(orderId));
+        }catch (Exception e){
+            return Response.BUG();
+        }
+    }
 
     @ResponseBody
     @PostMapping("/finishTheOrder")

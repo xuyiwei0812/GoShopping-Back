@@ -2,13 +2,10 @@ package com.zjgsu.shopping.controller;
 
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
-import com.zjgsu.shopping.interior.Common.pojo.BuyerWithGood;
-import com.zjgsu.shopping.interior.Common.pojo.Cart;
-import com.zjgsu.shopping.interior.Common.pojo.Order;
+import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.Tool.Mytool;
-import com.zjgsu.shopping.interior.Common.pojo.Good;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -109,7 +106,7 @@ public class BuyerController {
                 return Response.createSuc(order.getOrderId());
             else return Response.createErr("提出订单失败");
         } catch (Exception e) {
-            tool.soutErr("raiseIntention", e);
+            tool.soutErr("placeAnOrder", e);
             return Response.BUG();
         }
     }
@@ -292,16 +289,23 @@ public class BuyerController {
      */
     @ResponseBody
     @PostMapping("/favoriteGood")
-    public Response<Boolean> favoriteGood(@RequestBody BuyerWithGood buyerWithGood) {
+    public Response<String> favoriteGood(@RequestBody BuyerWithGood buyerWithGood) {
         try{
             System.out.println("收藏商品");
             System.out.println("goodId" + buyerWithGood.getGoodId());
             System.out.println("buyerId" + buyerWithGood.getBuyerId());
-            Boolean bo = buyerService.favoriteGood(buyerWithGood.getGoodId(),buyerWithGood.getBuyerId());
-            return Response.createSuc(bo);
+            Boolean check = buyerService.checkFavorite(buyerWithGood.getBuyerId(),buyerWithGood.getGoodId());
+            System.out.println("check"+check);
+            if(check==true){
+                System.out.println("已经收藏过了");
+                return Response.createSuc("already");
+            }
+            Integer n = buyerService.favoriteGood(buyerWithGood.getGoodId(),buyerWithGood.getBuyerId());
+            System.out.println("n"+n);
+            return Response.createSuc("successful");
         }
         catch (Exception e){
-            tool.soutErr("favoriteGood" ,e);
+            tool.soutErr("favoriteGood",e);
             return Response.BUG();
         }
     }
@@ -331,7 +335,7 @@ public class BuyerController {
             System.out.println("商品加购物车");
             System.out.println("goodId" + buyerWithGoodAndNumber.getGoodId());
             System.out.println("buyerId" + buyerWithGoodAndNumber.getBuyerId());
-            return Response.createSuc(buyerService.getGoodIntoCart(buyerWithGoodAndNumber.getGoodId(),buyerWithGoodAndNumber.getGoodId(),buyerWithGoodAndNumber.getNumber()));
+            return Response.createSuc(buyerService.getGoodIntoCart(buyerWithGoodAndNumber.getGoodId(),buyerWithGoodAndNumber.getBuyerId(),buyerWithGoodAndNumber.getNumber()));
         }
         catch (Exception e){
             tool.soutErr("getGoodIntoCart" ,e);
@@ -340,7 +344,7 @@ public class BuyerController {
     }
 
     @ResponseBody
-    @PostMapping("/getCartByBuyer")
+    @PostMapping("/getCartByBuyerId")
     public Response<List<CartWithImg>> getCartByBuyer(@RequestBody Buyer buyer) {
         try{
             System.out.println("查看购物车");
@@ -358,17 +362,149 @@ public class BuyerController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/getFavoriteGoodIntoCart")
-    public Response<Boolean> getFavoriteGoodsIntoCart(@RequestBody List<Cart> cartList) {
+    @PostMapping("/getCartGoodIntoFavorite")
+    public Response<Boolean> getCartGoodIntoFavorite(@RequestBody List<Cart> cartList) {
+        //传的cart里goodId buyerId必须有，其他可以没有
         try{
-            System.out.println("收藏加购物车");
-            return Response.createSuc(buyerService.getFavoriteGoodsIntoCart(cartList));
+            System.out.println("cart"+cartList);
+            System.out.println("购物车加收藏");
+            return Response.createSuc(buyerService.getCartGoodIntoFavorite(cartList));
         }
         catch (Exception e){
-            tool.soutErr("getFavoriteGoodIntoCart" ,e);
+            tool.soutErr("getFavoriteGoodIntoCart",e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 购物车下单多个商品
+     * @param orderList
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/orderGoodsFromCart")
+    public Response<Boolean> orderGoodsFromCart(@RequestBody List<Order> orderList){
+        try{
+            System.out.println("orderList"+orderList);
+            System.out.println("购物车下单");
+            for(Order item:orderList){
+                buyerService.placeAnOrder(item);
+            }
+            return Response.createSuc(true);
+        }
+        catch (Exception e){
+            tool.soutErr("getFavoriteGoodIntoCart",e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 拿某个人的地址
+     * @param buyer
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getAddressByBuyer")
+    public Response<List<Address>> getAddressByBuyer(@RequestBody Buyer buyer) {
+        try {
+            System.out.println("拿某个人的地址");
+            Integer buyerId = buyer.getBuyerId();
+            return Response.createSuc(buyerService.getAddressByBuyer(buyerId));
+        }
+        catch (Exception e){
+            tool.soutErr("getAddressByBuyer",e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 买家取消订单
+     * @param order
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/buyerCancelOrder")
+    public Response<Long> buyerCancelOrder(@RequestBody Order order){
+        try {
+            System.out.println("买家取消订单");
+            Integer orderId = order.getOrderId();
+            return Response.createSuc(buyerService.buyerCancelOrder(orderId));
+        }
+        catch (Exception e){
+            tool.soutErr("buyerCancelOrder",e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 买家确认收货
+     * @param order
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/buyerConformReceipt")
+    public Response<Boolean> buyerConformReceipt(@RequestBody Order order){
+        try {
+            System.out.println("买家确认收货");
+            Integer orderId = order.getOrderId();
+            return Response.createSuc(buyerService.buyerConformReceipt(orderId));
+        }
+        catch (Exception e){
+            tool.soutErr("buyerConformReceipt",e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 删购物车商品
+     * @param cartList
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/deleteCartGood")
+    public Response<Boolean> deleteCartGood(@RequestBody List<Cart> cartList){
+        //cartlist里只要有cartId就行 剩下无所谓有没有
+        try {
+            System.out.println("删购物车商品");
+            return Response.createSuc(buyerService.deleteCartGood(cartList));
+        }
+        catch (Exception e){
+            tool.soutErr("deleteCartGood",e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteFavoriteGood")
+    public Response<Boolean> deleteFavoriteGood(@RequestBody FavoriteIds favoriteIds){
+        //只要有favoriteId就行 剩下无所谓有没有
+        try {
+            System.out.println("删收藏夹商品");
+            System.out.println("favoriteIds"+favoriteIds.getFavoriteIds());
+            return Response.createSuc(buyerService.deleteFavoriteGood(favoriteIds));
+        }
+        catch (Exception e){
+            tool.soutErr("deleteFavoriteGood",e);
             return Response.BUG();
         }
     }
 
 
+
+    @ResponseBody
+    @PostMapping("/checkFavorite")
+    public Response<Boolean> checkFavorite(@RequestBody BuyerWithGood buyerWithGood){
+        try {
+            System.out.println("查有没有收藏过");
+            System.out.println("buyer" + buyerWithGood.getBuyerId());
+            System.out.println("goodId" + buyerWithGood.getGoodId());
+            Boolean bo = buyerService.checkFavorite(buyerWithGood.getBuyerId(),buyerWithGood.getGoodId());
+            System.out.println("bo"+bo);
+            return Response.createSuc(bo);
+        }
+        catch (Exception e){
+            tool.soutErr("checkFavorite",e);
+            return Response.BUG();
+        }
+    }
 }

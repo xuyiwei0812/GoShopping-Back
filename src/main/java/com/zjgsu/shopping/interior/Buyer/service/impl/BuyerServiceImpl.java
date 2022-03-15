@@ -39,12 +39,15 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Buyer buyerRegister(Buyer buyer) {
-        return (buyerMapper.register(buyer) ? buyer : null);
+        buyerMapper.register(buyer);
+        buyerMapper.addDefaultAddress(buyer);//加默认地址
+        return buyer;
     }
 
     @Override
     public Integer buyerLogin(String account, String password) {
         Buyer buyer = buyerMapper.login(account,password);
+        System.out.println("1111"+buyer);
         return (buyer != null ? buyer.getBuyerId() : -1);
     }
 
@@ -88,8 +91,8 @@ public class BuyerServiceImpl implements BuyerService {
     public Boolean cancelTheOrderByBuyer(Integer orderId) {
        try {
            Order order = orderMapper.getOrder(orderId);
-           if(order.getStatement() >= 4)return false;
-           order.setStatement(6);
+           if(order.getStmt() >= 4)return false;
+           order.setStmt(6);
            return (orderMapper.updateOrderStatement(order) > 0 );
        }catch (Exception e){
            e.printStackTrace();
@@ -200,9 +203,10 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Boolean favoriteGood(Integer goodId,Integer buyerId){
+    public Integer favoriteGood(Integer goodId,Integer buyerId){
         Good good = goodMapper.getGoodInfo(goodId);
-        return buyerMapper.favoriteGood(good,buyerId);
+        if(buyerMapper.favoriteGood(good,buyerId)==true) return 1;
+        else return 2;
     }
 
     @Override
@@ -222,8 +226,15 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Boolean getGoodIntoCart(Integer goodId, Integer buyerId, Integer number){
+        //System.out.println("buyerIdId::"+buyerId);
         Good good = goodMapper.getGoodInfo(goodId);
-        return buyerMapper.getGoodIntoCart(good,buyerId,number);
+        if(buyerMapper.checkCart(buyerId,goodId)!=null){//如果已经加入过购物车了
+            Integer thenNumber = buyerMapper.getCartNumber(buyerId,goodId);
+            Integer nowNumber = thenNumber + number;
+            buyerMapper.addCartNumber(goodId,buyerId,nowNumber);
+        }
+        else buyerMapper.getGoodIntoCart(good,buyerId,number);
+        return true;
     }
 
     @Override
@@ -240,10 +251,59 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Boolean getFavoriteGoodsIntoCart(List<Cart> cartList){
+    public Boolean getCartGoodIntoFavorite(List<Cart> cartList){
         for(Cart item:cartList){
-            buyerMapper.getFavoriteGoodIntoCart(item);
+            Integer goodId = item.getGoodId();
+            //System.out.println("goodId"+goodId);
+            Good good = goodMapper.getGoodInfo(goodId);
+            //System.out.println("good"+good);
+            item.setGoodName(good.getGoodName());
+            item.setGoodPrice(good.getGoodPrice());
+            item.setDescription(good.getDescription());
+            if(buyerMapper.checkFavorite(item.getBuyerId(),goodId)!=null){//如果已经收藏过了
+                continue;
+            }
+            buyerMapper.getCartGoodIntoFavorite(item);
         }
         return true;
+    }
+
+    @Override
+    public List<Address> getAddressByBuyer(Integer buyerId){
+        return buyerMapper.getAddressByBuyer(buyerId);
+    }
+
+    @Override
+    public Long buyerCancelOrder(Integer orderId){
+        return buyerMapper.buyerCancelOrder(orderId);
+    }
+
+    @Override
+    public Boolean buyerConformReceipt(Integer orderId){
+        return buyerMapper.buyerConformReceipt(orderId);
+    }
+
+    @Override
+    public Boolean deleteCartGood(List<Cart> cartList){
+        for(Cart item:cartList){
+            Integer cartId=item.getCartId();
+            buyerMapper.deleteCartGood(cartId);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean deleteFavoriteGood(FavoriteIds favoriteIds){
+        List<Integer> ids = favoriteIds.getFavoriteIds();
+        for(Integer item:ids){
+            buyerMapper.deleteFavoriteGood(item);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean checkFavorite(Integer buyerId, Integer goodId){
+        if(buyerMapper.checkFavorite(buyerId,goodId)!=null) return true;
+        else return false;
     }
 }

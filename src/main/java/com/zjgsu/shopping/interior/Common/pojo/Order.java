@@ -32,7 +32,7 @@ public class Order {
     private Integer sellerId;
     private Integer goodId;
     private Integer number;
-    private Integer statement;
+    private Integer stmt;
     private String phone;
     private Date startDate;
     private Date dealDate;
@@ -42,7 +42,7 @@ public class Order {
      */
     public  Order(Integer orderId,Integer orderStatement){
         this.orderId = orderId;
-        this.statement = orderStatement;
+        this.stmt = orderStatement;
     }
 
 

@@ -136,8 +136,8 @@ public class SellerServiceImpl implements SellerService {
     public Boolean cancelTheOrderBySeller(Integer orderId) {
         try {
             Order order = orderMapper.getOrder(orderId);
-            if(order.getStatement() >= 5)return false;
-            order.setStatement(-2);
+            if(order.getStmt() >= 5)return false;
+            order.setStmt(-2);
             return (orderMapper.updateOrderStatement(order) > 0 );
         }catch (Exception e){
             e.printStackTrace();
@@ -307,4 +307,5 @@ public class SellerServiceImpl implements SellerService {
     public String getTrackingNumber(Integer orderId) {
         return orderMapper.getTrackingNumber(orderId);
     }
+
 }

@@ -1,7 +1,7 @@
 package com.zjgsu.shopping.interior.Seller.mapper;
 
 
-import com.sun.org.apache.xpath.internal.operations.Or;
+//import com.sun.org.apache.xpath.internal.operations.Or;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import org.apache.ibatis.annotations.*;
