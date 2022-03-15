@@ -105,6 +105,10 @@ public interface BuyerMapper {
     @Select("select * from favorite where goodId=#{goodId} limit 1")
     FavoriteGood getFavoriteGoodInfo(@Param("goodId") Integer goodId);
 
+    //查有没有收藏过
+    @Select("select * from favorite where buyerId=#{buyerId} and goodId=#{goodId}")
+    FavoriteGood checkFavorite(@Param("buyerId")Integer buyerId,@Param("goodId")Integer goodId);
+
     /**
      * 购物车
      */
@@ -118,6 +122,23 @@ public interface BuyerMapper {
     @Options(useGeneratedKeys = true, keyProperty = "favorite.favoriteId", keyColumn = "favoriteId")
     @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description) values(#{cart.buyerId},#{cart.goodId},#{cart.goodName},#{cart.goodPrice},#{cart.description})")
     Boolean getCartGoodIntoFavorite(@Param("cart")Cart cart);
+
+    //查有没有加过购物车
+    @Select("select * from cart where buyerId=#{buyerId} and goodId=#{goodId}")
+    Cart checkCart(@Param("buyerId")Integer buyerId,@Param("goodId")Integer goodId);
+
+    @Select("select number from cart where buyerId=#{buyerId} and goodId=#{goodId} limit 1")
+    Integer getCartNumber(@Param("buyerId")Integer buyerId,@Param("goodId")Integer goodId);
+
+    @Update("update cart set number=#{nowNumber} where buyerId=#{buyerId} and goodId=#{goodId}")
+    Boolean addCartNumber(@Param("goodId")Integer goodId,@Param("buyerId")Integer buyerId,@Param("nowNumber")Integer nowNumber);
+
+    //删
+    @Delete("delete from cart where cartId=#{cartId}")
+    Boolean deleteCartGood(@Param("cartId")Integer cartId);
+
+    @Delete("delete from favorite where favoriteId=#{favoriteId}")
+    Boolean deleteFavoriteGood(@Param("favoriteId")Integer favoriteId);
 
     /**
      * 拿某个人的地址
@@ -136,4 +157,5 @@ public interface BuyerMapper {
      */
     @Update("update goodorder set stmt=6 where orderId=#{orderId}")
     Boolean buyerConformReceipt(@Param("orderId")Integer orderId);
+
 }

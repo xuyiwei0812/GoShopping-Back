@@ -71,6 +71,7 @@ public class CommonController {
                     return Response.createErr("账号不存在或者密码错误");
             } else if (authority == 2) {//buyer返回负数
                 response = buyerService.buyerLogin(accountVo.getAccount(), accountVo.getPassword());
+                System.out.println("response"+response);
                 if (response != -1)
                     return Response.createSuc(-response);
                 else

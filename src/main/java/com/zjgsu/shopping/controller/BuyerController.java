@@ -289,13 +289,20 @@ public class BuyerController {
      */
     @ResponseBody
     @PostMapping("/favoriteGood")
-    public Response<Boolean> favoriteGood(@RequestBody BuyerWithGood buyerWithGood) {
+    public Response<String> favoriteGood(@RequestBody BuyerWithGood buyerWithGood) {
         try{
             System.out.println("收藏商品");
             System.out.println("goodId" + buyerWithGood.getGoodId());
             System.out.println("buyerId" + buyerWithGood.getBuyerId());
-            Boolean bo = buyerService.favoriteGood(buyerWithGood.getGoodId(),buyerWithGood.getBuyerId());
-            return Response.createSuc(bo);
+            Boolean check = buyerService.checkFavorite(buyerWithGood.getBuyerId(),buyerWithGood.getGoodId());
+            System.out.println("check"+check);
+            if(check==true){
+                System.out.println("已经收藏过了");
+                return Response.createSuc("already");
+            }
+            Integer n = buyerService.favoriteGood(buyerWithGood.getGoodId(),buyerWithGood.getBuyerId());
+            System.out.println("n"+n);
+            return Response.createSuc("successful");
         }
         catch (Exception e){
             tool.soutErr("favoriteGood" ,e);
@@ -448,4 +455,56 @@ public class BuyerController {
         }
     }
 
+    /**
+     * 删购物车商品
+     * @param cartList
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/deleteCartGood")
+    public Response<Boolean> deleteCartGood(@RequestBody List<Cart> cartList){
+        //cartlist里只要有cartId就行 剩下无所谓有没有
+        try {
+            System.out.println("删购物车商品");
+            return Response.createSuc(buyerService.deleteCartGood(cartList));
+        }
+        catch (Exception e){
+            tool.soutErr("deleteCartGood",e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteFavoriteGood")
+    public Response<Boolean> deleteFavoriteGood(@RequestBody FavoriteIds favoriteIds){
+        //只要有favoriteId就行 剩下无所谓有没有
+        try {
+            System.out.println("删收藏夹商品");
+            System.out.println("favoriteIds"+favoriteIds.getFavoriteIds());
+            return Response.createSuc(buyerService.deleteFavoriteGood(favoriteIds));
+        }
+        catch (Exception e){
+            tool.soutErr("deleteFavoriteGood",e);
+            return Response.BUG();
+        }
+    }
+
+
+
+    @ResponseBody
+    @PostMapping("/checkFavorite")
+    public Response<Boolean> checkFavorite(@RequestBody BuyerWithGood buyerWithGood){
+        try {
+            System.out.println("查有没有收藏过");
+            System.out.println("buyer" + buyerWithGood.getBuyerId());
+            System.out.println("goodId" + buyerWithGood.getGoodId());
+            Boolean bo = buyerService.checkFavorite(buyerWithGood.getBuyerId(),buyerWithGood.getGoodId());
+            System.out.println("bo"+bo);
+            return Response.createSuc(bo);
+        }
+        catch (Exception e){
+            tool.soutErr("checkFavorite",e);
+            return Response.BUG();
+        }
+    }
 }
