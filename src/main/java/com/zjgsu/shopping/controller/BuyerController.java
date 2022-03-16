@@ -329,12 +329,13 @@ public class BuyerController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/getGoodIntoCart")
-    public Response<Boolean> getGoodIntoCart(@RequestBody BuyerWithGoodAndNumber buyerWithGoodAndNumber) {
+    @PostMapping("/addGoodIntoCart")
+    public Response<Boolean> addGoodIntoCart(@RequestBody BuyerWithGoodAndNumber buyerWithGoodAndNumber) {
         try {
             System.out.println("商品加购物车");
             System.out.println("goodId" + buyerWithGoodAndNumber.getGoodId());
             System.out.println("buyerId" + buyerWithGoodAndNumber.getBuyerId());
+            System.out.println("number"+buyerWithGoodAndNumber.getNumber());
             return Response.createSuc(buyerService.getGoodIntoCart(buyerWithGoodAndNumber.getGoodId(),buyerWithGoodAndNumber.getBuyerId(),buyerWithGoodAndNumber.getNumber()));
         }
         catch (Exception e){
@@ -348,10 +349,27 @@ public class BuyerController {
     public Response<List<CartWithImg>> getCartByBuyer(@RequestBody Buyer buyer) {
         try{
             System.out.println("查看购物车");
+            System.out.println("buyer"+buyer);
             return Response.createSuc(buyerService.getCartByBuyer(buyer));
         }
         catch (Exception e){
             tool.soutErr("getCartByBuyer" ,e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/changeCartNumber")
+    public Response<Boolean> changeCartNumber(@RequestBody BuyerWithGoodAndNumber buyerWithGoodAndNumber) {
+        try{
+            System.out.println("改购物车商品数量");
+            System.out.println("buyerId"+buyerWithGoodAndNumber.getBuyerId());
+            System.out.println("goodId"+buyerWithGoodAndNumber.getGoodId());
+            System.out.println("number"+buyerWithGoodAndNumber.getNumber());
+            return Response.createSuc(buyerService.changeCartNumber(buyerWithGoodAndNumber.getBuyerId(),buyerWithGoodAndNumber.getGoodId(),buyerWithGoodAndNumber.getNumber()));
+        }
+        catch (Exception e){
+            tool.soutErr("changeCartNumber" ,e);
             return Response.BUG();
         }
     }
@@ -442,8 +460,8 @@ public class BuyerController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/buyerConformReceipt")
-    public Response<Boolean> buyerConformReceipt(@RequestBody Order order){
+    @PostMapping("/buyerConfirmReceipt")
+    public Response<Boolean> buyerConfirmReceipt(@RequestBody Order order){
         try {
             System.out.println("买家确认收货");
             Integer orderId = order.getOrderId();

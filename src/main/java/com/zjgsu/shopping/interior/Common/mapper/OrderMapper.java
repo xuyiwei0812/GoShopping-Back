@@ -13,9 +13,10 @@ public interface OrderMapper {
 
     /**
      * 订单状态
-     买家提出 --> 商家确认 --> 备货完成 --> 开始发货 --> 交易完成
-     1           2          3          4          5
-     特殊状态: 交易取消 6
+     买家提出 --> 买家完成支付 -- >商家确认 --> 备货完成 --> 开始发货 --> 交易完成
+     1             2            3          4          5          6
+     |在此之前可以取消
+     特殊状态: 买家取消 -1 卖家取消 -2
      */
     @Options(useGeneratedKeys = true, keyProperty = "order.orderId", keyColumn = "orderId")
     @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) values(#{goodOrder.buyerId},#{goodOrder.sellerId},#{goodOrder.goodId},#{goodOrder.number},1,#{goodOrder.phone},#{goodOrder.startDate},null)")

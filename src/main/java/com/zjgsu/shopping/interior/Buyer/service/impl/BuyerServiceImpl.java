@@ -227,10 +227,16 @@ public class BuyerServiceImpl implements BuyerService {
         if(buyerMapper.checkCart(buyerId,goodId)!=null){//如果已经加入过购物车了
             Integer thenNumber = buyerMapper.getCartNumber(buyerId,goodId);
             Integer nowNumber = thenNumber + number;
-            buyerMapper.addCartNumber(goodId,buyerId,nowNumber);
+            buyerMapper.changeCartNumber(goodId,buyerId,nowNumber);
         }
         else buyerMapper.getGoodIntoCart(good,buyerId,number);
         return true;
+    }
+
+    @Override
+    public Boolean changeCartNumber(Integer buyerId, Integer goodId, Integer nowNumber){
+        if(nowNumber>0) return buyerMapper.changeCartNumber(buyerId,goodId,nowNumber);
+        else return false;
     }
 
     @Override
@@ -276,7 +282,11 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Boolean buyerConformReceipt(Integer orderId){
-        return buyerMapper.buyerConformReceipt(orderId);
+        if(orderMapper.getOrderStatement(orderId)==5) {
+            buyerMapper.buyerConformReceipt(orderId);
+            return true;
+        }
+        return false;
     }
 
     @Override
