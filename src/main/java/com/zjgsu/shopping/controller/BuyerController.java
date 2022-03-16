@@ -362,7 +362,7 @@ public class BuyerController {
     @PostMapping("/changeCartNumber")
     public Response<Boolean> changeCartNumber(@RequestBody BuyerWithGoodAndNumber buyerWithGoodAndNumber) {
         try{
-            System.out.println("改购物车商品数量");
+            System.out.println("改购物车商品数量 ");
             System.out.println("buyerId"+buyerWithGoodAndNumber.getBuyerId());
             System.out.println("goodId"+buyerWithGoodAndNumber.getGoodId());
             System.out.println("number"+buyerWithGoodAndNumber.getNumber());
