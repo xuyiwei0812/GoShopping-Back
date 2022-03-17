@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
 
-@RequestMapping("api/common/order")
+@RequestMapping("api/common")
 public class Order {
 
     @Resource

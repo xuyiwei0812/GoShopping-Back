@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
 
-@RequestMapping("/api/seller/order")
+@RequestMapping("/api/seller")
 public class Order {
 
     @Resource

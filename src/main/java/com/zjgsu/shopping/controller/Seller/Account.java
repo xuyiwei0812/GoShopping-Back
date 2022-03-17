@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
 
-@RequestMapping("/api/seller/account")
+@RequestMapping("/api/seller")
 public class Account {
 
     @Resource
