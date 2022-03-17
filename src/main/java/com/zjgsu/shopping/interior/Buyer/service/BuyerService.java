@@ -101,4 +101,6 @@ public interface BuyerService {
     public Boolean deleteFavoriteGood(FavoriteIds favoriteIds);
 
     public Boolean checkFavorite(Integer buyerId, Integer goodId);
+
+    public Boolean changeCartNumber(Integer buyerId, Integer goodId, Integer nowNumber);
 }

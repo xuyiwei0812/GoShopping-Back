@@ -131,7 +131,7 @@ public interface BuyerMapper {
     Integer getCartNumber(@Param("buyerId")Integer buyerId,@Param("goodId")Integer goodId);
 
     @Update("update cart set number=#{nowNumber} where buyerId=#{buyerId} and goodId=#{goodId}")
-    Boolean addCartNumber(@Param("goodId")Integer goodId,@Param("buyerId")Integer buyerId,@Param("nowNumber")Integer nowNumber);
+    Boolean changeCartNumber(@Param("goodId")Integer goodId,@Param("buyerId")Integer buyerId,@Param("nowNumber")Integer nowNumber);
 
     //删
     @Delete("delete from cart where cartId=#{cartId}")
