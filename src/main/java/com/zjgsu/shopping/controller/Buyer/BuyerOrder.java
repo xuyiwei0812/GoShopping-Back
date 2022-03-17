@@ -22,7 +22,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RequestMapping("/api/buyer")
-public class Order {
+public class BuyerOrder {
     @Resource
     private BuyerService buyerService;
     @Resource
@@ -157,22 +157,5 @@ public class Order {
         }
     }
 
-    /**
-     * 拿某个人的地址
-     * @param buyer
-     * @return
-     */
-    @ResponseBody
-    @PostMapping("/getAddressByBuyer")
-    public Response<List<Address>> getAddressByBuyer(@RequestBody Buyer buyer) {
-        try {
-            System.out.println("拿某个人的地址");
-            Integer buyerId = buyer.getBuyerId();
-            return Response.createSuc(buyerService.getAddressByBuyer(buyerId));
-        }
-        catch (Exception e){
-            tool.soutErr("getAddressByBuyer",e);
-            return Response.BUG();
-        }
-    }
+
 }

@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RequestMapping("api/common")
-public class Account {
+public class CommonAccount {
 
     @Resource
     SellerService sellerService;

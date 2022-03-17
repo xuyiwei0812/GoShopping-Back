@@ -27,7 +27,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RequestMapping("/api/buyer")
-public class Account {
+public class BuyerAccount {
     @Resource
     private BuyerService buyerService;
     @Resource

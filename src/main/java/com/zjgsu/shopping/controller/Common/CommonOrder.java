@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RequestMapping("api/common")
-public class Order {
+public class CommonOrder {
 
     @Resource
     OrderService orderService;

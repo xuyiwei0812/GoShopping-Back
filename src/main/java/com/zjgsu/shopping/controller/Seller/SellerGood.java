@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 @RequestMapping("/api/seller")
-public class Good {
+public class SellerGood {
 
 
     @Resource
