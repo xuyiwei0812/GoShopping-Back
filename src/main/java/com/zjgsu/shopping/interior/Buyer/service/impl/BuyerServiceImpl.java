@@ -101,8 +101,6 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
 
-
-
     @Override
     public List<Good> getAllGoodListForBuyers() {
         return goodMapper.getAllGoodListForBuyers();
@@ -203,6 +201,29 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    public List<Address> getAddressByBuyer(Integer buyerId){
+        return buyerMapper.getAddressByBuyer(buyerId);
+    }
+
+    @Override
+    public Boolean CancelOrder(Integer orderId){
+        if(orderMapper.getOrderStatement(orderId) >=5) return false;
+        return buyerMapper.buyerCancelOrder(orderId) > 0;
+    }
+
+    @Override
+    public Boolean ConfirmReceipt(Integer orderId){
+        if(orderMapper.getOrderStatement(orderId) !=5 )  return false;
+        return buyerMapper.ConfirmReceipt(orderId) > 0;
+    }
+
+    @Override
+    public Boolean finishThePayment(Order order) {
+        if(orderMapper.getOrderStatement(order.getOrderId()) != 1)return false;
+        return buyerMapper.finishThePayment(order.getOrderId()) > 0;
+    }
+
+    @Override
     public Integer favoriteGood(Integer goodId,Integer buyerId){
         Good good = goodMapper.getGoodInfo(goodId);
         if(buyerMapper.favoriteGood(good,buyerId)==true) return 1;
@@ -239,14 +260,8 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Boolean changeCartNumber(Integer buyerId, Integer goodId, Integer nowNumber){
-        if(nowNumber>0) return buyerMapper.changeCartNumber(buyerId,goodId,nowNumber);
-        else return false;
-    }
-
-    @Override
-    public Boolean finishThePayment(Order order) {
-        if(orderMapper.getOrderStatement(order.getOrderId()) != 1)return false;
-        return buyerMapper.finishThePayment(order.getOrderId()) > 0;
+        System.out.println("nowNumber"+nowNumber);
+        return buyerMapper.changeCartNumber(goodId,buyerId,nowNumber);
     }
 
     @Override
@@ -263,7 +278,14 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Boolean getCartGoodIntoFavorite(List<Cart> cartList){
+    public Boolean getCartGoodIntoFavorite(CartIds cartIds){
+        List<Integer> cartIds1 = cartIds.getCartIds();
+        List<Cart> cartList = new ArrayList<>();
+        for(Integer cartId:cartIds1){
+            Cart cart = buyerMapper.getCartByCartId(cartId);
+            System.out.println("111"+cart);
+            cartList.add(cart);
+        }
         for(Cart item:cartList){
             Integer goodId = item.getGoodId();
             //System.out.println("goodId"+goodId);
@@ -281,27 +303,10 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public List<Address> getAddressByBuyer(Integer buyerId){
-        return buyerMapper.getAddressByBuyer(buyerId);
-    }
-
-    @Override
-    public Boolean CancelOrder(Integer orderId){
-        if(orderMapper.getOrderStatement(orderId) >=5) return false;
-        return buyerMapper.buyerCancelOrder(orderId) > 0;
-    }
-
-    @Override
-    public Boolean ConfirmReceipt(Integer orderId){
-        if(orderMapper.getOrderStatement(orderId) !=5 )    return false;
-        return buyerMapper.ConfirmReceipt(orderId) > 0;
-    }
-
-    @Override
-    public Boolean deleteCartGood(List<Cart> cartList){
-        for(Cart item:cartList){
-            Integer cartId=item.getCartId();
-            buyerMapper.deleteCartGood(cartId);
+    public Boolean deleteCartGood(CartIds cartIds){
+        List<Integer> ids = cartIds.getCartIds();
+        for(Integer item:ids){
+            buyerMapper.deleteCartGood(item);
         }
         return true;
     }

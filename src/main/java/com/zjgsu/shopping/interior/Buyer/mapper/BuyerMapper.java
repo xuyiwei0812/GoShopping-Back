@@ -92,6 +92,32 @@ public interface BuyerMapper {
     List<Order> getOrderListOfStatement_1(@Param("buyerId")Integer buyerId);
 
     /**
+     * 拿某个人的地址
+     */
+    @Select("select * from address where buyerId=#{buyerId}")
+    List<Address> getAddressByBuyer(@Param("buyerId")Integer buyerId);
+
+    /**
+     * 买家取消订单
+     */
+    @Update("update goodorder set stmt=-1 where orderId=#{orderId}")
+    Long buyerCancelOrder(@Param("orderId")Integer orderId);
+
+    /**
+     * 买家确认收货
+     */
+    @Update("update goodorder set stmt=6 where orderId=#{orderId}")
+    Long ConfirmReceipt(@Param("orderId")Integer orderId);
+
+    @Options(useGeneratedKeys = true, keyProperty = "goodorder.orderId", keyColumn = "orderId")
+    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) " +
+            "values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},2,#{goodorder.phone},#{goodorder.startDate},null)")
+    Boolean placeAnOrder(@Param("goodorder") Order goodorder);
+
+    @Update("update goodorder set stmt=2 where orderId=#{orderId}")
+    Long finishThePayment(@Param("orderId")Integer orderId);
+
+    /**
      *收藏商品
      */
     @Options(useGeneratedKeys = true, keyProperty = "favorite.favoriteId", keyColumn = "favoriteId")
@@ -118,6 +144,9 @@ public interface BuyerMapper {
     @Select("select * from cart where buyerId=#{buyer.buyerId}")
     List<Cart> getCartByBuyer(@Param("buyer")Buyer buyer);
 
+    @Select("select * from cart where cartId=#{cartId}")
+    Cart getCartByCartId(@Param("cartId")Integer cartId);
+
     @Options(useGeneratedKeys = true, keyProperty = "favorite.favoriteId", keyColumn = "favoriteId")
     @Insert("insert into favorite(buyerId,goodId,goodName,goodPrice,description) values(#{cart.buyerId},#{cart.goodId},#{cart.goodName},#{cart.goodPrice},#{cart.description})")
     Boolean getCartGoodIntoFavorite(@Param("cart")Cart cart);
@@ -139,32 +168,5 @@ public interface BuyerMapper {
     @Delete("delete from favorite where favoriteId=#{favoriteId}")
     Boolean deleteFavoriteGood(@Param("favoriteId")Integer favoriteId);
 
-    /**
-     * 拿某个人的地址
-     */
-    @Select("select * from address where buyerId=#{buyerId}")
-    List<Address> getAddressByBuyer(@Param("buyerId")Integer buyerId);
-
-    /**
-     * 买家取消订单
-     */
-    @Update("update goodorder set stmt=-1 where orderId=#{orderId}")
-    Long buyerCancelOrder(@Param("orderId")Integer orderId);
-
-    /**
-     * 买家确认收货
-     */
-    @Update("update goodorder set stmt=6 where orderId=#{orderId}")
-    Long ConfirmReceipt(@Param("orderId")Integer orderId);
-
-
-
-    @Options(useGeneratedKeys = true, keyProperty = "goodorder.orderId", keyColumn = "orderId")
-    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) " +
-            "values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},2,#{goodorder.phone},#{goodorder.startDate},null)")
-    Boolean placeAnOrder(@Param("goodorder") Order goodorder);
-
-    @Update("update goodorder set stmt=2 where orderId=#{orderId}")
-    Long finishThePayment(@Param("orderId")Integer orderId);
 
 }

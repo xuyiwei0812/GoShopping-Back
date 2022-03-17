@@ -3,6 +3,7 @@ package com.zjgsu.shopping.controller.Buyer;
 import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
+import com.zjgsu.shopping.interior.Common.pojo.Address;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderVo;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
@@ -152,6 +153,25 @@ public class Order {
             return Response.createSuc(list);
         }catch (Exception e){
             tool.soutErr("getBuyerHistoryByBuyerId" ,e);
+            return Response.BUG();
+        }
+    }
+
+    /**
+     * 拿某个人的地址
+     * @param buyer
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getAddressByBuyer")
+    public Response<List<Address>> getAddressByBuyer(@RequestBody Buyer buyer) {
+        try {
+            System.out.println("拿某个人的地址");
+            Integer buyerId = buyer.getBuyerId();
+            return Response.createSuc(buyerService.getAddressByBuyer(buyerId));
+        }
+        catch (Exception e){
+            tool.soutErr("getAddressByBuyer",e);
             return Response.BUG();
         }
     }

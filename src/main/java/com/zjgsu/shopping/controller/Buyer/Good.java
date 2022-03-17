@@ -3,6 +3,7 @@ package com.zjgsu.shopping.controller.Buyer;
 import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
+import com.zjgsu.shopping.interior.Common.pojo.Address;
 import com.zjgsu.shopping.interior.Common.pojo.BuyerWithGood;
 import com.zjgsu.shopping.interior.Common.pojo.Cart;
 import com.zjgsu.shopping.interior.Common.pojo.Order;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -83,7 +85,7 @@ public class Good {
      */
     @ResponseBody
     @PostMapping("/getGoodInfo")
-    public Response<GoodwithImg> getGoodInfo(@RequestBody com.zjgsu.shopping.interior.Common.pojo.Good good) {
+    public Response<GoodwithImg> getGoodInfo(@RequestBody GoodVo good) {
         try {
             GoodwithImg re = buyerService.getGoodInfo(good.getGoodId());
             if (re == null)
@@ -98,19 +100,6 @@ public class Good {
     }
 
     @ResponseBody
-    @PostMapping("/getVideoByGood")
-    public Response<String> getVideoByGood(@RequestBody com.zjgsu.shopping.interior.Common.pojo.Good good){
-        try{
-            return Response.createSuc(buyerService.getVideoByGood(good));
-        }
-        catch (Exception e){
-            System.out.println("发生错误" + e);
-            return Response.BUG();
-        }
-    }
-
-
-    @ResponseBody
     @PostMapping("/getClass2GoodListByClassId")
     public Response<GoodList> getClass2GoodListByClassId(@RequestBody Mode mode){
         try{
@@ -121,6 +110,19 @@ public class Good {
             return Response.createSuc(list);
         }catch (Exception e){
             tool.soutErr("getClass2GoodListByClassId" ,e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getClass1GoodListByClassId")
+    public Response<GoodList> getClass1GoodListByClassId(@RequestBody Mode mode){
+        try{
+            System.out.println(mode);
+            GoodList list = tool.toGoodList(buyerService.getClass1GoodListByClassId(mode));
+            return Response.createSuc(list);
+        }catch (Exception e){
+            tool.soutErr("getClass1GoodListByClassId" ,e);
             return Response.BUG();
         }
     }
@@ -150,7 +152,6 @@ public class Good {
             return Response.BUG();
         }
     }
-
 
     /**
      * 收藏商品
@@ -245,18 +246,17 @@ public class Good {
     }
 
     /**
-     * 收藏加购物车
-     * @param cartList
+     * 购物车加收藏
+     * @param
      * @return
      */
     @ResponseBody
     @PostMapping("/getCartGoodIntoFavorite")
-    public Response<Boolean> getCartGoodIntoFavorite(@RequestBody List<Cart> cartList) {
-        //传的cart里goodId buyerId必须有，其他可以没有
+    public Response<Boolean> getCartGoodIntoFavorite(@RequestBody CartIds cartIds) {
         try{
-            System.out.println("cart"+cartList);
+            System.out.println("cart"+cartIds.getCartIds());
             System.out.println("购物车加收藏");
-            return Response.createSuc(buyerService.getCartGoodIntoFavorite(cartList));
+            return Response.createSuc(buyerService.getCartGoodIntoFavorite(cartIds));
         }
         catch (Exception e){
             tool.soutErr("getFavoriteGoodIntoCart",e);
@@ -286,29 +286,27 @@ public class Good {
         }
     }
 
-
     /**
      * 删购物车商品
-     * @param cartList
+     * @param cartIds
      * @return
      */
     @ResponseBody
     @PostMapping("/deleteCartGood")
-    public Response<Boolean> deleteCartGood(@RequestBody List<Cart> cartList){
-        //cartlist里只要有cartId就行 剩下无所谓有没有
+    public Response<Boolean> deleteCartGood(@RequestBody CartIds cartIds){
         try {
             System.out.println("删购物车商品");
-            return Response.createSuc(buyerService.deleteCartGood(cartList));
+            return Response.createSuc(buyerService.deleteCartGood(cartIds));
         }
         catch (Exception e){
             tool.soutErr("deleteCartGood",e);
             return Response.BUG();
         }
     }
+
     @ResponseBody
     @PostMapping("/deleteFavoriteGood")
     public Response<Boolean> deleteFavoriteGood(@RequestBody FavoriteIds favoriteIds){
-        //只要有favoriteId就行 剩下无所谓有没有
         try {
             System.out.println("删收藏夹商品");
             System.out.println("favoriteIds"+favoriteIds.getFavoriteIds());
@@ -319,8 +317,6 @@ public class Good {
             return Response.BUG();
         }
     }
-
-
 
     @ResponseBody
     @PostMapping("/checkFavorite")
@@ -338,20 +334,4 @@ public class Good {
             return Response.BUG();
         }
     }
-
-    @ResponseBody
-    @PostMapping("/getClass1GoodListByClassId")
-    public Response<GoodList> getClass1GoodListByClassId(@RequestBody Mode mode){
-        try{
-            System.out.println(mode);
-            GoodList list = tool.toGoodList(buyerService.getClass1GoodListByClassId(mode));
-            return Response.createSuc(list);
-        }catch (Exception e){
-            tool.soutErr("getClass1GoodListByClassId" ,e);
-            return Response.BUG();
-        }
-    }
-
-
-
 }

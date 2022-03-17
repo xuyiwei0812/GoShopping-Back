@@ -88,7 +88,7 @@ public interface BuyerService {
 
     public List<CartWithImg> getCartByBuyer(Buyer buyer);
 
-    public Boolean getCartGoodIntoFavorite(List<Cart> cartList);
+    public Boolean getCartGoodIntoFavorite(CartIds cartIds);
 
     public List<Address> getAddressByBuyer(Integer buyerId);
 
@@ -96,7 +96,7 @@ public interface BuyerService {
 
     public Boolean ConfirmReceipt(Integer orderId);
 
-    public Boolean deleteCartGood(List<Cart> cartList);
+    public Boolean deleteCartGood(CartIds cartIds);
 
     public Boolean deleteFavoriteGood(FavoriteIds favoriteIds);
 
