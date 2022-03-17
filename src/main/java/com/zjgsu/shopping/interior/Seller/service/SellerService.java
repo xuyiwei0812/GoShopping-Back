@@ -133,4 +133,7 @@ public interface SellerService {
     Boolean deliverTheGoods(Order order);
 
     String getTrackingNumber(Integer orderId);
+
+    Boolean confirmTheOrder(Order order);
+
 }

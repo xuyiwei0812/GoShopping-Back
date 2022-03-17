@@ -311,12 +311,18 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean deliverTheGoods(Order order) {
        if(orderMapper.getOrderStatement(order.getOrderId()) != 4) return false;
+       orderMapper.deliverTheGoods(order);
        return orderMapper.setTrackingNumber(order) > 0 ;
     }
 
     @Override
     public String getTrackingNumber(Integer orderId) {
         return orderMapper.getTrackingNumber(orderId);
+    }
+
+    @Override
+    public Boolean confirmTheOrder(Order order) {
+        return orderMapper.confirmTheOrder(order) > 0;
     }
 
 }

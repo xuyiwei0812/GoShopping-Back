@@ -607,4 +607,14 @@ public class SellerController {
             return Response.BUG();
         }
     }
+
+    @ResponseBody
+    @PostMapping("/confirmTheOrder")
+    public Response<Boolean> confirmTheOrder(@RequestBody Order order){
+        try{
+            return Response.createSuc(sellerService.confirmTheOrder(order));
+        }catch (Exception e){
+            return Response.BUG();
+        }
+    }
 }

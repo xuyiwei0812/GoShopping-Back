@@ -23,56 +23,7 @@ public class BuyerController {
     private Mytool tool;
 
 
-    /**
-     * 登录买家信息
-     *
-     * @param buyer xx
-     *              buyer.name 买家名称
-     *              buyer.location 买家地址
-     *              buyer.phone 买家电话
-     * @return 成功返回买家id, 失败....
-     * 注:在登录一个意向的时候需要调用两个接口,先调用这个,然后拿着这个返回的id去调用下面的那个
-     */
-    @ResponseBody
-    @PostMapping("/uploadBuyerInfo")
-    public Response<Integer> uploadBuyerInfo(@RequestBody Buyer buyer) {
-        try {
-            System.out.println("1221"+buyer);
-            if (buyerService.buyerRegister(buyer) == null)
-                return Response.createErr("登录买家信息失败");
-            else
-                return Response.createSuc(buyer.getBuyerId());
-        } catch (Exception e) {
-            tool.soutErr("uploadBuyerInfo", e);
-            return Response.BUG();
-        }
-    }
 
-    @ResponseBody
-    @PostMapping("/changeBuyerInfo")
-    public Response<Boolean> changeBuyerInfo(@RequestBody Buyer buyer){
-        try {
-            System.out.println("修改买家信息");
-            return Response.createSuc(buyerService.updateBuyerInfo(buyer));
-        } catch (Exception e) {
-            tool.soutErr("uploadBuyerInfo", e);
-            return Response.BUG();
-        }
-    }
-
-    @ResponseBody
-    @PostMapping("/checkBuyerPassword")
-    public Response<Object> checkBuyerPassword(@RequestBody AccountVo accountVo) {
-        try {
-            if(buyerService.checkBuyerPassword(accountVo.getUserId(), accountVo.getPassword()))
-                return Response.createSuc(null);
-            else
-                return Response.createErr("账号不存在或者密码错误");
-        }catch (Exception e){
-            tool.soutErr("checkSellerPassword" ,e);
-            return  Response.BUG();
-        }
-    }
 
     @ResponseBody
     @PostMapping("/updateBuyerPassword")
