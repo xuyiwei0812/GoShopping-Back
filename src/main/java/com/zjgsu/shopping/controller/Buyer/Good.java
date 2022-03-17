@@ -29,7 +29,7 @@ public class Good {
     //FB : for buyer
     @ResponseBody
     @PostMapping("/getAllGoodListFB")
-    public Response<GoodList> getAllGoodListFB() {
+    public Response<GoodList> getAllGoodListFB(){
         try {
             //System.out.println("1"+buyerService.getAllGoodListForBuyers());
             GoodList goodList = tool.toGoodList(buyerService.getAllGoodListForBuyers());
