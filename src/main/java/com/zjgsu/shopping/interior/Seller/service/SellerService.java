@@ -82,7 +82,7 @@ public interface SellerService {
      */
 
     Boolean acceptTheOrder(OrderVo order);
-    Boolean cancelTheOrderBySeller(Integer dealId);
+    Boolean cancelTheOrder(Integer dealId);
     Boolean finishTheOrder(Integer orderId);
 
     /**
@@ -128,12 +128,14 @@ public interface SellerService {
 
     List<Order> getOrderListOfStatement_1(Integer sellerId);
 
-    Boolean cancelTheOrder(Integer orderId);
+
 
     Boolean deliverTheGoods(Order order);
 
     String getTrackingNumber(Integer orderId);
 
     Boolean confirmTheOrder(Order order);
+
+    Boolean completeStocking(Order order);
 
 }

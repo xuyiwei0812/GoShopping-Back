@@ -61,10 +61,10 @@ public interface SellerMapper {
     Seller getInfo(@Param("sellerId") Integer sellerId);
 
 
-    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 5")
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 6")
     List<Order> getHistoryOrderListBySellerId(@Param("sellerId")Integer sellerId);
 
-    @Select("select * from goodorder where goodId=#{goodId} and stmt = 5")
+    @Select("select * from goodorder where goodId=#{goodId} and stmt = 6")
     List<Order> getHistoryOrderByGoodId(@Param("goodId") Integer goodId);
 
 
@@ -73,15 +73,8 @@ public interface SellerMapper {
 
 
 
-    @Select("select * from goodorder where goodId=#{goodId} and stmt = 1")
+    @Select("select * from goodorder where goodId=#{goodId} and stmt = 2")
     List<Order> getWillingOrderListByGoodId(@Param("goodId") Integer goodId);
-
-
-
-
-    @Update("update goodorder set stmt = 2 where orderId=#{orderId} and stmt = 1")
-    Long updateOrderToStatementTwo(@Param("orderId")Integer orderId);
-
 
     @Update("update goodorder set stmt = 5 where orderId=#{orderId} and stmt = 4")
     Long finishTheOrder(@Param("orderId") Integer orderId);
@@ -109,4 +102,13 @@ public interface SellerMapper {
 
     @Select("select sellerId from good where goodId = #{goodId}")
     Integer getSellerIdByGoodId(@Param("goodId")Integer goodId);
+
+    @Update("update goodorder set stmt = 4 where orderId = #{goodorder.orderId}")
+    Long completeStocking(@Param("goodorder") Order goodorder);
+
+    /**
+     * 买家取消订单
+     */
+    @Update("update goodorder set stmt=-2 where orderId=#{orderId}")
+    Long sellerCancelOrder(@Param("orderId")Integer orderId);
 }

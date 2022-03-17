@@ -19,10 +19,7 @@ public interface OrderMapper {
      特殊状态: 买家取消 -1 卖家取消 -2
      */
 
-    @Options(useGeneratedKeys = true, keyProperty = "goodorder.orderId", keyColumn = "orderId")
-    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) " +
-                        "values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},2,#{goodorder.phone},#{goodorder.startDate},null)")
-    Boolean placeAnOrder(@Param("goodorder") Order goodorder);
+
 
     @Select("select * from goodorder where orderId = #{orderId}")
     Order getOrder(@Param("orderId") Integer orderId);
@@ -66,6 +63,6 @@ public interface OrderMapper {
     @Select("select trackingNumber from goodorder where orderId = #{orderId}")
     String getTrackingNumber(@Param("orderId") Integer orderId);
 
-    @Update("update goodorder set stmt = 4 where orderId = #{goodorder.orderId}")
+    @Update("update goodorder set stmt = 3 where orderId = #{goodorder.orderId}")
     Long confirmTheOrder(@Param("goodorder") Order goodorder);
 }

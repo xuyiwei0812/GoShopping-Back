@@ -80,15 +80,14 @@ public interface BuyerMapper {
     @Select("select * from goodorder where buyerId=#{buyerId} and stmt = 1")
     List<Order> getOrderListOfStatement1(@Param("buyerId")Integer buyerId);
 
+    @Select("select * from goodorder where buyerId=#{buyerId} and (stmt = 2 or stmt = 3 or stmt = 4)")
+    List<Order> getOrderListOfStatement2(@Param("buyerId")Integer buyerId);
+
     @Select("select * from goodorder where buyerId=#{buyerId} and stmt = 5")
     List<Order> getOrderListOfStatement5(@Param("buyerId")Integer buyerId);
 
     @Select("select * from goodorder where buyerId=#{buyerId} and stmt = 6")
     List<Order> getOrderListOfStatement6(@Param("buyerId")Integer buyerId);
-
-    @Select("select * from goodorder where buyerId=#{buyerId} and (stmt = 2 or stmt = 3 or stmt = 4)")
-    List<Order> getOrderListOfStatement2(@Param("buyerId")Integer buyerId);
-
     @Select("select * from goodorder where buyerId=#{buyerId} and (stmt = -1 or stmt = -2)")
     List<Order> getOrderListOfStatement_1(@Param("buyerId")Integer buyerId);
 
@@ -156,6 +155,16 @@ public interface BuyerMapper {
      * 买家确认收货
      */
     @Update("update goodorder set stmt=6 where orderId=#{orderId}")
-    Boolean buyerConformReceipt(@Param("orderId")Integer orderId);
+    Long ConfirmReceipt(@Param("orderId")Integer orderId);
+
+
+
+    @Options(useGeneratedKeys = true, keyProperty = "goodorder.orderId", keyColumn = "orderId")
+    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) " +
+            "values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},2,#{goodorder.phone},#{goodorder.startDate},null)")
+    Boolean placeAnOrder(@Param("goodorder") Order goodorder);
+
+    @Update("update goodorder set stmt=2 where orderId=#{orderId}")
+    Long finishThePayment(@Param("orderId")Integer orderId);
 
 }

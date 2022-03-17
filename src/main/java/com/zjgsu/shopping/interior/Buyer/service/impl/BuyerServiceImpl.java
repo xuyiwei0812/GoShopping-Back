@@ -76,17 +76,15 @@ public class BuyerServiceImpl implements BuyerService {
     public Boolean placeAnOrder(Order order) { //下订单
       try {
           goodMapper.WantGood(order.getGoodId());
-
           SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
           Date nowDate1 = format1.parse(format1.format(new Date()));
-          System.out.println("nowdate : "+nowDate1);
           order.setStartDate(nowDate1);
           System.out.println("sellerId : " + sellerMapper.getSellerIdByGoodId(order.getGoodId()));
           order.setSellerId(sellerMapper.getSellerIdByGoodId(order.getGoodId()));
       } catch (Exception e) {
           e.printStackTrace();
       }
-        return (orderMapper.placeAnOrder(order));
+        return (buyerMapper.placeAnOrder(order));
     }
 
     @Override
@@ -246,6 +244,12 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    public Boolean finishThePayment(Order order) {
+        if(orderMapper.getOrderStatement(order.getOrderId()) != 1)return false;
+        return buyerMapper.finishThePayment(order.getOrderId()) > 0;
+    }
+
+    @Override
     public List<CartWithImg> getCartByBuyer(Buyer buyer){
         List<Cart> cartList = buyerMapper.getCartByBuyer(buyer);
         List<CartWithImg> cartWithImgList = new ArrayList<>();
@@ -282,17 +286,15 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Long buyerCancelOrder(Integer orderId){
-        return buyerMapper.buyerCancelOrder(orderId);
+    public Boolean CancelOrder(Integer orderId){
+        if(orderMapper.getOrderStatement(orderId) >=5) return false;
+        return buyerMapper.buyerCancelOrder(orderId) > 0;
     }
 
     @Override
-    public Boolean buyerConformReceipt(Integer orderId){
-        if(orderMapper.getOrderStatement(orderId)==5) {
-            buyerMapper.buyerConformReceipt(orderId);
-            return true;
-        }
-        return false;
+    public Boolean ConfirmReceipt(Integer orderId){
+        if(orderMapper.getOrderStatement(orderId) !=5 )    return false;
+        return buyerMapper.ConfirmReceipt(orderId) > 0;
     }
 
     @Override
@@ -318,4 +320,5 @@ public class BuyerServiceImpl implements BuyerService {
         if(buyerMapper.checkFavorite(buyerId,goodId)!=null) return true;
         else return false;
     }
+
 }

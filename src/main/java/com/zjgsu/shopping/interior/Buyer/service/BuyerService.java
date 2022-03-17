@@ -92,9 +92,9 @@ public interface BuyerService {
 
     public List<Address> getAddressByBuyer(Integer buyerId);
 
-    public Long buyerCancelOrder(Integer orderId);
+    public Boolean CancelOrder(Integer orderId);
 
-    public Boolean buyerConformReceipt(Integer orderId);
+    public Boolean ConfirmReceipt(Integer orderId);
 
     public Boolean deleteCartGood(List<Cart> cartList);
 
@@ -103,4 +103,7 @@ public interface BuyerService {
     public Boolean checkFavorite(Integer buyerId, Integer goodId);
 
     public Boolean changeCartNumber(Integer buyerId, Integer goodId, Integer nowNumber);
+
+    public Boolean finishThePayment(Order order);
+
 }

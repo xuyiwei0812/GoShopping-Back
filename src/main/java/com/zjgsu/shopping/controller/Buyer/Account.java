@@ -4,14 +4,14 @@ package com.zjgsu.shopping.controller.Buyer;
 import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
+import com.zjgsu.shopping.interior.Common.pojo.Address;
 import com.zjgsu.shopping.interior.Common.pojo.vo.AccountVo;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -22,6 +22,9 @@ import javax.annotation.Resource;
  * 注册买家账号 /buyerRegister
  * 更新卖家信息 /changeBuyerInfo
  */
+
+@Controller
+@CrossOrigin(origins = "*", maxAge = 3600)
 
 @RequestMapping("/api/buyer/account")
 public class Account {
@@ -105,6 +108,24 @@ public class Account {
         }catch (Exception e){
             tool.soutErr("updateSellerPassword" ,e);
             return  Response.BUG();
+        }
+    }
+    /**
+     * 拿某个人的地址
+     * @param buyer
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getAddressByBuyer")
+    public Response<List<Address>> getAddressByBuyer(@RequestBody Buyer buyer) {
+        try {
+            System.out.println("拿某个人的地址");
+            Integer buyerId = buyer.getBuyerId();
+            return Response.createSuc(buyerService.getAddressByBuyer(buyerId));
+        }
+        catch (Exception e){
+            tool.soutErr("getAddressByBuyer",e);
+            return Response.BUG();
         }
     }
 

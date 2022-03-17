@@ -133,12 +133,11 @@ public class SellerServiceImpl implements SellerService {
 
 
     @Override
-    public Boolean cancelTheOrderBySeller(Integer orderId) {
+    public Boolean cancelTheOrder(Integer orderId) {
         try {
             Order order = orderMapper.getOrder(orderId);
-            if(order.getStmt() >= 5)return false;
-            order.setStmt(-2);
-            return (orderMapper.updateOrderStatement(order) > 0 );
+            if(order.getStmt() >= 6)return false;
+            return sellerMapper.sellerCancelOrder(orderId) > 0;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -150,13 +149,13 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Boolean acceptTheOrder(OrderVo order) {
+        if(orderMapper.getOrderStatement(order.getOrderId()) != 2)return false;
         order.setStartDate(new Date());
 //        if(Objects.equals(goodMapper.getGoodInfo(order.getGoodId()).getStorage(), order.getNumber()))
 //            goodMapper.freezeGood(order.getGoodId());
 //        if(sellerMapper.updateOrderToStatementTwo(order.getOrderId()) == 0) return false;
 //        if(sellerMapper.getWillingOrderListByGoodId(order.getGoodId()).isEmpty())
 //            goodMapper.refuseGood(order.getGoodId());
-        System.out.println(order);
         order.setStmt(3);
         return orderMapper.updateOrderStatement(order) > 0;
     }
@@ -303,10 +302,6 @@ public class SellerServiceImpl implements SellerService {
         return sellerMapper.getOrderListOfStatement_1(sellerId);
     }
 
-    @Override
-    public Boolean cancelTheOrder(Integer orderId) {
-        return null;
-    }
 
     @Override
     public Boolean deliverTheGoods(Order order) {
@@ -323,6 +318,12 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean confirmTheOrder(Order order) {
         return orderMapper.confirmTheOrder(order) > 0;
+    }
+
+    @Override
+    public Boolean completeStocking(Order order) {
+        if(orderMapper.getOrderStatement(order.getOrderId()) != 3) return false;
+        return sellerMapper.completeStocking(order) > 0;
     }
 
 }
