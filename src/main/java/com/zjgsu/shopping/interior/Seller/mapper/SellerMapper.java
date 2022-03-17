@@ -61,46 +61,52 @@ public interface SellerMapper {
     Seller getInfo(@Param("sellerId") Integer sellerId);
 
 
-    @Select("select * from order where sellerId=#{sellerId} and statement = 5")
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 5")
     List<Order> getHistoryOrderListBySellerId(@Param("sellerId")Integer sellerId);
 
-    @Select("select * from order where goodId=#{goodId} and statement = 5")
+    @Select("select * from goodorder where goodId=#{goodId} and stmt = 5")
     List<Order> getHistoryOrderByGoodId(@Param("goodId") Integer goodId);
 
 
-    @Select("select * from order where goodId=#{goodId} and statement <> 5 and statement<> 6 and statement <> 1")
+    @Select("select * from goodorder where goodId=#{goodId} and stmt <> 5 and stmt<> 6 and stmt <> 1")
     List<Order> getOrderListByGoodId(@Param("goodId") Integer goodId);
 
 
 
-    @Select("select * from order where goodId=#{goodId} and statement = 1")
+    @Select("select * from goodorder where goodId=#{goodId} and stmt = 1")
     List<Order> getWillingOrderListByGoodId(@Param("goodId") Integer goodId);
 
 
 
 
-    @Update("update order set statement = 2 where orderId=#{orderId} and statement = 1")
+    @Update("update goodorder set stmt = 2 where orderId=#{orderId} and stmt = 1")
     Long updateOrderToStatementTwo(@Param("orderId")Integer orderId);
 
 
-    @Update("update order set statement = 5 where orderId=#{orderId} and statement = 4")
+    @Update("update goodorder set stmt = 5 where orderId=#{orderId} and stmt = 4")
     Long finishTheOrder(@Param("orderId") Integer orderId);
 
-    @Select("select * from order where sellerId=#{sellerId} and statement = 1")
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 1")
     List<Order> getOrderListOfStatement1(@Param("sellerId")Integer sellerId);
 
-    @Select("select * from order where sellerId=#{sellerId} and (statement = 2 or statement = 3 or statement = 4)")
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 2")
     List<Order> getOrderListOfStatement2(@Param("sellerId")Integer sellerId);
 
-    @Select("select * from order where sellerId=#{sellerId} and statement = 5")
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 3")
+    List<Order> getOrderListOfStatement3(@Param("sellerId")Integer sellerId);
+
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 4 ")
+    List<Order> getOrderListOfStatement4(@Param("sellerId")Integer sellerId);
+
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 5")
     List<Order> getOrderListOfStatement5(@Param("sellerId")Integer sellerId);
 
-    @Select("select * from order where sellerId=#{sellerId} and statement = 6")
+    @Select("select * from goodorder where sellerId=#{sellerId} and stmt = 6")
     List<Order> getOrderListOfStatement6(@Param("sellerId")Integer sellerId);
 
-    @Select("select * from order where sellerId=#{sellerId} and (statement = -1 or statement = -2)")
+    @Select("select * from goodorder where sellerId=#{sellerId} and (stmt = -1 or stmt = -2)")
     List<Order> getOrderListOfStatement_1(@Param("sellerId")Integer sellerId);
 
-    @Select("select sellerId from order where goodId = #{goodId}")
+    @Select("select sellerId from good where goodId = #{goodId}")
     Integer getSellerIdByGoodId(@Param("goodId")Integer goodId);
 }

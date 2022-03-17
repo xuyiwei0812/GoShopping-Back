@@ -25,4 +25,14 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
+    @Override
+    public Integer getOrderStatement(Integer orderId) {
+        return orderMapper.getOrderStatement(orderId);
+    }
+
+    @Override
+    public Boolean updateOrderStatement(Order order) {
+       return orderMapper.updateOrderStatement(order) > 0;
+    }
+
 }

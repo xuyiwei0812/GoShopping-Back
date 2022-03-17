@@ -102,6 +102,8 @@ public class BuyerController {
     @PostMapping("/placeAnOrder")
     public Response<Integer> placeAnOrder(@RequestBody OrderVo order) {
         try {
+
+            System.out.println(order);
             if (buyerService.placeAnOrder(order))
                 return Response.createSuc(order.getOrderId());
             else return Response.createErr("提出订单失败");
@@ -276,8 +278,12 @@ public class BuyerController {
             else if (code == 5) li = buyerService.getOrderListOfStatement5(buyerId);
             else if (code == 6) li = buyerService.getOrderListOfStatement6(buyerId);
             else if (code == -1) li = buyerService.getOrderListOfStatement_1(buyerId);
+            System.out.println("321" + li);
+            OrderList ord = tool.toOrderList(li);
+            System.out.println("123" + ord);
             return Response.createSuc(tool.toOrderList(li));
         }catch (Exception e){
+
             return Response.BUG();
         }
     }
@@ -442,8 +448,8 @@ public class BuyerController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/buyerConformReceipt")
-    public Response<Boolean> buyerConformReceipt(@RequestBody Order order){
+    @PostMapping("/buyerConfirmReceipt")
+    public Response<Boolean> buyerConfirmReceipt(@RequestBody Order order){
         try {
             System.out.println("买家确认收货");
             Integer orderId = order.getOrderId();

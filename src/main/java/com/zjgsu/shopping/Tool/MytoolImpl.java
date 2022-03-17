@@ -43,41 +43,7 @@ public class MytoolImpl implements Mytool {
         }
         return goodList;
     }
-//    public DealHistoryList toDealHistoryList(List<DealHistory> li){
-//        DealHistoryList dealHistoryList = new DealHistoryList();
-//        for (DealHistory item : li) {
-//            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
-//            String img = (goodImg != null ? goodImg.getImagine() : null);
-//            dealHistoryList.AddItem(item.getGoodId(), item.getPrice(), item.getName(), item.getDealDate(), img);
-//        }
-//        return dealHistoryList;
-//    }
-//
-//    public IntentionList toIntentionList(List<Intention> li){
-//        IntentionList  list = new IntentionList();
-//        for(Intention item :li){
-//            list.AddItem(item.getIntentionId(),item.getBuyerId(),item.getGoodId(),item.getDate(),buyerMapper.getBuyerInfo(item.getBuyerId()).getBuyerName(),item.getNumber());
-//        }
-//        return list;
-//    }
-//
-//    public DealList toDealList(List<Deal> li){
-//        DealList list = new DealList();
-//        for(Deal item : li){
-//            list.AddItem(item.getDealId(),item.getGoodId(),buyerMapper.getBuyerInfo(item.getBuyerId()).getBuyerName(),
-//                    goodMapper.getGoodInfo(item.getGoodId()).getGoodName(),item.getDate());
-//        }
-//        return list;
-//    }
-//
-//    @Override
-//    public BuyerHistoryList toBuyerHistoryList(List<BuyerHistory> li) {
-//      BuyerHistoryList list = new BuyerHistoryList();
-//      for(BuyerHistory item :li ){
-//          list.AddItem(item.getHistoryId(),item.getGoodId(),item.getBuyerId(),item.getSellerId(),goodMapper.getGoodInfo(item.getGoodId()).getGoodName(),item.getDate(),item.getNumber(),item.getBuyerName(),item.getGoodPrice(),item.getImg());
-//      }
-//      return list;
-//    }
+
 
 
     @Override
@@ -103,8 +69,15 @@ public class MytoolImpl implements Mytool {
     public OrderList toOrderList(List<Order> li){
         OrderList list = new OrderList();
         for(Order item : li) {
-            list.AddItem(item);
+            Good good = goodMapper.getGoodInfo(item.getGoodId());
+            GoodImagine goodImg = goodImagineMapper.getImagine(item.getGoodId()).stream().findFirst().orElse(null);
+            //System.out.println("3"+goodImg);
+            String img = (goodImg != null ? goodImg.getImagine() : null);
+            //System.out.println("4"+img);
+            Integer class1 = one2TwoClassMapper.getClassInfoBySecondClass(good.getClass2()).getClass1();
+            list.AddItem(item, good, img);
         }
+
         return list;
     }
 

@@ -6,6 +6,7 @@ import com.zjgsu.shopping.interior.Common.mapper.GoodImagineMapper;
 import com.zjgsu.shopping.interior.Common.mapper.GoodMapper;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.mapper.One2TwoClassMapper;
+
 import com.zjgsu.shopping.interior.Common.mapper.OrderMapper;
 import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
@@ -80,6 +81,7 @@ public class BuyerServiceImpl implements BuyerService {
           Date nowDate1 = format1.parse(format1.format(new Date()));
           System.out.println("nowdate : "+nowDate1);
           order.setStartDate(nowDate1);
+          System.out.println("sellerId : " + sellerMapper.getSellerIdByGoodId(order.getGoodId()));
           order.setSellerId(sellerMapper.getSellerIdByGoodId(order.getGoodId()));
       } catch (Exception e) {
           e.printStackTrace();

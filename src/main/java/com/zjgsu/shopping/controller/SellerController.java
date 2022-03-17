@@ -163,7 +163,7 @@ public class SellerController {
             sellerService.acceptTheOrder(order);
             return Response.createSuc(order);
         }catch (Exception e){
-            tool.soutErr("startDeal" ,e) ;
+            tool.soutErr("acceptTheOrder" ,e) ;
             return Response.BUG();
         }
     }
@@ -231,10 +231,10 @@ public class SellerController {
      */
     @ResponseBody
     @PostMapping("/cancelTheOrder")
-    public Response<Object> cancelTheOrder(@RequestBody Order order) {
+    public Response<Boolean> cancelTheOrder(@RequestBody Order order) {
         try{
-            sellerService.cancelTheOrderBySeller(order.getOrderId());
-            return Response.createSuc(null);
+
+            return Response.createSuc( sellerService.cancelTheOrderBySeller(order.getOrderId()));
         }catch (Exception e){
             tool.soutErr("cancelDeal",e );
             return  Response.BUG();
@@ -243,17 +243,7 @@ public class SellerController {
 
 
 
-    @ResponseBody
-    @PostMapping("/finishTheOrder")
-    public Response<Object> finishTheOrder(@RequestBody Order order) {
-        try{
-            sellerService.finishTheOrder(order.getOrderId());
-            return Response.createSuc(null);
-        }catch (Exception e){
-            tool.soutErr("finishDeal",e );
-            return Response.BUG();
-        }
-    }
+
 
 
     @ResponseBody
@@ -576,6 +566,8 @@ public class SellerController {
             List<Order> li = new ArrayList<>();
             if(code == 1)        li = sellerService.getOrderListOfStatement1(sellerId);
             else if (code == 2)  li = sellerService.getOrderListOfStatement2(sellerId);
+            else if (code == 3)  li = sellerService.getOrderListOfStatement3(sellerId);
+            else if (code == 4)  li = sellerService.getOrderListOfStatement4(sellerId);
             else if (code == 5)  li = sellerService.getOrderListOfStatement5(sellerId);
             else if (code == 6)  li = sellerService.getOrderListOfStatement6(sellerId);
             else if (code == -1) li = sellerService.getOrderListOfStatement_1(sellerId);
@@ -585,15 +577,6 @@ public class SellerController {
         }
     }
 
-    @ResponseBody
-    @PostMapping("/cancelTheOrder")
-    public Response<Boolean> cancelTheOrder(@RequestBody Integer orderId){
-        try{
-            return Response.createSuc(sellerService.cancelTheOrderBySeller(orderId));
-        }catch (Exception e){
-            return Response.BUG();
-        }
-    }
 
     @ResponseBody
     @PostMapping("/finishTheOrder")

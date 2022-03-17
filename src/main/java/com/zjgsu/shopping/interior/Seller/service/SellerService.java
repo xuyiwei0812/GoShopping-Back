@@ -118,6 +118,10 @@ public interface SellerService {
 
     List<Order> getOrderListOfStatement2(Integer sellerId);
 
+    List<Order> getOrderListOfStatement3(Integer sellerId);
+
+    List<Order> getOrderListOfStatement4(Integer sellerId);
+
     List<Order> getOrderListOfStatement5(Integer sellerId);
 
     List<Order> getOrderListOfStatement6(Integer sellerId);

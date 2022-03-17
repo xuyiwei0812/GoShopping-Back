@@ -73,23 +73,23 @@ public interface BuyerMapper {
     @Update("update buyer set buyerLocation=#{buyer.buyerLocation}, buyerName=#{buyer.buyerName}, buyerPhone=#{buyer.buyerPhone} where buyerId=#{buyer.buyerId}")
     Boolean updateBuyerInfo(@Param("buyer") Buyer buyer);
 
-    @Select("select * from order where buyerId=#{buyerId} and statement = 5")
+    @Select("select * from goodorder where buyerId=#{buyerId} and stmt = 5")
     List<Order> getHistoryOrderListByBuyerId(@Param("buyerId")Integer buyerId);
 
 
-    @Select("select * from order where buyerId=#{buyerId} and statement = 1")
+    @Select("select * from goodorder where buyerId=#{buyerId} and stmt = 1")
     List<Order> getOrderListOfStatement1(@Param("buyerId")Integer buyerId);
 
-    @Select("select * from order where buyerId=#{buyerId} and statement = 5")
+    @Select("select * from goodorder where buyerId=#{buyerId} and stmt = 5")
     List<Order> getOrderListOfStatement5(@Param("buyerId")Integer buyerId);
 
-    @Select("select * from order where buyerId=#{buyerId} and statement = 6")
+    @Select("select * from goodorder where buyerId=#{buyerId} and stmt = 6")
     List<Order> getOrderListOfStatement6(@Param("buyerId")Integer buyerId);
 
-    @Select("select * from order where buyerId=#{buyerId} and (statement = 2 or statement = 3 or statement = 4)")
+    @Select("select * from goodorder where buyerId=#{buyerId} and (stmt = 2 or stmt = 3 or stmt = 4)")
     List<Order> getOrderListOfStatement2(@Param("buyerId")Integer buyerId);
 
-    @Select("select * from order where buyerId=#{buyerId} and (statement = -1 or statement = -2)")
+    @Select("select * from goodorder where buyerId=#{buyerId} and (stmt = -1 or stmt = -2)")
     List<Order> getOrderListOfStatement_1(@Param("buyerId")Integer buyerId);
 
     /**

@@ -18,48 +18,49 @@ public interface OrderMapper {
      特殊状态: 交易取消 6
      */
 
-    @Options(useGeneratedKeys = true, keyProperty = "order.orderId", keyColumn = "orderId")
-    @Insert("insert into order (buyerId,sellerId,goodId,number,statement,phone,startDate,dealDate) " +
-                        "values(#{order.buyerId},#{order.sellerId},#{order.goodId},#{order.number},1,#{order.phone},#{order.startDate},null})")
-    Boolean placeAnOrder(@Param("order") Order order);
+    @Options(useGeneratedKeys = true, keyProperty = "goodorder.orderId", keyColumn = "orderId")
+    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) " +
+                        "values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},2,#{goodorder.phone},#{goodorder.startDate},null)")
+    Boolean placeAnOrder(@Param("goodorder") Order goodorder);
 
-    @Select("select * from order where orderId = #{orderId}")
+    @Select("select * from goodorder where orderId = #{orderId}")
     Order getOrder(@Param("orderId") Integer orderId);
 
-    @Select("select statement from order where orderId = #{orderId}")
+    @Select("select stmt from goodorder where orderId = #{orderId}")
     Integer getOrderStatement(@Param("orderId") Integer orderId);
 
-    @Update("update order set statement = #{order.statement} where orderId = #{order.orderId}")
-    Long updateOrderStatement(@Param("order")Order order);
+    @Update("update goodorder set stmt = #{goodorder.stmt} where orderId = #{goodorder.orderId}")
+    Long updateOrderStatement(@Param("goodorder")Order goodorder);
 
 
 
-    @Select("select * from order where sellerId = #{sellerId}")
+    @Select("select * from goodorder where sellerId = #{sellerId}")
     List<Order> getOrderListBySellerId(@Param("sellerId") Integer sellerId);
 
-    @Select("select * from order where buyerId = #{buyerId}")
+    @Select("select * from goodorder where buyerId = #{buyerId}")
     List<Order> getOrderListByBuyerId(@Param("buyerId") Integer buyerId);
 
-    @Select("select * from order where sellerId = #{sellerId} and statement = 5")
+    @Select("select * from goodorder where sellerId = #{sellerId} and stmt = 5")
     List<Order> getFinishedOrderListBySellerId(@Param("sellerId") Integer sellerId);
 
-    @Select("select * from order where buyerId  = #{buyerId}  and statement = 5")
+    @Select("select * from goodorder where buyerId  = #{buyerId}  and stmt = 5")
     List<Order> getFinishedOrderListByBuyerId(@Param("buyerId") Integer buyerId);
 
 
-    @Select("select * from order where sellerId = #{sellerId}  and statement = 1")
+    @Select("select * from goodorder where sellerId = #{sellerId}  and stmt = 1")
     List<Order> getWillingOrderListBySellerId(@Param("sellerId") Integer sellerId);
 
 
-    @Select("select * from order where goodId = #{goodId}  and statement = 1")
+    @Select("select * from goodorder where goodId = #{goodId}  and stmt = 1")
     List<Order> getWillingOrderListByGoodId(@Param("goodId") Integer goodId);
 
 
-    @Update("update order set trackingNumber = #{order.trackingNumber} where orderId = #{order.orderId}")
-    Long setTrackingNumber(@Param("order") Order order);
+    @Update("update goodorder set trackingNumber = #{goodorder.trackingNumber}  , stmt = 5 where orderId = #{goodorder.orderId}")
+    Long setTrackingNumber(@Param("goodorder") Order goodorder);
 
 
-    @Select("select trackingNumber from order where orderId = #{orderId}")
+    @Select("select trackingNumber from goodorder where orderId = #{orderId}")
     String getTrackingNumber(@Param("orderId") Integer orderId);
+
 
 }

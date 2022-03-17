@@ -151,13 +151,14 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Boolean acceptTheOrder(OrderVo order) {
         order.setStartDate(new Date());
-        if(Objects.equals(goodMapper.getGoodInfo(order.getGoodId()).getStorage(), order.getNumber()))
-            goodMapper.freezeGood(order.getGoodId());
-        if(sellerMapper.updateOrderToStatementTwo(order.getOrderId()) == 0) return false;
-        if(sellerMapper.getWillingOrderListByGoodId(order.getGoodId()).isEmpty())
-            goodMapper.refuseGood(order.getGoodId());
+//        if(Objects.equals(goodMapper.getGoodInfo(order.getGoodId()).getStorage(), order.getNumber()))
+//            goodMapper.freezeGood(order.getGoodId());
+//        if(sellerMapper.updateOrderToStatementTwo(order.getOrderId()) == 0) return false;
+//        if(sellerMapper.getWillingOrderListByGoodId(order.getGoodId()).isEmpty())
+//            goodMapper.refuseGood(order.getGoodId());
         System.out.println(order);
-        return orderMapper.placeAnOrder(order);
+        order.setStmt(3);
+        return orderMapper.updateOrderStatement(order) > 0;
     }
 
 
@@ -275,6 +276,16 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public List<Order> getOrderListOfStatement2(Integer sellerId) {
         return sellerMapper.getOrderListOfStatement2(sellerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement3(Integer sellerId) {
+        return sellerMapper.getOrderListOfStatement3(sellerId);
+    }
+
+    @Override
+    public List<Order> getOrderListOfStatement4(Integer sellerId) {
+        return sellerMapper.getOrderListOfStatement4(sellerId);
     }
 
     @Override

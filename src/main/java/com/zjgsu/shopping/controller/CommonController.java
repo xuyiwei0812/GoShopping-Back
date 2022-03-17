@@ -4,9 +4,11 @@ import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
 import com.zjgsu.shopping.interior.Common.pojo.Account;
+import com.zjgsu.shopping.interior.Common.pojo.Order;
 import com.zjgsu.shopping.interior.Common.pojo.vo.AccountVo;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
 import com.zjgsu.shopping.interior.Common.service.AccountService;
+import com.zjgsu.shopping.interior.Common.service.OrderService;
 import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
 //import org.omg.CORBA.OBJ_ADAPTER;
@@ -27,6 +29,8 @@ public class CommonController {
     BuyerService buyerService;
     @Resource
     AccountService accountService;
+    @Resource
+    OrderService orderService;
     @Resource
     Mytool tool;
 
@@ -84,4 +88,29 @@ public class CommonController {
         }
         return Response.createErr("登录失败");
     }
+
+    @ResponseBody
+    @PostMapping("/getOrderStatement")
+    public Response<Integer> getOrderStatement(@RequestBody Order order) {
+        try{
+            Integer id = order.getOrderId();
+            return Response.createSuc(orderService.getOrderStatement(id));
+
+        }catch (Exception e){
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/ updateOrderStatement")
+    public Response<Boolean> updateOrderStatement(@RequestBody Order order){
+        try{
+            return Response.createSuc(orderService.updateOrderStatement(order.getOrderId(),order.getStmt()));
+        }catch(Exception e){
+            return Response.BUG();
+        }
+    }
+
+
+
 }
