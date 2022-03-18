@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartWithStorage{
+public class CartWithStorage {
     CartWithImg cartWithImg;
     Integer storage;
 }
