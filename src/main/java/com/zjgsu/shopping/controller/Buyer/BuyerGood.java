@@ -217,7 +217,7 @@ public class BuyerGood {
 
     @ResponseBody
     @PostMapping("/getCartByBuyerId")
-    public Response<List<CartWithImg>> getCartByBuyer(@RequestBody Buyer buyer) {
+    public Response<List<CartWithStorage>> getCartByBuyer(@RequestBody Buyer buyer) {
         try{
             System.out.println("查看购物车");
             System.out.println("buyer"+buyer);
@@ -296,6 +296,7 @@ public class BuyerGood {
     public Response<Boolean> deleteCartGood(@RequestBody CartIds cartIds){
         try {
             System.out.println("删购物车商品");
+            System.out.println("cartId"+cartIds);
             return Response.createSuc(buyerService.deleteCartGood(cartIds));
         }
         catch (Exception e){

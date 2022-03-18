@@ -86,7 +86,7 @@ public interface BuyerService {
 
     public Boolean getGoodIntoCart(Integer goodId, Integer buyerId, Integer number);
 
-    public List<CartWithImg> getCartByBuyer(Buyer buyer);
+    public List<CartWithStorage> getCartByBuyer(Buyer buyer);
 
     public Boolean getCartGoodIntoFavorite(CartIds cartIds);
 

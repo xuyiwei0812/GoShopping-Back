@@ -265,16 +265,19 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public List<CartWithImg> getCartByBuyer(Buyer buyer){
+    public List<CartWithStorage> getCartByBuyer(Buyer buyer){
         List<Cart> cartList = buyerMapper.getCartByBuyer(buyer);
-        List<CartWithImg> cartWithImgList = new ArrayList<>();
+        List<CartWithStorage> cartWithStorageList = new ArrayList<>();
         for(Cart item:cartList){
             Integer goodId = item.getGoodId();
             GoodImagine goodImagine = goodImagineMapper.getFirstGoodImg(goodId);
             CartWithImg cartWithImg = new CartWithImg(item,goodImagine);
-            cartWithImgList.add(cartWithImg);
+            Good good = goodMapper.getGoodInfo(goodId);
+            Integer storage = good.getStorage();
+            CartWithStorage cartWithStorage = new CartWithStorage(cartWithImg,storage);
+            cartWithStorageList.add(cartWithStorage);
         }
-        return cartWithImgList;
+        return cartWithStorageList;
     }
 
     @Override
@@ -306,6 +309,7 @@ public class BuyerServiceImpl implements BuyerService {
     public Boolean deleteCartGood(CartIds cartIds){
         List<Integer> ids = cartIds.getCartIds();
         for(Integer item:ids){
+            System.out.println("item"+item);
             buyerMapper.deleteCartGood(item);
         }
         return true;
