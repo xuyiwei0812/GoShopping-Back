@@ -213,7 +213,11 @@ public class BuyerServiceImpl implements BuyerService {
 
     @Override
     public Boolean ConfirmReceipt(Integer orderId){
-        if(orderMapper.getOrderStatement(orderId) !=5 )  return false;
+        Order order = orderMapper.getOrder(orderId) ;
+        if(order.getStmt() !=5 )  return false;
+        Good good = goodMapper.getGoodInfo(order.getGoodId());
+        good.setStorage(good.getStorage() - order.getNumber());
+        goodMapper.updateGoodStorage(good);
         return buyerMapper.ConfirmReceipt(orderId) > 0;
     }
 
