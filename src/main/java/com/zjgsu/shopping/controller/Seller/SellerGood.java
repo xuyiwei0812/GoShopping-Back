@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -71,7 +72,9 @@ public class SellerGood {
 
     /**
      * 上架一个货物
-     *
+     * goodName
+     * goodPrice
+     * storage
      * @param
      * @return 上架成功返回商品id, 失败返回错误信息
      */
@@ -79,6 +82,8 @@ public class SellerGood {
     @PostMapping("/raiseGood")
     public Response<com.zjgsu.shopping.interior.Common.pojo.Good> raiseGood(@RequestBody GoodVo goodVo) throws IllegalStateException, IOException {
         try {
+
+
             System.out.println("goodVo::"+goodVo);
             //List<MultipartFile> tryimg  = new ArrayList<>();
             //tryimg.add(file);
