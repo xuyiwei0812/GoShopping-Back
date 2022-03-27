@@ -95,7 +95,6 @@ public class BuyerAccount {
     /**
      * 更新密码
      */
-
     @ResponseBody
     @PostMapping("/updateBuyerPassword")
     public Response<Object> updateBuyerPassword(@RequestBody AccountVo accountVo) {
