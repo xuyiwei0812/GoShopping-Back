@@ -101,6 +101,7 @@ public class BuyerAccount {
     public Response<Object> updateBuyerPassword(@RequestBody AccountVo accountVo) {
         try {
             System.out.println(accountVo.getUserId()+" "+accountVo.getPassword()+" "+accountVo.getNewPassword());
+            if(accountVo.getPassword().equals(accountVo.getNewPassword())) return Response.createErr("新密码与旧密码不能一致");
             Long re = buyerService.updateBuyerPassword(accountVo.getUserId(), accountVo.getPassword(), accountVo.getNewPassword());
             if (re == -2) return Response.createErr("密码错误");
             else if (re == 0) return Response.createErr("无此账号");

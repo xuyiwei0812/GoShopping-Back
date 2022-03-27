@@ -110,8 +110,8 @@ public interface BuyerMapper {
     Long ConfirmReceipt(@Param("orderId")Integer orderId);
 
     @Options(useGeneratedKeys = true, keyProperty = "goodorder.orderId", keyColumn = "orderId")
-    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate) " +
-            "values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},2,#{goodorder.phone},#{goodorder.startDate},null)")
+    @Insert("insert into goodorder (buyerId,sellerId,goodId,number,stmt,phone,startOrderDate,dealOrderDate,addressId) " +
+            "values(#{goodorder.buyerId},#{goodorder.sellerId},#{goodorder.goodId},#{goodorder.number},2,#{goodorder.phone},#{goodorder.startDate},null,#{goodorder.addressId})")
     Boolean placeAnOrder(@Param("goodorder") Order goodorder);
 
     @Update("update goodorder set stmt=2 where orderId=#{orderId}")
@@ -168,5 +168,14 @@ public interface BuyerMapper {
     @Delete("delete from favorite where favoriteId=#{favoriteId}")
     Boolean deleteFavoriteGood(@Param("favoriteId")Integer favoriteId);
 
+    /**
+     * 售后
+     */
+    @Options(useGeneratedKeys = true, keyProperty = "postsale.postSaleId", keyColumn = "postSaleId")
+    @Insert("insert into postsale (postSaleType,reasons,orderId,goodId,buyerId,sellerId) values(#{postsale.postSaleType},#{postsale.reasons},#{postsale.orderId},#{postsale.goodId},#{postsale.buyerId},#{postsale.sellerId})")
+    Boolean putForwardPostSaleRequest(@Param("postsale")PostSale postsale);
 
+    @Options(useGeneratedKeys = true, keyProperty = "postsaleimage.imageId", keyColumn = "imageId")
+    @Insert("insert into postsaleimage (postSaleId,image) values(#{postSaleImage.postSaleId},#{postSaleImage.image})")
+    Boolean putPostSaleImage(@Param("postSaleImage")PostSaleImage postSaleImage);
 }

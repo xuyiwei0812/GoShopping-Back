@@ -25,7 +25,7 @@ class OrderBrief{
     private Date startDate;
     private Date dealDate;
     private String trackingNumber;
-
+    private Integer addressId;
 
     private Integer storage;
     private Integer class1;
@@ -45,6 +45,7 @@ class OrderBrief{
         this.number = order.getNumber();
         this.sellerId = order.getSellerId();
         this.trackingNumber = order.getTrackingNumber();
+        this.addressId = order.getAddressId();
         this.storage = good.getStorage();
         this.class2 = good.getClass2();
         this.goodPrice = good.getGoodPrice();

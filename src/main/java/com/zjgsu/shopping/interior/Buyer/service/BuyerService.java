@@ -3,6 +3,7 @@ package com.zjgsu.shopping.interior.Buyer.service;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 
 import java.util.List;
 
@@ -106,4 +107,5 @@ public interface BuyerService {
 
     public Boolean finishThePayment(Order order);
 
+    public Boolean putForwardPostSaleRequest(PostSale postSale);
 }

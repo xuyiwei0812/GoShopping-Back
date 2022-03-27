@@ -2,6 +2,8 @@ package com.zjgsu.shopping.controller.Seller;
 
 import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Common.pojo.Good;
+import com.zjgsu.shopping.interior.Common.pojo.Order;
+import com.zjgsu.shopping.interior.Common.pojo.PostSale;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderVo;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
@@ -160,11 +162,35 @@ public class SellerOrder {
 
     @ResponseBody
     @PostMapping("/getTrackingNumber")
-    public Response<String> getTrackingNumber(@RequestBody  Integer orderId){
+    public Response<String> getTrackingNumber(@RequestBody Integer orderId){
         try{
             return Response.createSuc(sellerService.getTrackingNumber(orderId));
         }catch (Exception e){
             return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getOrderIdInPostSaleBySeller")
+    public Response<List<Integer>> getOrderIdInPostSaleBySeller(@RequestBody Seller seller) {
+        try {
+            System.out.println("sellerId "+seller.getSellerId());
+            return Response.createSuc(sellerService.getOrderIdInPostSaleBySeller(seller));
+        }catch (Exception e){
+            tool.soutErr("getOrderIdInPostSaleBySeller",e );
+            return  Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/getPostSaleByOrderId")
+    public Response<PostSale> getPostSaleByOrderId(@RequestBody Order order){
+        try {
+            System.out.println("orderId "+order.getOrderId());
+            return Response.createSuc(sellerService.getPostSaleByOrderId(order.getOrderId()));
+        }catch (Exception e){
+            tool.soutErr("getPostSaleByOrderId",e);
+            return  Response.BUG();
         }
     }
 

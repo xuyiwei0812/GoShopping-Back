@@ -33,6 +33,8 @@ public class OrderVo extends Order {
     private String phone;
     private Date startDate;
     private Date dealDate;
+    private String trackingNumber;
+    private Integer addressId;
 
     /**
      * 用于更改订单状态的简单声明

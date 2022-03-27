@@ -37,6 +37,7 @@ public class Order {
     private Date startDate;
     private Date dealDate;
     private String trackingNumber;
+    private Integer addressId;
     /**
      * 用于更改订单状态的简单声明
      */

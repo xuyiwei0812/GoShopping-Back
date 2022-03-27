@@ -326,4 +326,18 @@ public class SellerServiceImpl implements SellerService {
         return sellerMapper.completeStocking(order) > 0;
     }
 
+
+    @Override
+    public List<Integer> getOrderIdInPostSaleBySeller(Seller seller){
+        return sellerMapper.getOrderIdInPostSaleBySeller(seller);
+    }
+
+    @Override
+    public PostSale getPostSaleByOrderId(Integer orderId){
+        PostSale postSale = sellerMapper.getPostSaleByOrderId(orderId);
+        List<PostSaleImage> images = sellerMapper.getPostSaleImageByPostSaleId(postSale.getPostSaleId());
+        postSale.setImages(images);
+        System.out.println("postSale"+postSale);
+        return postSale;
+    }
 }

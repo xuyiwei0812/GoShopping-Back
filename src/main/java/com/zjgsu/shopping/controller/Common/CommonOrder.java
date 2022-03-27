@@ -19,7 +19,7 @@ public class CommonOrder {
     OrderService orderService;
 
     @ResponseBody
-    @PostMapping("/ updateOrderStatement")
+    @PostMapping("/updateOrderStatement")
     public Response<Boolean> updateOrderStatement(@RequestBody com.zjgsu.shopping.interior.Common.pojo.Order order){
         try{
             return Response.createSuc(orderService.updateOrderStatement(order.getOrderId(),order.getStmt()));

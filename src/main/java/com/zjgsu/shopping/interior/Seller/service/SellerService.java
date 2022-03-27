@@ -138,4 +138,9 @@ public interface SellerService {
 
     Boolean completeStocking(Order order);
 
+
+    List<Integer> getOrderIdInPostSaleBySeller(Seller seller);
+
+    PostSale getPostSaleByOrderId(Integer orderId);
+
 }

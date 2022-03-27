@@ -11,6 +11,7 @@ import com.zjgsu.shopping.interior.Common.mapper.OrderMapper;
 import com.zjgsu.shopping.interior.Common.pojo.*;
 import com.zjgsu.shopping.interior.Common.pojo.vo.*;
 import com.zjgsu.shopping.interior.Seller.mapper.SellerMapper;
+import com.zjgsu.shopping.interior.Seller.pojo.Seller;
 import com.zjgsu.shopping.interior.Seller.service.SellerService;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +79,7 @@ public class BuyerServiceImpl implements BuyerService {
           goodMapper.WantGood(order.getGoodId());
           SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
           Date nowDate1 = format1.parse(format1.format(new Date()));
+          System.out.println("nowDate"+nowDate1);
           order.setStartDate(nowDate1);
           System.out.println("sellerId : " + sellerMapper.getSellerIdByGoodId(order.getGoodId()));
           order.setSellerId(sellerMapper.getSellerIdByGoodId(order.getGoodId()));
@@ -334,4 +336,15 @@ public class BuyerServiceImpl implements BuyerService {
         else return false;
     }
 
+    @Override
+    public Boolean putForwardPostSaleRequest(PostSale postSale) {
+        buyerMapper.putForwardPostSaleRequest(postSale);
+        List<PostSaleImage> postSaleImages = postSale.getImages();
+        if(postSaleImages!=null) {
+            for (PostSaleImage image : postSaleImages) {
+                buyerMapper.putPostSaleImage(image);
+            }
+        }
+        return true;
+    }
 }

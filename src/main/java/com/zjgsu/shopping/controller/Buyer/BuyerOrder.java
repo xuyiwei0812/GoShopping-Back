@@ -4,6 +4,7 @@ import com.zjgsu.shopping.Tool.Mytool;
 import com.zjgsu.shopping.interior.Buyer.pojo.Buyer;
 import com.zjgsu.shopping.interior.Buyer.service.BuyerService;
 import com.zjgsu.shopping.interior.Common.pojo.Address;
+import com.zjgsu.shopping.interior.Common.pojo.PostSale;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderList;
 import com.zjgsu.shopping.interior.Common.pojo.vo.OrderVo;
 import com.zjgsu.shopping.interior.Common.pojo.vo.Response;
@@ -42,6 +43,8 @@ public class BuyerOrder {
     @PostMapping("/placeAnOrder")
     public Response<Integer> placeAnOrder(@RequestBody OrderVo order) {
         try {
+            System.out.println("收到下单请求");
+            System.out.println("order"+order);
             if (buyerService.placeAnOrder(order))
                 return Response.createSuc(order.getOrderId());
             else return Response.createErr("提出订单失败");
@@ -145,7 +148,7 @@ public class BuyerOrder {
 
     @ResponseBody
     @PostMapping("/getHistoryByBuyerId")
-    public Response< OrderList> getHistoryByBuyerId(@RequestBody Buyer buyer){
+    public Response<OrderList> getHistoryByBuyerId(@RequestBody Buyer buyer){
         try {
             System.out.println(buyer);
             System.out.println("1 "+buyer.getBuyerId());
@@ -153,6 +156,19 @@ public class BuyerOrder {
             return Response.createSuc(list);
         }catch (Exception e){
             tool.soutErr("getBuyerHistoryByBuyerId" ,e);
+            return Response.BUG();
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/putForwardPostSaleRequest")
+    public Response<Boolean> putForwardPostSaleRequest(@RequestBody PostSale postSale){
+        try {
+            System.out.println(postSale);
+            System.out.println("postSale"+postSale);
+            return Response.createSuc(buyerService.putForwardPostSaleRequest(postSale));
+        }catch (Exception e){
+            tool.soutErr("putForwardPostSaleRequest",e);
             return Response.BUG();
         }
     }
