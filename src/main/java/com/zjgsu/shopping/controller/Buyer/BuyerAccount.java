@@ -128,5 +128,4 @@ public class BuyerAccount {
             return Response.BUG();
         }
     }
-
 }
