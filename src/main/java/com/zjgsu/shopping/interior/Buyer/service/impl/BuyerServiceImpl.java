@@ -83,6 +83,10 @@ public class BuyerServiceImpl implements BuyerService {
           order.setStartDate(nowDate1);
           System.out.println("sellerId : " + sellerMapper.getSellerIdByGoodId(order.getGoodId()));
           order.setSellerId(sellerMapper.getSellerIdByGoodId(order.getGoodId()));
+          //加上电话
+          Address address = buyerMapper.getAddressByAddressId(order.getAddressId());
+          String phone = address.getBuyerPhone();
+          order.setPhone(phone);
       } catch (Exception e) {
           e.printStackTrace();
       }
@@ -247,7 +251,7 @@ public class BuyerServiceImpl implements BuyerService {
             favoriteGoodWithImgList.add(favoriteGoodWithImg);
         }
         System.out.println("favoriteGoodWithImgList"+favoriteGoodWithImgList);
-        System.out.println("第一个商品图"+favoriteGoodWithImgList.get(0).getGoodImagine());
+        //System.out.println("第一个商品图"+favoriteGoodWithImgList.get(0).getGoodImagine());
         return favoriteGoodWithImgList;
     }
 

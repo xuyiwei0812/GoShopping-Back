@@ -266,17 +266,25 @@ public class BuyerGood {
 
     /**
      * 购物车下单多个商品
-     * @param orderList
+     * @param
      * @return
      */
     @ResponseBody
     @PostMapping("/orderGoodsFromCart")
-    public Response<Boolean> orderGoodsFromCart(@RequestBody List<Order> orderList){
+    public Response<Boolean> orderGoodsFromCart(@RequestBody CartGoods cartGoods){
         try{
-            System.out.println("orderList"+orderList);
             System.out.println("购物车下单");
-            for(Order item:orderList){
-                buyerService.placeAnOrder(item);
+            System.out.println("cartGoods"+cartGoods);
+            for(Integer i=0;i<cartGoods.getGoodIds().size();i++){
+                Order order = new Order();
+                order.setGoodId(cartGoods.getGoodIds().get(i));
+                order.setBuyerId(cartGoods.getBuyerId());
+                order.setNumber(cartGoods.getNumbers().get(i));
+                order.setAddressId(cartGoods.getAddressId());
+                buyerService.placeAnOrder(order);
+                CartIds cartIds = new CartIds();
+                cartIds.setCartIds(cartGoods.getCartIds());
+                buyerService.deleteCartGood(cartIds);
             }
             return Response.createSuc(true);
         }

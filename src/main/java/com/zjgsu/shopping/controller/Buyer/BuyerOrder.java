@@ -125,13 +125,17 @@ public class BuyerOrder {
     @PostMapping("/getOrderListOfStatement")
     public Response<OrderList> getOrderListOfStatement(@RequestBody Statement st){
         try{
-            Integer code = st.getStatement();Integer buyerId = st.getBuyerId();
+            Integer code = st.getStatement();
+            Integer buyerId = st.getBuyerId();
+            System.out.println("code"+code);
+            System.out.println("buyerId"+buyerId);
             List<com.zjgsu.shopping.interior.Common.pojo.Order> li = new ArrayList<>();
             if      (code ==  1)  li = buyerService.getOrderListOfStatement1(buyerId);
             else if (code ==  2)  li = buyerService.getOrderListOfStatement2(buyerId);
             else if (code ==  5)  li = buyerService.getOrderListOfStatement5(buyerId);
             else if (code ==  6)  li = buyerService.getOrderListOfStatement6(buyerId);
             else if (code == -1)  li = buyerService.getOrderListOfStatement_1(buyerId);
+            System.out.println("li"+li);
             return Response.createSuc(tool.toOrderList(li));
         }catch (Exception e){
             return Response.BUG();

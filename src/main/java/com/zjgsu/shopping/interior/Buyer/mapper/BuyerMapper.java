@@ -97,6 +97,8 @@ public interface BuyerMapper {
     @Select("select * from address where buyerId=#{buyerId}")
     List<Address> getAddressByBuyer(@Param("buyerId")Integer buyerId);
 
+    @Select("select * from address where addressId=#{addressId}")
+    Address getAddressByAddressId(@Param("addressId")Integer addressId);
     /**
      * 买家取消订单
      */
